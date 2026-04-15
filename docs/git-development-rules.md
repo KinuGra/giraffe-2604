@@ -10,12 +10,18 @@
 
 ## フロー
 
-1. Issue を作成
+1. Issue を作成（Project の `+ Add item` → `Create new issue`）
 2. 必要に応じて Sub Issue を作成
 3. 自分を Assignee に設定
 4. 作業開始時に `In Progress` に変更
-5. Issue から **main ブランチをベースにブランチ作成**
-6. ローカルで checkout して作業
+5. Issue の右サイドバー **Development** → **`Create a branch`** からブランチを作成
+   - Branch name に命名規則に沿った名前を入力（例: `feat/18-add-login-api`）
+   - source branch が `main` であることを確認
+6. 表示されるコマンドでローカルに checkout して作業
+   ```bash
+   git fetch origin
+   git checkout <branch-name>
+   ```
 7. main に対して Pull Request を作成
 8. レビュー後に main に merge
 
