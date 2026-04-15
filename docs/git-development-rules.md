@@ -80,13 +80,22 @@ docs/40-update-readme
 <prefix>: <message>
 ```
 
-例
+例（英語）
 
 ```
 feat: add login api
 fix: auth middleware bug
 refactor: clean user service
-feat: タスク登録APIの作成
+docs: update readme
+```
+
+例（日本語）
+
+```
+feat: ログインAPIを追加
+fix: 認証ミドルウェアのバグを修正
+refactor: ユーザーサービスを整理
+docs: READMEを更新
 ```
 
 ---
@@ -97,6 +106,7 @@ feat: タスク登録APIの作成
 
 ```
 feat: (wip) implement login api
+feat: (wip) ログインAPIを実装中
 ```
 
 ---
@@ -106,21 +116,74 @@ feat: (wip) implement login api
 ```
 fix: (#28) auth middleware bug
 feat: (#18) add login api
+fix: (#28) 認証ミドルウェアのバグを修正
+feat: (#18) ログインAPIを追加
 ```
 
 Issue番号の記載は任意。
 
 ---
 
-# 5. Pull Request
+# 5. Issue Title Rules（Issue タイトル規則）
 
-PRの基本ルール
+Issue のタイトルは **日本語、または分かりやすい英語** で記載する。
 
-- PRに日本語でタイトルを記載
-- 関連するIssue番号を記載（必須）
+- 何をするのか・何が問題なのかが一目で分かるように書く
+- 曖昧なタイトル（例: `fix bug`、`作業`）は避ける
+
+例
+
+```
+ログインAPIを実装する
+認証ミドルウェアでエラーが発生する
+ユーザー一覧画面のレイアウトを修正する
+Add login API
+Fix auth middleware error
+```
+
+---
+
+# 6. Pull Request
+
+## 基本ルール
+
 - **main に対して作成**
-- Issue を紐付ける
 - レビュー後に merge
+
+## PR タイトル
+
+**日本語、または分かりやすい英語** で記載する。対応する Issue の内容が伝わるタイトルにする。
+
+例
+
+```
+ログインAPIを追加
+認証ミドルウェアのバグを修正
+Add login API
+Fix auth middleware error
+```
+
+## 関連 Issue の紐付け（必須）
+
+PR の本文に以下のキーワードを記載することで、merge 時に Issue が自動でクローズされる。
+
+```
+Closes #<issue番号>
+```
+
+例
+
+```
+Closes #18
+Closes #28
+```
+
+複数 Issue に対応する場合
+
+```
+Closes #18
+Closes #35
+```
 
 ---
 
