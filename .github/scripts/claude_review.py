@@ -9,6 +9,7 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 
 import boto3
 
@@ -50,6 +51,7 @@ def get_diff() -> str:
         sys.exit(1)
     if len(diff) > MAX_DIFF_CHARS:
         diff = diff[:MAX_DIFF_CHARS] + "\n\n... (diff truncated due to size)\n"
+    diff = diff.replace("</diff>", "&lt;/diff&gt;")
     return diff
 
 
@@ -94,8 +96,6 @@ def post_review(review_text: str) -> None:
     footer = "\n\n---\n*Automated review by Claude Opus 4.6 via Amazon Bedrock*"
     body = header + review_text + footer
 
-    import tempfile
-
     with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False) as f:
         f.write(body)
         body_file = f.name
@@ -117,11 +117,20 @@ def main() -> None:
     diff = get_diff()
     print(f"Diff size: {len(diff)} characters")
 
-    print("Calling Claude via Bedrock...")
-    review = call_bedrock(diff)
+    try:
+        print("Calling Claude via Bedrock...")
+        review = call_bedrock(diff)
+    except boto3.exceptions.Boto3Error as e:
+        print(f"Bedrock API error: {e}", file=sys.stderr)
+        sys.exit(1)
 
-    print("Posting review comment...")
-    post_review(review)
+    try:
+        print("Posting review comment...")
+        post_review(review)
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to post review comment: {e}", file=sys.stderr)
+        sys.exit(1)
+
     print("Done.")
 
 
