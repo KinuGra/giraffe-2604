@@ -1,0 +1,43 @@
+services:
+  # --- データストア ---
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dev"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+  # --- API Gateway（gin）---
+  gateway:
+    build: ./services/gateway
+    ports:
+      - "8080:8080"
+    environment:
+      FUNCTIONS_GRPC_ADDR: functions:50055
+    depends_on: [postgres]
+  # --- Functions Service ---
+  functions:
+    build: ./services/functions
+    ports:
+      - "50055:50055"
+    environment:
+      DATABASE_URL: postgres://dev:dev@postgres:5432/functions_db?sslmode=disable
+    depends_on:
+      postgres:
+        condition: service_healthy
+  # --- Next.js ダッシュボード ---
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on: [gateway]
+volumes:
+  pgdata:
