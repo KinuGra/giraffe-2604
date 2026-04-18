@@ -1,0 +1,126 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: serverless
+  labels:
+    app.kubernetes.io/part-of: serverless-functional
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: serverless-functional-config
+  namespace: serverless
+data:
+  NODE_ENV: "production"
+  PORT: "3000"
+  LOG_LEVEL: "info"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serverless-functional
+  namespace: serverless
+  labels:
+    app.kubernetes.io/name: serverless-functional
+    app.kubernetes.io/component: runtime
+spec:
+  replicas: 30
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 5
+      maxUnavailable: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: serverless-functional
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: serverless-functional
+        app.kubernetes.io/component: runtime
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
+        prometheus.io/path: "/metrics"
+    spec:
+      terminationGracePeriodSeconds: 60
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: serverless-functional
+          matchLabelKeys:
+            - pod-template-hash
+      nodeSelector:
+        node.kubernetes.io/instance-type: r8i.metal-96xl
+      containers:
+        - name: serverless-functional
+          image: node:22-alpine
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: serverless-functional-config
+          env:
+            - name: NODE_OPTIONS
+              value: "--max-old-space-size=400"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 1Gi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+              ephemeral-storage: 2Gi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+            successThreshold: 1
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 15"]
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: serverless-functional-pdb
+  namespace: serverless
+spec:
+  minAvailable: 20
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: serverless-functional
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: serverless-functional
+  namespace: serverless
+  labels:
+    app.kubernetes.io/name: serverless-functional
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: serverless-functional
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+      protocol: TCP
