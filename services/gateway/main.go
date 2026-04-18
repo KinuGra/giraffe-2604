@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	pb "github.com/KinuGra/giraffe-2604/services/gateway/proto/database"
+	pb "github.com/KinuGra/giraffe-2604/gen/database"
 	"github.com/KinuGra/giraffe-2604/services/gateway/routes"
 )
 

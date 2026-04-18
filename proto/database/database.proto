@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package database;
 
-option go_package = "proto/database";
+option go_package = "github.com/KinuGra/giraffe-2604/gen/database";
 
 message TableInfo {
   string name = 1;

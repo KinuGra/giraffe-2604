@@ -17,7 +17,9 @@ services:
       retries: 10
   # --- Database Service ---
   database:
-    build: ./services/database
+    build:
+      context: .
+      dockerfile: services/database/Dockerfile
     ports:
       - "50056:50056"
     environment:
@@ -27,7 +29,9 @@ services:
         condition: service_healthy
   # --- API Gateway（gin）---
   gateway:
-    build: ./services/gateway
+    build:
+      context: .
+      dockerfile: services/gateway/Dockerfile
     ports:
       - "8080:8080"
     environment:

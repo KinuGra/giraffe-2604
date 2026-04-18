@@ -3,10 +3,12 @@ module github.com/KinuGra/giraffe-2604/services/gateway
 go 1.25.4
 
 require (
+	github.com/KinuGra/giraffe-2604/gen v0.0.0-00010101000000-000000000000
 	github.com/gin-gonic/gin v1.12.0
 	google.golang.org/grpc v1.80.0
-	google.golang.org/protobuf v1.36.11
 )
+
+replace github.com/KinuGra/giraffe-2604/gen => ../../gen
 
 require (
 	github.com/bytedance/gopkg v0.1.3 // indirect

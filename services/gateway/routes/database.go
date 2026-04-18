@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	pb "github.com/KinuGra/giraffe-2604/services/gateway/proto/database"
+	pb "github.com/KinuGra/giraffe-2604/gen/database"
 )
 
 func RegisterDatabaseRoutes(r *gin.Engine, client pb.DatabaseServiceClient) {
