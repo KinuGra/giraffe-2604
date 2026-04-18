@@ -61,9 +61,7 @@ export function SqlTab() {
   );
 
   const resultColumns =
-    result?.rows && result.rows.length > 0
-      ? Object.keys(result.rows[0])
-      : [];
+    result?.rows && result.rows.length > 0 ? Object.keys(result.rows[0]) : [];
 
   return (
     <div className="space-y-4">
@@ -149,8 +147,8 @@ export function SqlTab() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {result.rows.map((row, i) => (
-                    <TableRow key={i}>
+                  {result.rows.map((row) => (
+                    <TableRow key={JSON.stringify(row)}>
                       {resultColumns.map((col) => (
                         <TableCell key={col} className="font-mono text-xs">
                           {row[col] === null ? (

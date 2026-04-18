@@ -14,7 +14,9 @@ export interface SqlResponse {
 }
 
 export const databaseApi = {
-  listTables: async (schema = "public"): Promise<
+  listTables: async (
+    schema = "public",
+  ): Promise<
     { name: string; schema: string; rls: boolean; rowCount: number }[]
   > => {
     const res = await fetch(
@@ -35,7 +37,12 @@ export const databaseApi = {
       is_primary_key?: boolean;
       is_unique?: boolean;
     }[],
-  ): Promise<{ name: string; schema: string; rls: boolean; rowCount: number }> => {
+  ): Promise<{
+    name: string;
+    schema: string;
+    rls: boolean;
+    rowCount: number;
+  }> => {
     const res = await fetch(`${GATEWAY_URL}/database/v1/tables`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

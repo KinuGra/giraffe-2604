@@ -38,8 +38,10 @@ export function InsertRowDialog({
     }
   }, [open]);
 
-  const hasAutoDefault = (col: ColumnDef) =>
-    col.isPrimaryKey && col.default != null;
+  const hasAutoDefault = useCallback(
+    (col: ColumnDef) => col.isPrimaryKey && col.default != null,
+    [],
+  );
 
   const handleSubmit = useCallback(async () => {
     setSaving(true);
@@ -80,7 +82,7 @@ export function InsertRowDialog({
     } finally {
       setSaving(false);
     }
-  }, [columns, formValues, onInsert, onOpenChange]);
+  }, [columns, formValues, onInsert, onOpenChange, hasAutoDefault]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -118,11 +120,7 @@ export function InsertRowDialog({
                   id={`insert-${col.name}`}
                   disabled={auto}
                   placeholder={
-                    auto
-                      ? `(auto: ${col.default})`
-                      : col.nullable
-                        ? "NULL"
-                        : ""
+                    auto ? `(auto: ${col.default})` : col.nullable ? "NULL" : ""
                   }
                   value={auto ? "" : (formValues[col.name] ?? "")}
                   onChange={(e) =>

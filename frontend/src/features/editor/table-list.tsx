@@ -40,7 +40,12 @@ interface TableListProps {
   onSchemaChange: (schema: string) => void;
 }
 
-export function TableList({ tables, selectedTable, onSelectTable, onSchemaChange }: TableListProps) {
+export function TableList({
+  tables,
+  selectedTable,
+  onSelectTable,
+  onSchemaChange,
+}: TableListProps) {
   const [schema, setSchema] = useState("public");
   const [search, setSearch] = useState("");
 

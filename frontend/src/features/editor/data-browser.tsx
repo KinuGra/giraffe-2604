@@ -171,10 +171,20 @@ export function DataBrowser({
           <span className="text-xs tabular-nums text-muted-foreground">
             {totalCount > 0 ? `${start} - ${end} of ${totalCount}` : "0 rows"}
           </span>
-          <Button variant="ghost" size="icon-xs" disabled={!hasPrev} onClick={() => onPageChange(page - 1)}>
+          <Button
+            variant="ghost"
+            size="icon-xs"
+            disabled={!hasPrev}
+            onClick={() => onPageChange(page - 1)}
+          >
             <ChevronLeft className="size-3.5" />
           </Button>
-          <Button variant="ghost" size="icon-xs" disabled={!hasNext} onClick={() => onPageChange(page + 1)}>
+          <Button
+            variant="ghost"
+            size="icon-xs"
+            disabled={!hasNext}
+            onClick={() => onPageChange(page + 1)}
+          >
             <ChevronRight className="size-3.5" />
           </Button>
         </div>

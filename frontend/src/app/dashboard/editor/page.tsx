@@ -119,7 +119,12 @@ export default function EditorPage() {
   const handleInsertRow = useCallback(
     async (values: Record<string, unknown>) => {
       await databaseApi.insertRow(selectedTable, values, schema);
-      await fetchTableData(selectedTable, schema, rowsPerPage, page * rowsPerPage);
+      await fetchTableData(
+        selectedTable,
+        schema,
+        rowsPerPage,
+        page * rowsPerPage,
+      );
       await fetchTables(schema);
     },
     [selectedTable, schema, rowsPerPage, page, fetchTableData, fetchTables],
@@ -128,7 +133,12 @@ export default function EditorPage() {
   const handleUpdateRow = useCallback(
     async (pk: Record<string, unknown>, values: Record<string, unknown>) => {
       await databaseApi.updateRow(selectedTable, pk, values, schema);
-      await fetchTableData(selectedTable, schema, rowsPerPage, page * rowsPerPage);
+      await fetchTableData(
+        selectedTable,
+        schema,
+        rowsPerPage,
+        page * rowsPerPage,
+      );
     },
     [selectedTable, schema, rowsPerPage, page, fetchTableData],
   );
@@ -137,7 +147,12 @@ export default function EditorPage() {
     async (pk: Record<string, unknown>) => {
       await databaseApi.deleteRow(selectedTable, pk, schema);
       setSelectedRow(null);
-      await fetchTableData(selectedTable, schema, rowsPerPage, page * rowsPerPage);
+      await fetchTableData(
+        selectedTable,
+        schema,
+        rowsPerPage,
+        page * rowsPerPage,
+      );
       await fetchTables(schema);
     },
     [selectedTable, schema, rowsPerPage, page, fetchTableData, fetchTables],

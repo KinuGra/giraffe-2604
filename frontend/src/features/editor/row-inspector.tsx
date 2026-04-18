@@ -44,10 +44,7 @@ export function RowInspector({
     setConfirmDelete(false);
   }, [row, columns]);
 
-  const hasPk = useMemo(
-    () => columns.some((c) => c.isPrimaryKey),
-    [columns],
-  );
+  const hasPk = useMemo(() => columns.some((c) => c.isPrimaryKey), [columns]);
 
   const getPk = useCallback(() => {
     const pk: Record<string, unknown> = {};
