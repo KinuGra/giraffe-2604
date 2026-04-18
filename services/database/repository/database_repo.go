@@ -377,7 +377,11 @@ func (r *DatabaseRepo) ExecuteRawSQL(ctx context.Context, query string) ([][]byt
 	return nil, affected, nil
 }
 
-func scanRowsToJSON(rows interface{ Columns() ([]string, error); Next() bool; Scan(dest ...interface{}) error }) ([][]byte, error) {
+func scanRowsToJSON(rows interface {
+	Columns() ([]string, error)
+	Next() bool
+	Scan(dest ...interface{}) error
+}) ([][]byte, error) {
 	cols, err := rows.Columns()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get columns: %w", err)

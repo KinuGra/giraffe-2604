@@ -203,11 +203,11 @@ func updateColumn(client pb.DatabaseServiceClient) gin.HandlerFunc {
 		column := c.Param("column")
 
 		var req struct {
-			NewName    string `json:"new_name"`
-			NewType    string `json:"new_type"`
-			NewDefault string `json:"new_default"`
-			SetNullable bool  `json:"set_nullable"`
-			Nullable   bool   `json:"nullable"`
+			NewName     string `json:"new_name"`
+			NewType     string `json:"new_type"`
+			NewDefault  string `json:"new_default"`
+			SetNullable bool   `json:"set_nullable"`
+			Nullable    bool   `json:"nullable"`
 		}
 		if err := c.ShouldBindJSON(&req); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
