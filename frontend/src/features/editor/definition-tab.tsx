@@ -8,9 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { profilesColumns } from "@/lib/mock-data";
+import type { ColumnDef } from "@/lib/database-api";
 
-export function DefinitionTab() {
+interface DefinitionTabProps {
+  columns: ColumnDef[];
+}
+
+export function DefinitionTab({ columns }: DefinitionTabProps) {
   return (
     <Card>
       <CardHeader>
@@ -28,7 +32,7 @@ export function DefinitionTab() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {profilesColumns.map((col) => (
+            {columns.map((col) => (
               <TableRow key={col.name}>
                 <TableCell className="font-mono text-foreground">
                   {col.name}

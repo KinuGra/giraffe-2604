@@ -106,6 +106,39 @@ message GetRowsResponse {
   int64 total_count = 2;
 }
 
+// --- Row Mutations ---
+
+message InsertRowRequest {
+  string schema = 1;
+  string table = 2;
+  bytes values = 3;
+}
+
+message InsertRowResponse {
+  bytes row = 1;
+}
+
+message UpdateRowRequest {
+  string schema = 1;
+  string table = 2;
+  bytes pk = 3;
+  bytes values = 4;
+}
+
+message UpdateRowResponse {
+  bytes row = 1;
+}
+
+message DeleteRowRequest {
+  string schema = 1;
+  string table = 2;
+  bytes pk = 3;
+}
+
+message DeleteRowResponse {
+  int64 affected_rows = 1;
+}
+
 // --- SQL ---
 
 message ExecuteSQLRequest {
@@ -129,5 +162,8 @@ service DatabaseService {
   rpc UpdateColumn(UpdateColumnRequest) returns (UpdateColumnResponse);
   rpc DeleteColumn(DeleteColumnRequest) returns (DeleteColumnResponse);
   rpc GetRows(GetRowsRequest) returns (GetRowsResponse);
+  rpc InsertRow(InsertRowRequest) returns (InsertRowResponse);
+  rpc UpdateRow(UpdateRowRequest) returns (UpdateRowResponse);
+  rpc DeleteRow(DeleteRowRequest) returns (DeleteRowResponse);
   rpc ExecuteSQL(ExecuteSQLRequest) returns (ExecuteSQLResponse);
 }

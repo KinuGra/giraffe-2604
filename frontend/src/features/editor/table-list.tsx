@@ -14,10 +14,17 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { schemas, tables } from "@/lib/mock-data";
+import type { TableInfo } from "@/lib/database-api";
 import { cn } from "@/lib/utils";
 import { Lock, Plus, Search, Table2 } from "lucide-react";
 import { useMemo, useState } from "react";
+
+const schemas = [
+  { name: "public" },
+  { name: "auth" },
+  { name: "storage" },
+  { name: "extensions" },
+];
 
 function formatRowCount(count: number): string {
   if (count >= 1000) {
@@ -27,19 +34,26 @@ function formatRowCount(count: number): string {
 }
 
 interface TableListProps {
+  tables: TableInfo[];
   selectedTable: string;
   onSelectTable: (name: string) => void;
+  onSchemaChange: (schema: string) => void;
 }
 
-export function TableList({ selectedTable, onSelectTable }: TableListProps) {
+export function TableList({
+  tables,
+  selectedTable,
+  onSelectTable,
+  onSchemaChange,
+}: TableListProps) {
   const [schema, setSchema] = useState("public");
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(() => {
-    return tables
-      .filter((t) => t.schema === schema)
-      .filter((t) => t.name.toLowerCase().includes(search.toLowerCase()));
-  }, [schema, search]);
+    return tables.filter((t) =>
+      t.name.toLowerCase().includes(search.toLowerCase()),
+    );
+  }, [tables, search]);
 
   return (
     <div className="flex w-60 shrink-0 flex-col border-r bg-panel">
@@ -48,7 +62,10 @@ export function TableList({ selectedTable, onSelectTable }: TableListProps) {
         <Select
           value={schema}
           onValueChange={(v) => {
-            if (v) setSchema(v);
+            if (v) {
+              setSchema(v);
+              onSchemaChange(v);
+            }
           }}
         >
           <SelectTrigger className="w-full">

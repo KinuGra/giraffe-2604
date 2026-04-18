@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.21.12
-// source: proto/database/database.proto
+// source: database/database.proto
 
 package database
 
@@ -33,7 +33,7 @@ type TableInfo struct {
 
 func (x *TableInfo) Reset() {
 	*x = TableInfo{}
-	mi := &file_proto_database_database_proto_msgTypes[0]
+	mi := &file_database_database_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +45,7 @@ func (x *TableInfo) String() string {
 func (*TableInfo) ProtoMessage() {}
 
 func (x *TableInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[0]
+	mi := &file_database_database_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +58,7 @@ func (x *TableInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TableInfo.ProtoReflect.Descriptor instead.
 func (*TableInfo) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{0}
+	return file_database_database_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *TableInfo) GetName() string {
@@ -103,7 +103,7 @@ type ColumnDef struct {
 
 func (x *ColumnDef) Reset() {
 	*x = ColumnDef{}
-	mi := &file_proto_database_database_proto_msgTypes[1]
+	mi := &file_database_database_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -115,7 +115,7 @@ func (x *ColumnDef) String() string {
 func (*ColumnDef) ProtoMessage() {}
 
 func (x *ColumnDef) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[1]
+	mi := &file_database_database_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -128,7 +128,7 @@ func (x *ColumnDef) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ColumnDef.ProtoReflect.Descriptor instead.
 func (*ColumnDef) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{1}
+	return file_database_database_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ColumnDef) GetName() string {
@@ -182,7 +182,7 @@ type ListTablesRequest struct {
 
 func (x *ListTablesRequest) Reset() {
 	*x = ListTablesRequest{}
-	mi := &file_proto_database_database_proto_msgTypes[2]
+	mi := &file_database_database_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -194,7 +194,7 @@ func (x *ListTablesRequest) String() string {
 func (*ListTablesRequest) ProtoMessage() {}
 
 func (x *ListTablesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[2]
+	mi := &file_database_database_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -207,7 +207,7 @@ func (x *ListTablesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTablesRequest.ProtoReflect.Descriptor instead.
 func (*ListTablesRequest) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{2}
+	return file_database_database_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListTablesRequest) GetSchema() string {
@@ -226,7 +226,7 @@ type ListTablesResponse struct {
 
 func (x *ListTablesResponse) Reset() {
 	*x = ListTablesResponse{}
-	mi := &file_proto_database_database_proto_msgTypes[3]
+	mi := &file_database_database_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -238,7 +238,7 @@ func (x *ListTablesResponse) String() string {
 func (*ListTablesResponse) ProtoMessage() {}
 
 func (x *ListTablesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[3]
+	mi := &file_database_database_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -251,7 +251,7 @@ func (x *ListTablesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTablesResponse.ProtoReflect.Descriptor instead.
 func (*ListTablesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{3}
+	return file_database_database_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ListTablesResponse) GetTables() []*TableInfo {
@@ -272,7 +272,7 @@ type CreateTableRequest struct {
 
 func (x *CreateTableRequest) Reset() {
 	*x = CreateTableRequest{}
-	mi := &file_proto_database_database_proto_msgTypes[4]
+	mi := &file_database_database_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -284,7 +284,7 @@ func (x *CreateTableRequest) String() string {
 func (*CreateTableRequest) ProtoMessage() {}
 
 func (x *CreateTableRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[4]
+	mi := &file_database_database_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -297,7 +297,7 @@ func (x *CreateTableRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTableRequest.ProtoReflect.Descriptor instead.
 func (*CreateTableRequest) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{4}
+	return file_database_database_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateTableRequest) GetSchema() string {
@@ -330,7 +330,7 @@ type CreateTableResponse struct {
 
 func (x *CreateTableResponse) Reset() {
 	*x = CreateTableResponse{}
-	mi := &file_proto_database_database_proto_msgTypes[5]
+	mi := &file_database_database_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -342,7 +342,7 @@ func (x *CreateTableResponse) String() string {
 func (*CreateTableResponse) ProtoMessage() {}
 
 func (x *CreateTableResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[5]
+	mi := &file_database_database_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -355,7 +355,7 @@ func (x *CreateTableResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTableResponse.ProtoReflect.Descriptor instead.
 func (*CreateTableResponse) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{5}
+	return file_database_database_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateTableResponse) GetTable() *TableInfo {
@@ -375,7 +375,7 @@ type DeleteTableRequest struct {
 
 func (x *DeleteTableRequest) Reset() {
 	*x = DeleteTableRequest{}
-	mi := &file_proto_database_database_proto_msgTypes[6]
+	mi := &file_database_database_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -387,7 +387,7 @@ func (x *DeleteTableRequest) String() string {
 func (*DeleteTableRequest) ProtoMessage() {}
 
 func (x *DeleteTableRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[6]
+	mi := &file_database_database_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -400,7 +400,7 @@ func (x *DeleteTableRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTableRequest.ProtoReflect.Descriptor instead.
 func (*DeleteTableRequest) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{6}
+	return file_database_database_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DeleteTableRequest) GetSchema() string {
@@ -425,7 +425,7 @@ type DeleteTableResponse struct {
 
 func (x *DeleteTableResponse) Reset() {
 	*x = DeleteTableResponse{}
-	mi := &file_proto_database_database_proto_msgTypes[7]
+	mi := &file_database_database_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -437,7 +437,7 @@ func (x *DeleteTableResponse) String() string {
 func (*DeleteTableResponse) ProtoMessage() {}
 
 func (x *DeleteTableResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[7]
+	mi := &file_database_database_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -450,7 +450,7 @@ func (x *DeleteTableResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTableResponse.ProtoReflect.Descriptor instead.
 func (*DeleteTableResponse) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{7}
+	return file_database_database_proto_rawDescGZIP(), []int{7}
 }
 
 type ListColumnsRequest struct {
@@ -463,7 +463,7 @@ type ListColumnsRequest struct {
 
 func (x *ListColumnsRequest) Reset() {
 	*x = ListColumnsRequest{}
-	mi := &file_proto_database_database_proto_msgTypes[8]
+	mi := &file_database_database_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -475,7 +475,7 @@ func (x *ListColumnsRequest) String() string {
 func (*ListColumnsRequest) ProtoMessage() {}
 
 func (x *ListColumnsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[8]
+	mi := &file_database_database_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -488,7 +488,7 @@ func (x *ListColumnsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListColumnsRequest.ProtoReflect.Descriptor instead.
 func (*ListColumnsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{8}
+	return file_database_database_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ListColumnsRequest) GetSchema() string {
@@ -514,7 +514,7 @@ type ListColumnsResponse struct {
 
 func (x *ListColumnsResponse) Reset() {
 	*x = ListColumnsResponse{}
-	mi := &file_proto_database_database_proto_msgTypes[9]
+	mi := &file_database_database_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -526,7 +526,7 @@ func (x *ListColumnsResponse) String() string {
 func (*ListColumnsResponse) ProtoMessage() {}
 
 func (x *ListColumnsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[9]
+	mi := &file_database_database_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -539,7 +539,7 @@ func (x *ListColumnsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListColumnsResponse.ProtoReflect.Descriptor instead.
 func (*ListColumnsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{9}
+	return file_database_database_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ListColumnsResponse) GetColumns() []*ColumnDef {
@@ -560,7 +560,7 @@ type AddColumnRequest struct {
 
 func (x *AddColumnRequest) Reset() {
 	*x = AddColumnRequest{}
-	mi := &file_proto_database_database_proto_msgTypes[10]
+	mi := &file_database_database_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -572,7 +572,7 @@ func (x *AddColumnRequest) String() string {
 func (*AddColumnRequest) ProtoMessage() {}
 
 func (x *AddColumnRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[10]
+	mi := &file_database_database_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -585,7 +585,7 @@ func (x *AddColumnRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddColumnRequest.ProtoReflect.Descriptor instead.
 func (*AddColumnRequest) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{10}
+	return file_database_database_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *AddColumnRequest) GetSchema() string {
@@ -618,7 +618,7 @@ type AddColumnResponse struct {
 
 func (x *AddColumnResponse) Reset() {
 	*x = AddColumnResponse{}
-	mi := &file_proto_database_database_proto_msgTypes[11]
+	mi := &file_database_database_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -630,7 +630,7 @@ func (x *AddColumnResponse) String() string {
 func (*AddColumnResponse) ProtoMessage() {}
 
 func (x *AddColumnResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[11]
+	mi := &file_database_database_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -643,7 +643,7 @@ func (x *AddColumnResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddColumnResponse.ProtoReflect.Descriptor instead.
 func (*AddColumnResponse) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{11}
+	return file_database_database_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *AddColumnResponse) GetColumn() *ColumnDef {
@@ -669,7 +669,7 @@ type UpdateColumnRequest struct {
 
 func (x *UpdateColumnRequest) Reset() {
 	*x = UpdateColumnRequest{}
-	mi := &file_proto_database_database_proto_msgTypes[12]
+	mi := &file_database_database_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -681,7 +681,7 @@ func (x *UpdateColumnRequest) String() string {
 func (*UpdateColumnRequest) ProtoMessage() {}
 
 func (x *UpdateColumnRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[12]
+	mi := &file_database_database_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -694,7 +694,7 @@ func (x *UpdateColumnRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateColumnRequest.ProtoReflect.Descriptor instead.
 func (*UpdateColumnRequest) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{12}
+	return file_database_database_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *UpdateColumnRequest) GetSchema() string {
@@ -762,7 +762,7 @@ type UpdateColumnResponse struct {
 
 func (x *UpdateColumnResponse) Reset() {
 	*x = UpdateColumnResponse{}
-	mi := &file_proto_database_database_proto_msgTypes[13]
+	mi := &file_database_database_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -774,7 +774,7 @@ func (x *UpdateColumnResponse) String() string {
 func (*UpdateColumnResponse) ProtoMessage() {}
 
 func (x *UpdateColumnResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[13]
+	mi := &file_database_database_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -787,7 +787,7 @@ func (x *UpdateColumnResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateColumnResponse.ProtoReflect.Descriptor instead.
 func (*UpdateColumnResponse) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{13}
+	return file_database_database_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *UpdateColumnResponse) GetColumn() *ColumnDef {
@@ -808,7 +808,7 @@ type DeleteColumnRequest struct {
 
 func (x *DeleteColumnRequest) Reset() {
 	*x = DeleteColumnRequest{}
-	mi := &file_proto_database_database_proto_msgTypes[14]
+	mi := &file_database_database_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -820,7 +820,7 @@ func (x *DeleteColumnRequest) String() string {
 func (*DeleteColumnRequest) ProtoMessage() {}
 
 func (x *DeleteColumnRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[14]
+	mi := &file_database_database_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -833,7 +833,7 @@ func (x *DeleteColumnRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteColumnRequest.ProtoReflect.Descriptor instead.
 func (*DeleteColumnRequest) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{14}
+	return file_database_database_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *DeleteColumnRequest) GetSchema() string {
@@ -865,7 +865,7 @@ type DeleteColumnResponse struct {
 
 func (x *DeleteColumnResponse) Reset() {
 	*x = DeleteColumnResponse{}
-	mi := &file_proto_database_database_proto_msgTypes[15]
+	mi := &file_database_database_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -877,7 +877,7 @@ func (x *DeleteColumnResponse) String() string {
 func (*DeleteColumnResponse) ProtoMessage() {}
 
 func (x *DeleteColumnResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[15]
+	mi := &file_database_database_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -890,7 +890,7 @@ func (x *DeleteColumnResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteColumnResponse.ProtoReflect.Descriptor instead.
 func (*DeleteColumnResponse) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{15}
+	return file_database_database_proto_rawDescGZIP(), []int{15}
 }
 
 type GetRowsRequest struct {
@@ -906,7 +906,7 @@ type GetRowsRequest struct {
 
 func (x *GetRowsRequest) Reset() {
 	*x = GetRowsRequest{}
-	mi := &file_proto_database_database_proto_msgTypes[16]
+	mi := &file_database_database_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -918,7 +918,7 @@ func (x *GetRowsRequest) String() string {
 func (*GetRowsRequest) ProtoMessage() {}
 
 func (x *GetRowsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[16]
+	mi := &file_database_database_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -931,7 +931,7 @@ func (x *GetRowsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRowsRequest.ProtoReflect.Descriptor instead.
 func (*GetRowsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{16}
+	return file_database_database_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *GetRowsRequest) GetSchema() string {
@@ -979,7 +979,7 @@ type GetRowsResponse struct {
 
 func (x *GetRowsResponse) Reset() {
 	*x = GetRowsResponse{}
-	mi := &file_proto_database_database_proto_msgTypes[17]
+	mi := &file_database_database_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -991,7 +991,7 @@ func (x *GetRowsResponse) String() string {
 func (*GetRowsResponse) ProtoMessage() {}
 
 func (x *GetRowsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[17]
+	mi := &file_database_database_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1004,7 +1004,7 @@ func (x *GetRowsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRowsResponse.ProtoReflect.Descriptor instead.
 func (*GetRowsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{17}
+	return file_database_database_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *GetRowsResponse) GetRows() [][]byte {
@@ -1021,6 +1021,326 @@ func (x *GetRowsResponse) GetTotalCount() int64 {
 	return 0
 }
 
+type InsertRowRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Schema        string                 `protobuf:"bytes,1,opt,name=schema,proto3" json:"schema,omitempty"`
+	Table         string                 `protobuf:"bytes,2,opt,name=table,proto3" json:"table,omitempty"`
+	Values        []byte                 `protobuf:"bytes,3,opt,name=values,proto3" json:"values,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InsertRowRequest) Reset() {
+	*x = InsertRowRequest{}
+	mi := &file_database_database_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InsertRowRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InsertRowRequest) ProtoMessage() {}
+
+func (x *InsertRowRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_database_database_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InsertRowRequest.ProtoReflect.Descriptor instead.
+func (*InsertRowRequest) Descriptor() ([]byte, []int) {
+	return file_database_database_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *InsertRowRequest) GetSchema() string {
+	if x != nil {
+		return x.Schema
+	}
+	return ""
+}
+
+func (x *InsertRowRequest) GetTable() string {
+	if x != nil {
+		return x.Table
+	}
+	return ""
+}
+
+func (x *InsertRowRequest) GetValues() []byte {
+	if x != nil {
+		return x.Values
+	}
+	return nil
+}
+
+type InsertRowResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Row           []byte                 `protobuf:"bytes,1,opt,name=row,proto3" json:"row,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InsertRowResponse) Reset() {
+	*x = InsertRowResponse{}
+	mi := &file_database_database_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InsertRowResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InsertRowResponse) ProtoMessage() {}
+
+func (x *InsertRowResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_database_database_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InsertRowResponse.ProtoReflect.Descriptor instead.
+func (*InsertRowResponse) Descriptor() ([]byte, []int) {
+	return file_database_database_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *InsertRowResponse) GetRow() []byte {
+	if x != nil {
+		return x.Row
+	}
+	return nil
+}
+
+type UpdateRowRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Schema        string                 `protobuf:"bytes,1,opt,name=schema,proto3" json:"schema,omitempty"`
+	Table         string                 `protobuf:"bytes,2,opt,name=table,proto3" json:"table,omitempty"`
+	Pk            []byte                 `protobuf:"bytes,3,opt,name=pk,proto3" json:"pk,omitempty"`
+	Values        []byte                 `protobuf:"bytes,4,opt,name=values,proto3" json:"values,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateRowRequest) Reset() {
+	*x = UpdateRowRequest{}
+	mi := &file_database_database_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateRowRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateRowRequest) ProtoMessage() {}
+
+func (x *UpdateRowRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_database_database_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateRowRequest.ProtoReflect.Descriptor instead.
+func (*UpdateRowRequest) Descriptor() ([]byte, []int) {
+	return file_database_database_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *UpdateRowRequest) GetSchema() string {
+	if x != nil {
+		return x.Schema
+	}
+	return ""
+}
+
+func (x *UpdateRowRequest) GetTable() string {
+	if x != nil {
+		return x.Table
+	}
+	return ""
+}
+
+func (x *UpdateRowRequest) GetPk() []byte {
+	if x != nil {
+		return x.Pk
+	}
+	return nil
+}
+
+func (x *UpdateRowRequest) GetValues() []byte {
+	if x != nil {
+		return x.Values
+	}
+	return nil
+}
+
+type UpdateRowResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Row           []byte                 `protobuf:"bytes,1,opt,name=row,proto3" json:"row,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateRowResponse) Reset() {
+	*x = UpdateRowResponse{}
+	mi := &file_database_database_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateRowResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateRowResponse) ProtoMessage() {}
+
+func (x *UpdateRowResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_database_database_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateRowResponse.ProtoReflect.Descriptor instead.
+func (*UpdateRowResponse) Descriptor() ([]byte, []int) {
+	return file_database_database_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *UpdateRowResponse) GetRow() []byte {
+	if x != nil {
+		return x.Row
+	}
+	return nil
+}
+
+type DeleteRowRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Schema        string                 `protobuf:"bytes,1,opt,name=schema,proto3" json:"schema,omitempty"`
+	Table         string                 `protobuf:"bytes,2,opt,name=table,proto3" json:"table,omitempty"`
+	Pk            []byte                 `protobuf:"bytes,3,opt,name=pk,proto3" json:"pk,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteRowRequest) Reset() {
+	*x = DeleteRowRequest{}
+	mi := &file_database_database_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteRowRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteRowRequest) ProtoMessage() {}
+
+func (x *DeleteRowRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_database_database_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteRowRequest.ProtoReflect.Descriptor instead.
+func (*DeleteRowRequest) Descriptor() ([]byte, []int) {
+	return file_database_database_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *DeleteRowRequest) GetSchema() string {
+	if x != nil {
+		return x.Schema
+	}
+	return ""
+}
+
+func (x *DeleteRowRequest) GetTable() string {
+	if x != nil {
+		return x.Table
+	}
+	return ""
+}
+
+func (x *DeleteRowRequest) GetPk() []byte {
+	if x != nil {
+		return x.Pk
+	}
+	return nil
+}
+
+type DeleteRowResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AffectedRows  int64                  `protobuf:"varint,1,opt,name=affected_rows,json=affectedRows,proto3" json:"affected_rows,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteRowResponse) Reset() {
+	*x = DeleteRowResponse{}
+	mi := &file_database_database_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteRowResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteRowResponse) ProtoMessage() {}
+
+func (x *DeleteRowResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_database_database_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteRowResponse.ProtoReflect.Descriptor instead.
+func (*DeleteRowResponse) Descriptor() ([]byte, []int) {
+	return file_database_database_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *DeleteRowResponse) GetAffectedRows() int64 {
+	if x != nil {
+		return x.AffectedRows
+	}
+	return 0
+}
+
 type ExecuteSQLRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Query         string                 `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
@@ -1030,7 +1350,7 @@ type ExecuteSQLRequest struct {
 
 func (x *ExecuteSQLRequest) Reset() {
 	*x = ExecuteSQLRequest{}
-	mi := &file_proto_database_database_proto_msgTypes[18]
+	mi := &file_database_database_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1042,7 +1362,7 @@ func (x *ExecuteSQLRequest) String() string {
 func (*ExecuteSQLRequest) ProtoMessage() {}
 
 func (x *ExecuteSQLRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[18]
+	mi := &file_database_database_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1055,7 +1375,7 @@ func (x *ExecuteSQLRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExecuteSQLRequest.ProtoReflect.Descriptor instead.
 func (*ExecuteSQLRequest) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{18}
+	return file_database_database_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *ExecuteSQLRequest) GetQuery() string {
@@ -1076,7 +1396,7 @@ type ExecuteSQLResponse struct {
 
 func (x *ExecuteSQLResponse) Reset() {
 	*x = ExecuteSQLResponse{}
-	mi := &file_proto_database_database_proto_msgTypes[19]
+	mi := &file_database_database_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1088,7 +1408,7 @@ func (x *ExecuteSQLResponse) String() string {
 func (*ExecuteSQLResponse) ProtoMessage() {}
 
 func (x *ExecuteSQLResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_database_database_proto_msgTypes[19]
+	mi := &file_database_database_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1101,7 +1421,7 @@ func (x *ExecuteSQLResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExecuteSQLResponse.ProtoReflect.Descriptor instead.
 func (*ExecuteSQLResponse) Descriptor() ([]byte, []int) {
-	return file_proto_database_database_proto_rawDescGZIP(), []int{19}
+	return file_database_database_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *ExecuteSQLResponse) GetRows() [][]byte {
@@ -1125,11 +1445,11 @@ func (x *ExecuteSQLResponse) GetExecutionTimeMs() float64 {
 	return 0
 }
 
-var File_proto_database_database_proto protoreflect.FileDescriptor
+var File_database_database_proto protoreflect.FileDescriptor
 
-const file_proto_database_database_proto_rawDesc = "" +
+const file_database_database_proto_rawDesc = "" +
 	"\n" +
-	"\x1dproto/database/database.proto\x12\bdatabase\"f\n" +
+	"\x17database/database.proto\x12\bdatabase\"f\n" +
 	"\tTableInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x16\n" +
 	"\x06schema\x18\x02 \x01(\tR\x06schema\x12\x10\n" +
@@ -1195,13 +1515,32 @@ const file_proto_database_database_proto_rawDesc = "" +
 	"\x0fGetRowsResponse\x12\x12\n" +
 	"\x04rows\x18\x01 \x03(\fR\x04rows\x12\x1f\n" +
 	"\vtotal_count\x18\x02 \x01(\x03R\n" +
-	"totalCount\")\n" +
+	"totalCount\"X\n" +
+	"\x10InsertRowRequest\x12\x16\n" +
+	"\x06schema\x18\x01 \x01(\tR\x06schema\x12\x14\n" +
+	"\x05table\x18\x02 \x01(\tR\x05table\x12\x16\n" +
+	"\x06values\x18\x03 \x01(\fR\x06values\"%\n" +
+	"\x11InsertRowResponse\x12\x10\n" +
+	"\x03row\x18\x01 \x01(\fR\x03row\"h\n" +
+	"\x10UpdateRowRequest\x12\x16\n" +
+	"\x06schema\x18\x01 \x01(\tR\x06schema\x12\x14\n" +
+	"\x05table\x18\x02 \x01(\tR\x05table\x12\x0e\n" +
+	"\x02pk\x18\x03 \x01(\fR\x02pk\x12\x16\n" +
+	"\x06values\x18\x04 \x01(\fR\x06values\"%\n" +
+	"\x11UpdateRowResponse\x12\x10\n" +
+	"\x03row\x18\x01 \x01(\fR\x03row\"P\n" +
+	"\x10DeleteRowRequest\x12\x16\n" +
+	"\x06schema\x18\x01 \x01(\tR\x06schema\x12\x14\n" +
+	"\x05table\x18\x02 \x01(\tR\x05table\x12\x0e\n" +
+	"\x02pk\x18\x03 \x01(\fR\x02pk\"8\n" +
+	"\x11DeleteRowResponse\x12#\n" +
+	"\raffected_rows\x18\x01 \x01(\x03R\faffectedRows\")\n" +
 	"\x11ExecuteSQLRequest\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query\"y\n" +
 	"\x12ExecuteSQLResponse\x12\x12\n" +
 	"\x04rows\x18\x01 \x03(\fR\x04rows\x12#\n" +
 	"\raffected_rows\x18\x02 \x01(\x03R\faffectedRows\x12*\n" +
-	"\x11execution_time_ms\x18\x03 \x01(\x01R\x0fexecutionTimeMs2\xab\x05\n" +
+	"\x11execution_time_ms\x18\x03 \x01(\x01R\x0fexecutionTimeMs2\xfd\x06\n" +
 	"\x0fDatabaseService\x12G\n" +
 	"\n" +
 	"ListTables\x12\x1b.database.ListTablesRequest\x1a\x1c.database.ListTablesResponse\x12J\n" +
@@ -1211,24 +1550,27 @@ const file_proto_database_database_proto_rawDesc = "" +
 	"\tAddColumn\x12\x1a.database.AddColumnRequest\x1a\x1b.database.AddColumnResponse\x12M\n" +
 	"\fUpdateColumn\x12\x1d.database.UpdateColumnRequest\x1a\x1e.database.UpdateColumnResponse\x12M\n" +
 	"\fDeleteColumn\x12\x1d.database.DeleteColumnRequest\x1a\x1e.database.DeleteColumnResponse\x12>\n" +
-	"\aGetRows\x12\x18.database.GetRowsRequest\x1a\x19.database.GetRowsResponse\x12G\n" +
+	"\aGetRows\x12\x18.database.GetRowsRequest\x1a\x19.database.GetRowsResponse\x12D\n" +
+	"\tInsertRow\x12\x1a.database.InsertRowRequest\x1a\x1b.database.InsertRowResponse\x12D\n" +
+	"\tUpdateRow\x12\x1a.database.UpdateRowRequest\x1a\x1b.database.UpdateRowResponse\x12D\n" +
+	"\tDeleteRow\x12\x1a.database.DeleteRowRequest\x1a\x1b.database.DeleteRowResponse\x12G\n" +
 	"\n" +
-	"ExecuteSQL\x12\x1b.database.ExecuteSQLRequest\x1a\x1c.database.ExecuteSQLResponseB\x10Z\x0eproto/databaseb\x06proto3"
+	"ExecuteSQL\x12\x1b.database.ExecuteSQLRequest\x1a\x1c.database.ExecuteSQLResponseB.Z,github.com/KinuGra/giraffe-2604/gen/databaseb\x06proto3"
 
 var (
-	file_proto_database_database_proto_rawDescOnce sync.Once
-	file_proto_database_database_proto_rawDescData []byte
+	file_database_database_proto_rawDescOnce sync.Once
+	file_database_database_proto_rawDescData []byte
 )
 
-func file_proto_database_database_proto_rawDescGZIP() []byte {
-	file_proto_database_database_proto_rawDescOnce.Do(func() {
-		file_proto_database_database_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_database_database_proto_rawDesc), len(file_proto_database_database_proto_rawDesc)))
+func file_database_database_proto_rawDescGZIP() []byte {
+	file_database_database_proto_rawDescOnce.Do(func() {
+		file_database_database_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_database_database_proto_rawDesc), len(file_database_database_proto_rawDesc)))
 	})
-	return file_proto_database_database_proto_rawDescData
+	return file_database_database_proto_rawDescData
 }
 
-var file_proto_database_database_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
-var file_proto_database_database_proto_goTypes = []any{
+var file_database_database_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
+var file_database_database_proto_goTypes = []any{
 	(*TableInfo)(nil),            // 0: database.TableInfo
 	(*ColumnDef)(nil),            // 1: database.ColumnDef
 	(*ListTablesRequest)(nil),    // 2: database.ListTablesRequest
@@ -1247,10 +1589,16 @@ var file_proto_database_database_proto_goTypes = []any{
 	(*DeleteColumnResponse)(nil), // 15: database.DeleteColumnResponse
 	(*GetRowsRequest)(nil),       // 16: database.GetRowsRequest
 	(*GetRowsResponse)(nil),      // 17: database.GetRowsResponse
-	(*ExecuteSQLRequest)(nil),    // 18: database.ExecuteSQLRequest
-	(*ExecuteSQLResponse)(nil),   // 19: database.ExecuteSQLResponse
+	(*InsertRowRequest)(nil),     // 18: database.InsertRowRequest
+	(*InsertRowResponse)(nil),    // 19: database.InsertRowResponse
+	(*UpdateRowRequest)(nil),     // 20: database.UpdateRowRequest
+	(*UpdateRowResponse)(nil),    // 21: database.UpdateRowResponse
+	(*DeleteRowRequest)(nil),     // 22: database.DeleteRowRequest
+	(*DeleteRowResponse)(nil),    // 23: database.DeleteRowResponse
+	(*ExecuteSQLRequest)(nil),    // 24: database.ExecuteSQLRequest
+	(*ExecuteSQLResponse)(nil),   // 25: database.ExecuteSQLResponse
 }
-var file_proto_database_database_proto_depIdxs = []int32{
+var file_database_database_proto_depIdxs = []int32{
 	0,  // 0: database.ListTablesResponse.tables:type_name -> database.TableInfo
 	1,  // 1: database.CreateTableRequest.columns:type_name -> database.ColumnDef
 	0,  // 2: database.CreateTableResponse.table:type_name -> database.TableInfo
@@ -1266,43 +1614,49 @@ var file_proto_database_database_proto_depIdxs = []int32{
 	12, // 12: database.DatabaseService.UpdateColumn:input_type -> database.UpdateColumnRequest
 	14, // 13: database.DatabaseService.DeleteColumn:input_type -> database.DeleteColumnRequest
 	16, // 14: database.DatabaseService.GetRows:input_type -> database.GetRowsRequest
-	18, // 15: database.DatabaseService.ExecuteSQL:input_type -> database.ExecuteSQLRequest
-	3,  // 16: database.DatabaseService.ListTables:output_type -> database.ListTablesResponse
-	5,  // 17: database.DatabaseService.CreateTable:output_type -> database.CreateTableResponse
-	7,  // 18: database.DatabaseService.DeleteTable:output_type -> database.DeleteTableResponse
-	9,  // 19: database.DatabaseService.ListColumns:output_type -> database.ListColumnsResponse
-	11, // 20: database.DatabaseService.AddColumn:output_type -> database.AddColumnResponse
-	13, // 21: database.DatabaseService.UpdateColumn:output_type -> database.UpdateColumnResponse
-	15, // 22: database.DatabaseService.DeleteColumn:output_type -> database.DeleteColumnResponse
-	17, // 23: database.DatabaseService.GetRows:output_type -> database.GetRowsResponse
-	19, // 24: database.DatabaseService.ExecuteSQL:output_type -> database.ExecuteSQLResponse
-	16, // [16:25] is the sub-list for method output_type
-	7,  // [7:16] is the sub-list for method input_type
+	18, // 15: database.DatabaseService.InsertRow:input_type -> database.InsertRowRequest
+	20, // 16: database.DatabaseService.UpdateRow:input_type -> database.UpdateRowRequest
+	22, // 17: database.DatabaseService.DeleteRow:input_type -> database.DeleteRowRequest
+	24, // 18: database.DatabaseService.ExecuteSQL:input_type -> database.ExecuteSQLRequest
+	3,  // 19: database.DatabaseService.ListTables:output_type -> database.ListTablesResponse
+	5,  // 20: database.DatabaseService.CreateTable:output_type -> database.CreateTableResponse
+	7,  // 21: database.DatabaseService.DeleteTable:output_type -> database.DeleteTableResponse
+	9,  // 22: database.DatabaseService.ListColumns:output_type -> database.ListColumnsResponse
+	11, // 23: database.DatabaseService.AddColumn:output_type -> database.AddColumnResponse
+	13, // 24: database.DatabaseService.UpdateColumn:output_type -> database.UpdateColumnResponse
+	15, // 25: database.DatabaseService.DeleteColumn:output_type -> database.DeleteColumnResponse
+	17, // 26: database.DatabaseService.GetRows:output_type -> database.GetRowsResponse
+	19, // 27: database.DatabaseService.InsertRow:output_type -> database.InsertRowResponse
+	21, // 28: database.DatabaseService.UpdateRow:output_type -> database.UpdateRowResponse
+	23, // 29: database.DatabaseService.DeleteRow:output_type -> database.DeleteRowResponse
+	25, // 30: database.DatabaseService.ExecuteSQL:output_type -> database.ExecuteSQLResponse
+	19, // [19:31] is the sub-list for method output_type
+	7,  // [7:19] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
 	7,  // [7:7] is the sub-list for extension extendee
 	0,  // [0:7] is the sub-list for field type_name
 }
 
-func init() { file_proto_database_database_proto_init() }
-func file_proto_database_database_proto_init() {
-	if File_proto_database_database_proto != nil {
+func init() { file_database_database_proto_init() }
+func file_database_database_proto_init() {
+	if File_database_database_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_database_database_proto_rawDesc), len(file_proto_database_database_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_database_database_proto_rawDesc), len(file_database_database_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   20,
+			NumMessages:   26,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_database_database_proto_goTypes,
-		DependencyIndexes: file_proto_database_database_proto_depIdxs,
-		MessageInfos:      file_proto_database_database_proto_msgTypes,
+		GoTypes:           file_database_database_proto_goTypes,
+		DependencyIndexes: file_database_database_proto_depIdxs,
+		MessageInfos:      file_database_database_proto_msgTypes,
 	}.Build()
-	File_proto_database_database_proto = out.File
-	file_proto_database_database_proto_goTypes = nil
-	file_proto_database_database_proto_depIdxs = nil
+	File_database_database_proto = out.File
+	file_database_database_proto_goTypes = nil
+	file_database_database_proto_depIdxs = nil
 }

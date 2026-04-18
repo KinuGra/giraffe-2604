@@ -97,6 +97,30 @@ func (s *DatabaseServer) GetRows(ctx context.Context, req *pb.GetRowsRequest) (*
 	return &pb.GetRowsResponse{Rows: rows, TotalCount: totalCount}, nil
 }
 
+func (s *DatabaseServer) InsertRow(ctx context.Context, req *pb.InsertRowRequest) (*pb.InsertRowResponse, error) {
+	row, err := s.uc.InsertRow(ctx, req.Schema, req.Table, req.Values)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.InsertRowResponse{Row: row}, nil
+}
+
+func (s *DatabaseServer) UpdateRow(ctx context.Context, req *pb.UpdateRowRequest) (*pb.UpdateRowResponse, error) {
+	row, err := s.uc.UpdateRow(ctx, req.Schema, req.Table, req.Pk, req.Values)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.UpdateRowResponse{Row: row}, nil
+}
+
+func (s *DatabaseServer) DeleteRow(ctx context.Context, req *pb.DeleteRowRequest) (*pb.DeleteRowResponse, error) {
+	affected, err := s.uc.DeleteRow(ctx, req.Schema, req.Table, req.Pk)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DeleteRowResponse{AffectedRows: affected}, nil
+}
+
 func (s *DatabaseServer) ExecuteSQL(ctx context.Context, req *pb.ExecuteSQLRequest) (*pb.ExecuteSQLResponse, error) {
 	rows, affected, elapsed, err := s.uc.ExecuteSQL(ctx, req.Query)
 	if err != nil {

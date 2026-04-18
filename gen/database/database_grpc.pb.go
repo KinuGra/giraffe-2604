@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v3.21.12
-// source: proto/database/database.proto
+// source: database/database.proto
 
 package database
 
@@ -27,6 +27,9 @@ const (
 	DatabaseService_UpdateColumn_FullMethodName = "/database.DatabaseService/UpdateColumn"
 	DatabaseService_DeleteColumn_FullMethodName = "/database.DatabaseService/DeleteColumn"
 	DatabaseService_GetRows_FullMethodName      = "/database.DatabaseService/GetRows"
+	DatabaseService_InsertRow_FullMethodName    = "/database.DatabaseService/InsertRow"
+	DatabaseService_UpdateRow_FullMethodName    = "/database.DatabaseService/UpdateRow"
+	DatabaseService_DeleteRow_FullMethodName    = "/database.DatabaseService/DeleteRow"
 	DatabaseService_ExecuteSQL_FullMethodName   = "/database.DatabaseService/ExecuteSQL"
 )
 
@@ -42,6 +45,9 @@ type DatabaseServiceClient interface {
 	UpdateColumn(ctx context.Context, in *UpdateColumnRequest, opts ...grpc.CallOption) (*UpdateColumnResponse, error)
 	DeleteColumn(ctx context.Context, in *DeleteColumnRequest, opts ...grpc.CallOption) (*DeleteColumnResponse, error)
 	GetRows(ctx context.Context, in *GetRowsRequest, opts ...grpc.CallOption) (*GetRowsResponse, error)
+	InsertRow(ctx context.Context, in *InsertRowRequest, opts ...grpc.CallOption) (*InsertRowResponse, error)
+	UpdateRow(ctx context.Context, in *UpdateRowRequest, opts ...grpc.CallOption) (*UpdateRowResponse, error)
+	DeleteRow(ctx context.Context, in *DeleteRowRequest, opts ...grpc.CallOption) (*DeleteRowResponse, error)
 	ExecuteSQL(ctx context.Context, in *ExecuteSQLRequest, opts ...grpc.CallOption) (*ExecuteSQLResponse, error)
 }
 
@@ -133,6 +139,36 @@ func (c *databaseServiceClient) GetRows(ctx context.Context, in *GetRowsRequest,
 	return out, nil
 }
 
+func (c *databaseServiceClient) InsertRow(ctx context.Context, in *InsertRowRequest, opts ...grpc.CallOption) (*InsertRowResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(InsertRowResponse)
+	err := c.cc.Invoke(ctx, DatabaseService_InsertRow_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseServiceClient) UpdateRow(ctx context.Context, in *UpdateRowRequest, opts ...grpc.CallOption) (*UpdateRowResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateRowResponse)
+	err := c.cc.Invoke(ctx, DatabaseService_UpdateRow_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseServiceClient) DeleteRow(ctx context.Context, in *DeleteRowRequest, opts ...grpc.CallOption) (*DeleteRowResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteRowResponse)
+	err := c.cc.Invoke(ctx, DatabaseService_DeleteRow_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *databaseServiceClient) ExecuteSQL(ctx context.Context, in *ExecuteSQLRequest, opts ...grpc.CallOption) (*ExecuteSQLResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ExecuteSQLResponse)
@@ -155,6 +191,9 @@ type DatabaseServiceServer interface {
 	UpdateColumn(context.Context, *UpdateColumnRequest) (*UpdateColumnResponse, error)
 	DeleteColumn(context.Context, *DeleteColumnRequest) (*DeleteColumnResponse, error)
 	GetRows(context.Context, *GetRowsRequest) (*GetRowsResponse, error)
+	InsertRow(context.Context, *InsertRowRequest) (*InsertRowResponse, error)
+	UpdateRow(context.Context, *UpdateRowRequest) (*UpdateRowResponse, error)
+	DeleteRow(context.Context, *DeleteRowRequest) (*DeleteRowResponse, error)
 	ExecuteSQL(context.Context, *ExecuteSQLRequest) (*ExecuteSQLResponse, error)
 	mustEmbedUnimplementedDatabaseServiceServer()
 }
@@ -189,6 +228,15 @@ func (UnimplementedDatabaseServiceServer) DeleteColumn(context.Context, *DeleteC
 }
 func (UnimplementedDatabaseServiceServer) GetRows(context.Context, *GetRowsRequest) (*GetRowsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetRows not implemented")
+}
+func (UnimplementedDatabaseServiceServer) InsertRow(context.Context, *InsertRowRequest) (*InsertRowResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method InsertRow not implemented")
+}
+func (UnimplementedDatabaseServiceServer) UpdateRow(context.Context, *UpdateRowRequest) (*UpdateRowResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateRow not implemented")
+}
+func (UnimplementedDatabaseServiceServer) DeleteRow(context.Context, *DeleteRowRequest) (*DeleteRowResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteRow not implemented")
 }
 func (UnimplementedDatabaseServiceServer) ExecuteSQL(context.Context, *ExecuteSQLRequest) (*ExecuteSQLResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ExecuteSQL not implemented")
@@ -358,6 +406,60 @@ func _DatabaseService_GetRows_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DatabaseService_InsertRow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InsertRowRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseServiceServer).InsertRow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseService_InsertRow_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseServiceServer).InsertRow(ctx, req.(*InsertRowRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseService_UpdateRow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRowRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseServiceServer).UpdateRow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseService_UpdateRow_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseServiceServer).UpdateRow(ctx, req.(*UpdateRowRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseService_DeleteRow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteRowRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseServiceServer).DeleteRow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseService_DeleteRow_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseServiceServer).DeleteRow(ctx, req.(*DeleteRowRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _DatabaseService_ExecuteSQL_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ExecuteSQLRequest)
 	if err := dec(in); err != nil {
@@ -416,10 +518,22 @@ var DatabaseService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _DatabaseService_GetRows_Handler,
 		},
 		{
+			MethodName: "InsertRow",
+			Handler:    _DatabaseService_InsertRow_Handler,
+		},
+		{
+			MethodName: "UpdateRow",
+			Handler:    _DatabaseService_UpdateRow_Handler,
+		},
+		{
+			MethodName: "DeleteRow",
+			Handler:    _DatabaseService_DeleteRow_Handler,
+		},
+		{
 			MethodName: "ExecuteSQL",
 			Handler:    _DatabaseService_ExecuteSQL_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/database/database.proto",
+	Metadata: "database/database.proto",
 }

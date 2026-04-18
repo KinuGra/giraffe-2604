@@ -6,11 +6,12 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataBrowser } from "@/features/editor/data-browser";
 import { DefinitionTab } from "@/features/editor/definition-tab";
+import { InsertRowDialog } from "@/features/editor/insert-row-dialog";
 import { RowInspector } from "@/features/editor/row-inspector";
 import { SqlTab } from "@/features/editor/sql-tab";
 import { TableList } from "@/features/editor/table-list";
-import { tables } from "@/lib/mock-data";
-import { cn } from "@/lib/utils";
+import type { ColumnDef, TableInfo } from "@/lib/database-api";
+import { databaseApi } from "@/lib/database-api";
 import {
   Download,
   Filter,
@@ -19,7 +20,7 @@ import {
   Shield,
   Table2,
 } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 function formatRowCount(count: number): string {
   if (count >= 1000) {
@@ -29,34 +30,158 @@ function formatRowCount(count: number): string {
 }
 
 export default function EditorPage() {
-  const [selectedTable, setSelectedTable] = useState("profiles");
+  const [schema, setSchema] = useState("public");
+  const [tables, setTables] = useState<TableInfo[]>([]);
+  const [selectedTable, setSelectedTable] = useState("");
+  const [columns, setColumns] = useState<ColumnDef[]>([]);
+  const [rows, setRows] = useState<Record<string, unknown>[]>([]);
+  const [totalRowCount, setTotalRowCount] = useState(0);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [selectedRow, setSelectedRow] = useState<number | null>(null);
   const [filter, setFilter] = useState("");
   const [view, setView] = useState<"data" | "definition" | "sql">("data");
+  const [insertDialogOpen, setInsertDialogOpen] = useState(false);
+
+  const fetchTables = useCallback(async (s: string) => {
+    try {
+      const list = await databaseApi.listTables(s);
+      setTables(list);
+      return list;
+    } catch (e) {
+      console.error(e);
+      setTables([]);
+      return [];
+    }
+  }, []);
+
+  const fetchTableData = useCallback(
+    async (table: string, s: string, limit: number, offset: number) => {
+      if (!table) return;
+      try {
+        const [cols, rowsResp] = await Promise.all([
+          databaseApi.listColumns(table, s),
+          databaseApi.getRows(table, s, limit, offset),
+        ]);
+        setColumns(cols);
+        setRows(rowsResp.rows ?? []);
+        setTotalRowCount(rowsResp.totalCount);
+      } catch (e) {
+        console.error(e);
+        setColumns([]);
+        setRows([]);
+        setTotalRowCount(0);
+      }
+    },
+    [],
+  );
+
+  useEffect(() => {
+    fetchTables(schema).then((list) => {
+      if (list.length > 0) {
+        setSelectedTable(list[0].name);
+      } else {
+        setSelectedTable("");
+        setColumns([]);
+        setRows([]);
+        setTotalRowCount(0);
+      }
+    });
+  }, [schema, fetchTables]);
+
+  useEffect(() => {
+    if (!selectedTable) return;
+    setPage(0);
+    fetchTableData(selectedTable, schema, rowsPerPage, 0);
+  }, [selectedTable, schema, fetchTableData, rowsPerPage]);
+
+  useEffect(() => {
+    if (!selectedTable || page === 0) return;
+    const offset = page * rowsPerPage;
+    databaseApi
+      .getRows(selectedTable, schema, rowsPerPage, offset)
+      .then((resp) => {
+        setRows(resp.rows ?? []);
+        setTotalRowCount(resp.totalCount);
+      })
+      .catch(console.error);
+  }, [page, selectedTable, schema, rowsPerPage]);
 
   const tableInfo = tables.find((t) => t.name === selectedTable);
 
+  const handleRefresh = useCallback(() => {
+    fetchTables(schema);
+    if (selectedTable) {
+      fetchTableData(selectedTable, schema, rowsPerPage, page * rowsPerPage);
+    }
+  }, [schema, selectedTable, rowsPerPage, page, fetchTables, fetchTableData]);
+
+  const handleInsertRow = useCallback(
+    async (values: Record<string, unknown>) => {
+      await databaseApi.insertRow(selectedTable, values, schema);
+      await fetchTableData(
+        selectedTable,
+        schema,
+        rowsPerPage,
+        page * rowsPerPage,
+      );
+      await fetchTables(schema);
+    },
+    [selectedTable, schema, rowsPerPage, page, fetchTableData, fetchTables],
+  );
+
+  const handleUpdateRow = useCallback(
+    async (pk: Record<string, unknown>, values: Record<string, unknown>) => {
+      await databaseApi.updateRow(selectedTable, pk, values, schema);
+      await fetchTableData(
+        selectedTable,
+        schema,
+        rowsPerPage,
+        page * rowsPerPage,
+      );
+    },
+    [selectedTable, schema, rowsPerPage, page, fetchTableData],
+  );
+
+  const handleDeleteRow = useCallback(
+    async (pk: Record<string, unknown>) => {
+      await databaseApi.deleteRow(selectedTable, pk, schema);
+      setSelectedRow(null);
+      await fetchTableData(
+        selectedTable,
+        schema,
+        rowsPerPage,
+        page * rowsPerPage,
+      );
+      await fetchTables(schema);
+    },
+    [selectedTable, schema, rowsPerPage, page, fetchTableData, fetchTables],
+  );
+
   return (
     <div className="flex h-screen overflow-hidden">
-      {/* Left panel - Table list */}
       <TableList
+        tables={tables}
         selectedTable={selectedTable}
         onSelectTable={(name) => {
           setSelectedTable(name);
           setSelectedRow(null);
           setFilter("");
         }}
+        onSchemaChange={setSchema}
       />
 
-      {/* Main area */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Header */}
         <div className="flex items-center gap-3 border-b px-4 py-2.5">
           <Table2 className="size-4 text-muted-foreground" />
-          <h1 className="text-sm font-semibold">{selectedTable}</h1>
-          <Badge variant="secondary" className="text-[10px]">
-            public
-          </Badge>
+          <h1 className="text-sm font-semibold">
+            {selectedTable || "No table selected"}
+          </h1>
+          {selectedTable && (
+            <Badge variant="secondary" className="text-[10px]">
+              {schema}
+            </Badge>
+          )}
           {tableInfo?.rls && (
             <Badge className="gap-1 bg-brand-500/15 text-brand-400 border-brand-500/20 text-[10px]">
               <Shield className="size-3" />
@@ -70,7 +195,7 @@ export default function EditorPage() {
           )}
 
           <div className="ml-auto flex items-center gap-1">
-            <Button variant="ghost" size="icon-xs">
+            <Button variant="ghost" size="icon-xs" onClick={handleRefresh}>
               <RefreshCw className="size-3.5" />
             </Button>
             <Button variant="ghost" size="icon-xs">
@@ -80,14 +205,18 @@ export default function EditorPage() {
               <Download className="size-3.5" />
             </Button>
             <Separator orientation="vertical" className="mx-1 h-4" />
-            <Button size="xs" className="gap-1">
+            <Button
+              size="xs"
+              className="gap-1"
+              disabled={!selectedTable}
+              onClick={() => setInsertDialogOpen(true)}
+            >
               <Plus className="size-3" />
               Insert
             </Button>
           </div>
         </div>
 
-        {/* Tabs */}
         <Tabs
           value={view}
           onValueChange={(v) => setView(v as typeof view)}
@@ -103,6 +232,13 @@ export default function EditorPage() {
 
           <TabsContent value="data" className="flex flex-1 overflow-hidden">
             <DataBrowser
+              columns={columns}
+              rows={rows}
+              totalCount={totalRowCount}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              onPageChange={setPage}
+              onRowsPerPageChange={setRowsPerPage}
               selectedRow={selectedRow}
               onSelectRow={setSelectedRow}
               filter={filter}
@@ -110,14 +246,18 @@ export default function EditorPage() {
             />
             {selectedRow !== null && (
               <RowInspector
+                columns={columns}
+                rows={rows}
                 rowIndex={selectedRow}
                 onClose={() => setSelectedRow(null)}
+                onSave={handleUpdateRow}
+                onDelete={handleDeleteRow}
               />
             )}
           </TabsContent>
 
           <TabsContent value="definition" className="overflow-y-auto p-4">
-            <DefinitionTab />
+            <DefinitionTab columns={columns} />
           </TabsContent>
 
           <TabsContent value="sql" className="overflow-y-auto p-4">
@@ -125,6 +265,13 @@ export default function EditorPage() {
           </TabsContent>
         </Tabs>
       </div>
+
+      <InsertRowDialog
+        columns={columns}
+        open={insertDialogOpen}
+        onOpenChange={setInsertDialogOpen}
+        onInsert={handleInsertRow}
+      />
     </div>
   );
 }
