@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CreateTableDialog } from "@/features/editor/create-table-dialog";
 import { DataBrowser } from "@/features/editor/data-browser";
 import { DefinitionTab } from "@/features/editor/definition-tab";
 import { InsertRowDialog } from "@/features/editor/insert-row-dialog";
@@ -12,14 +13,7 @@ import { SqlTab } from "@/features/editor/sql-tab";
 import { TableList } from "@/features/editor/table-list";
 import type { ColumnDef, TableInfo } from "@/lib/database-api";
 import { databaseApi } from "@/lib/database-api";
-import {
-  Download,
-  Filter,
-  Plus,
-  RefreshCw,
-  Shield,
-  Table2,
-} from "lucide-react";
+import { Plus, RefreshCw, Shield, Table2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
 function formatRowCount(count: number): string {
@@ -42,6 +36,7 @@ export default function EditorPage() {
   const [filter, setFilter] = useState("");
   const [view, setView] = useState<"data" | "definition" | "sql">("data");
   const [insertDialogOpen, setInsertDialogOpen] = useState(false);
+  const [createTableOpen, setCreateTableOpen] = useState(false);
 
   const fetchTables = useCallback(async (s: string) => {
     try {
@@ -158,6 +153,23 @@ export default function EditorPage() {
     [selectedTable, schema, rowsPerPage, page, fetchTableData, fetchTables],
   );
 
+  const handleDeleteTable = useCallback(
+    async (name: string) => {
+      if (!window.confirm(`Delete table "${name}"? This cannot be undone.`))
+        return;
+      await databaseApi.deleteTable(name, schema);
+      const list = await fetchTables(schema);
+      if (list.length > 0) setSelectedTable(list[0].name);
+      else {
+        setSelectedTable("");
+        setColumns([]);
+        setRows([]);
+        setTotalRowCount(0);
+      }
+    },
+    [schema, fetchTables],
+  );
+
   return (
     <div className="flex h-screen overflow-hidden">
       <TableList
@@ -169,6 +181,8 @@ export default function EditorPage() {
           setFilter("");
         }}
         onSchemaChange={setSchema}
+        onCreateTable={() => setCreateTableOpen(true)}
+        onDeleteTable={handleDeleteTable}
       />
 
       <div className="flex flex-1 flex-col overflow-hidden">
@@ -197,12 +211,6 @@ export default function EditorPage() {
           <div className="ml-auto flex items-center gap-1">
             <Button variant="ghost" size="icon-xs" onClick={handleRefresh}>
               <RefreshCw className="size-3.5" />
-            </Button>
-            <Button variant="ghost" size="icon-xs">
-              <Filter className="size-3.5" />
-            </Button>
-            <Button variant="ghost" size="icon-xs">
-              <Download className="size-3.5" />
             </Button>
             <Separator orientation="vertical" className="mx-1 h-4" />
             <Button
@@ -257,7 +265,19 @@ export default function EditorPage() {
           </TabsContent>
 
           <TabsContent value="definition" className="overflow-y-auto p-4">
-            <DefinitionTab columns={columns} />
+            <DefinitionTab
+              columns={columns}
+              tableName={selectedTable}
+              schema={schema}
+              onColumnsChange={() =>
+                fetchTableData(
+                  selectedTable,
+                  schema,
+                  rowsPerPage,
+                  page * rowsPerPage,
+                )
+              }
+            />
           </TabsContent>
 
           <TabsContent value="sql" className="overflow-y-auto p-4">
@@ -271,6 +291,16 @@ export default function EditorPage() {
         open={insertDialogOpen}
         onOpenChange={setInsertDialogOpen}
         onInsert={handleInsertRow}
+      />
+
+      <CreateTableDialog
+        open={createTableOpen}
+        onOpenChange={setCreateTableOpen}
+        schema={schema}
+        onCreate={async () => {
+          const list = await fetchTables(schema);
+          if (list.length > 0) setSelectedTable(list[list.length - 1].name);
+        }}
       />
     </div>
   );
