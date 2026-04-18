@@ -12,6 +12,7 @@ import sys
 import tempfile
 
 import boto3
+from botocore.exceptions import BotoCoreError, ClientError
 
 MODEL_ID = "us.anthropic.claude-opus-4-6-v1"
 # Bedrock input limit is large, but we cap the diff to stay well within
@@ -51,7 +52,7 @@ def get_diff() -> str:
         sys.exit(1)
     if len(diff) > MAX_DIFF_CHARS:
         diff = diff[:MAX_DIFF_CHARS] + "\n\n... (diff truncated due to size)\n"
-    diff = diff.replace("</diff>", "&lt;/diff&gt;")
+    diff = diff.replace("</diff>", "<\\/diff>")
     return diff
 
 
@@ -120,7 +121,7 @@ def main() -> None:
     try:
         print("Calling Claude via Bedrock...")
         review = call_bedrock(diff)
-    except boto3.exceptions.Boto3Error as e:
+    except (BotoCoreError, ClientError) as e:
         print(f"Bedrock API error: {e}", file=sys.stderr)
         sys.exit(1)
 
