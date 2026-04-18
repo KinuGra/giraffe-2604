@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: functions
-          image: 517027174598.dkr.ecr.ap-northeast-1.amazonaws.com/functions:v1.0.0
+          image: 517027174598.dkr.ecr.ap-northeast-1.amazonaws.com/back-functions
           ports:
             - containerPort: 50055
           env:

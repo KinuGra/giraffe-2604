@@ -71,5 +71,5 @@ variable "subnet_ids" {
 variable "allowed_cidr_blocks" {
   description = "CIDR blocks allowed to connect to the database"
   type        = list(string)
-  default     = ["10.0.0.0/16"]
+  default     = ["0.0.0.0/0"]
 }
