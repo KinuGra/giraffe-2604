@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"regexp"
+	"sort"
 	"strings"
 
 	"github.com/KinuGra/giraffe-2604/services/database/model"
@@ -375,6 +376,200 @@ func (r *DatabaseRepo) ExecuteRawSQL(ctx context.Context, query string) ([][]byt
 
 	affected, _ := result.RowsAffected()
 	return nil, affected, nil
+}
+
+func parseJSONMap(data []byte) (map[string]interface{}, error) {
+	var m map[string]interface{}
+	if err := json.Unmarshal(data, &m); err != nil {
+		return nil, fmt.Errorf("invalid JSON: %w", err)
+	}
+	if len(m) == 0 {
+		return nil, fmt.Errorf("empty JSON object")
+	}
+	return m, nil
+}
+
+func sortedKeys(m map[string]interface{}) []string {
+	keys := make([]string, 0, len(m))
+	for k := range m {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	return keys
+}
+
+func buildWhereClause(pk map[string]interface{}, startParam int) (string, []interface{}, error) {
+	keys := sortedKeys(pk)
+	conditions := make([]string, 0, len(keys))
+	args := make([]interface{}, 0, len(keys))
+	for i, k := range keys {
+		qk, err := QuoteIdent(k)
+		if err != nil {
+			return "", nil, err
+		}
+		conditions = append(conditions, fmt.Sprintf("%s = $%d", qk, startParam+i))
+		args = append(args, pk[k])
+	}
+	return strings.Join(conditions, " AND "), args, nil
+}
+
+func (r *DatabaseRepo) InsertRow(ctx context.Context, schema, table string, values []byte) ([]byte, error) {
+	quotedSchema, err := QuoteIdent(schema)
+	if err != nil {
+		return nil, err
+	}
+	quotedTable, err := QuoteIdent(table)
+	if err != nil {
+		return nil, err
+	}
+
+	data, err := parseJSONMap(values)
+	if err != nil {
+		return nil, err
+	}
+
+	keys := sortedKeys(data)
+	quotedCols := make([]string, 0, len(keys))
+	placeholders := make([]string, 0, len(keys))
+	args := make([]interface{}, 0, len(keys))
+
+	for i, k := range keys {
+		qk, err := QuoteIdent(k)
+		if err != nil {
+			return nil, err
+		}
+		quotedCols = append(quotedCols, qk)
+		placeholders = append(placeholders, fmt.Sprintf("$%d", i+1))
+		args = append(args, data[k])
+	}
+
+	query := fmt.Sprintf("INSERT INTO %s.%s (%s) VALUES (%s) RETURNING *",
+		quotedSchema, quotedTable,
+		strings.Join(quotedCols, ", "),
+		strings.Join(placeholders, ", "))
+
+	sqlDB, err := r.db.DB()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get sql.DB: %w", err)
+	}
+
+	rows, err := sqlDB.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("insert failed: %w", err)
+	}
+	defer rows.Close()
+
+	jsonRows, err := scanRowsToJSON(rows)
+	if err != nil {
+		return nil, err
+	}
+	if len(jsonRows) == 0 {
+		return nil, fmt.Errorf("insert returned no rows")
+	}
+	return jsonRows[0], nil
+}
+
+func (r *DatabaseRepo) UpdateRow(ctx context.Context, schema, table string, pk, values []byte) ([]byte, error) {
+	quotedSchema, err := QuoteIdent(schema)
+	if err != nil {
+		return nil, err
+	}
+	quotedTable, err := QuoteIdent(table)
+	if err != nil {
+		return nil, err
+	}
+
+	pkMap, err := parseJSONMap(pk)
+	if err != nil {
+		return nil, fmt.Errorf("invalid pk: %w", err)
+	}
+	valMap, err := parseJSONMap(values)
+	if err != nil {
+		return nil, fmt.Errorf("invalid values: %w", err)
+	}
+
+	valKeys := sortedKeys(valMap)
+	setClauses := make([]string, 0, len(valKeys))
+	args := make([]interface{}, 0, len(valKeys)+len(pkMap))
+	paramIdx := 1
+
+	for _, k := range valKeys {
+		qk, err := QuoteIdent(k)
+		if err != nil {
+			return nil, err
+		}
+		setClauses = append(setClauses, fmt.Sprintf("%s = $%d", qk, paramIdx))
+		args = append(args, valMap[k])
+		paramIdx++
+	}
+
+	whereClause, whereArgs, err := buildWhereClause(pkMap, paramIdx)
+	if err != nil {
+		return nil, err
+	}
+	args = append(args, whereArgs...)
+
+	query := fmt.Sprintf("UPDATE %s.%s SET %s WHERE %s RETURNING *",
+		quotedSchema, quotedTable,
+		strings.Join(setClauses, ", "),
+		whereClause)
+
+	sqlDB, err := r.db.DB()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get sql.DB: %w", err)
+	}
+
+	rows, err := sqlDB.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("update failed: %w", err)
+	}
+	defer rows.Close()
+
+	jsonRows, err := scanRowsToJSON(rows)
+	if err != nil {
+		return nil, err
+	}
+	if len(jsonRows) == 0 {
+		return nil, fmt.Errorf("row not found")
+	}
+	return jsonRows[0], nil
+}
+
+func (r *DatabaseRepo) DeleteRow(ctx context.Context, schema, table string, pk []byte) (int64, error) {
+	quotedSchema, err := QuoteIdent(schema)
+	if err != nil {
+		return 0, err
+	}
+	quotedTable, err := QuoteIdent(table)
+	if err != nil {
+		return 0, err
+	}
+
+	pkMap, err := parseJSONMap(pk)
+	if err != nil {
+		return 0, fmt.Errorf("invalid pk: %w", err)
+	}
+
+	whereClause, args, err := buildWhereClause(pkMap, 1)
+	if err != nil {
+		return 0, err
+	}
+
+	query := fmt.Sprintf("DELETE FROM %s.%s WHERE %s",
+		quotedSchema, quotedTable, whereClause)
+
+	sqlDB, err := r.db.DB()
+	if err != nil {
+		return 0, fmt.Errorf("failed to get sql.DB: %w", err)
+	}
+
+	result, err := sqlDB.ExecContext(ctx, query, args...)
+	if err != nil {
+		return 0, fmt.Errorf("delete failed: %w", err)
+	}
+
+	affected, _ := result.RowsAffected()
+	return affected, nil
 }
 
 func scanRowsToJSON(rows interface {

@@ -23,6 +23,9 @@ func RegisterDatabaseRoutes(r *gin.Engine, client pb.DatabaseServiceClient) {
 		g.DELETE("/tables/:name/columns/:column", deleteColumn(client))
 
 		g.GET("/tables/:name/rows", getRows(client))
+		g.POST("/tables/:name/rows", insertRow(client))
+		g.PUT("/tables/:name/rows", updateRow(client))
+		g.DELETE("/tables/:name/rows", deleteRow(client))
 		g.POST("/sql", executeSQL(client))
 	}
 }
@@ -284,6 +287,98 @@ func getRows(client pb.DatabaseServiceClient) gin.HandlerFunc {
 			"rows":       rows,
 			"totalCount": resp.TotalCount,
 		})
+	}
+}
+
+func insertRow(client pb.DatabaseServiceClient) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		schema := c.DefaultQuery("schema", "public")
+		table := c.Param("name")
+
+		var body map[string]interface{}
+		if err := c.ShouldBindJSON(&body); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		values, err := json.Marshal(body)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "invalid JSON"})
+			return
+		}
+
+		resp, err := client.InsertRow(c.Request.Context(), &pb.InsertRowRequest{
+			Schema: schema,
+			Table:  table,
+			Values: values,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.Data(http.StatusCreated, "application/json", resp.Row)
+	}
+}
+
+func updateRow(client pb.DatabaseServiceClient) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		schema := c.DefaultQuery("schema", "public")
+		table := c.Param("name")
+
+		var body struct {
+			Pk     map[string]interface{} `json:"pk"`
+			Values map[string]interface{} `json:"values"`
+		}
+		if err := c.ShouldBindJSON(&body); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		pk, _ := json.Marshal(body.Pk)
+		values, _ := json.Marshal(body.Values)
+
+		resp, err := client.UpdateRow(c.Request.Context(), &pb.UpdateRowRequest{
+			Schema: schema,
+			Table:  table,
+			Pk:     pk,
+			Values: values,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.Data(http.StatusOK, "application/json", resp.Row)
+	}
+}
+
+func deleteRow(client pb.DatabaseServiceClient) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		schema := c.DefaultQuery("schema", "public")
+		table := c.Param("name")
+
+		var body struct {
+			Pk map[string]interface{} `json:"pk"`
+		}
+		if err := c.ShouldBindJSON(&body); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		pk, _ := json.Marshal(body.Pk)
+
+		resp, err := client.DeleteRow(c.Request.Context(), &pb.DeleteRowRequest{
+			Schema: schema,
+			Table:  table,
+			Pk:     pk,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"affectedRows": resp.AffectedRows})
 	}
 }
 

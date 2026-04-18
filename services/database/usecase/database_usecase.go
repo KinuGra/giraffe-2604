@@ -76,6 +76,18 @@ func (u *DatabaseUsecase) GetRows(ctx context.Context, schema, table string, lim
 	return u.repo.GetRows(ctx, defaultSchema(schema), table, limit, offset, orderBy)
 }
 
+func (u *DatabaseUsecase) InsertRow(ctx context.Context, schema, table string, values []byte) ([]byte, error) {
+	return u.repo.InsertRow(ctx, defaultSchema(schema), table, values)
+}
+
+func (u *DatabaseUsecase) UpdateRow(ctx context.Context, schema, table string, pk, values []byte) ([]byte, error) {
+	return u.repo.UpdateRow(ctx, defaultSchema(schema), table, pk, values)
+}
+
+func (u *DatabaseUsecase) DeleteRow(ctx context.Context, schema, table string, pk []byte) (int64, error) {
+	return u.repo.DeleteRow(ctx, defaultSchema(schema), table, pk)
+}
+
 func (u *DatabaseUsecase) ExecuteSQL(ctx context.Context, query string) ([][]byte, int64, float64, error) {
 	query = strings.TrimSpace(query)
 	start := time.Now()
