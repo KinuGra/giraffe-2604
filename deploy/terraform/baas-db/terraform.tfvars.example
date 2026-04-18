@@ -1,0 +1,14 @@
+aws_region         = "ap-northeast-1"
+project            = "giraffe"
+environment        = "dev"
+
+db_name            = "baas_db"
+db_username        = "baas_admin"
+db_password        = "CHANGE_ME"
+db_instance_class  = "db.t3.micro"
+db_allocated_storage = 20
+
+# network/ モジュールの output を使う場合はここで指定
+# vpc_id             = "vpc-xxxxxxxxx"
+# subnet_ids         = ["subnet-aaa", "subnet-bbb"]
+# allowed_cidr_blocks = ["10.0.0.0/16"]

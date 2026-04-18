@@ -11,7 +11,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
+	dbpb "github.com/KinuGra/giraffe-2604/gen/database"
 	pb "github.com/KinuGra/giraffe-2604/gen/functions"
+	"github.com/KinuGra/giraffe-2604/services/gateway/routes"
 )
 
 func cors() gin.HandlerFunc {
@@ -131,6 +133,18 @@ func main() {
 		}
 		c.JSON(http.StatusOK, resp)
 	})
+
+	dbAddr := os.Getenv("DATABASE_GRPC_ADDR")
+	if dbAddr != "" {
+		dbConn, err := grpc.NewClient(dbAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+		if err != nil {
+			log.Printf("WARNING: Cannot connect to database service: %v", err)
+		} else {
+			dbClient := dbpb.NewDatabaseServiceClient(dbConn)
+			routes.RegisterDatabaseRoutes(r, dbClient)
+			log.Printf("Database routes registered (connecting to %s)", dbAddr)
+		}
+	}
 
 	port := os.Getenv("PORT")
 	if port == "" {
