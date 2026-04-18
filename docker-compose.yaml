@@ -23,7 +23,7 @@ services:
     ports:
       - "50056:50056"
     environment:
-      DATABASE_URL: postgres://dev:dev@postgres:5432/user_db?sslmode=disable
+      DATABASE_URL: postgres://dev:dev@postgres:5432/user_db?sslmode=disable&default_query_exec_mode=simple_protocol
     depends_on:
       postgres:
         condition: service_healthy
