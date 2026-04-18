@@ -17,6 +17,7 @@ import type { ColumnDef } from "@/lib/database-api";
 import { databaseApi } from "@/lib/database-api";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useCallback, useState } from "react";
+import { toast } from "sonner";
 
 interface DefinitionTabProps {
   columns: ColumnDef[];
@@ -43,8 +44,10 @@ export function DefinitionTab({
       try {
         await databaseApi.deleteColumn(tableName, col.name, schema);
         onColumnsChange();
+        toast.success("Column deleted");
       } catch (e) {
         console.error(e);
+        toast.error("Failed to delete column");
       }
     },
     [tableName, schema, onColumnsChange],

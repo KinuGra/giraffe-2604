@@ -21,6 +21,7 @@ import { Switch } from "@/components/ui/switch";
 import { databaseApi } from "@/lib/database-api";
 import { Loader2, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const PG_TYPES = [
   "text",
@@ -139,8 +140,10 @@ export function CreateTableDialog({
       await databaseApi.createTable(schema, tableName.trim(), columns);
       await onCreate();
       onOpenChange(false);
+      toast.success("Table created");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to create table");
+      toast.error("Failed to create table");
     } finally {
       setSaving(false);
     }
