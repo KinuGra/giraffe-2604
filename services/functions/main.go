@@ -31,4 +31,3 @@ func main() {
 	log.Println("Functions Service listening on :50055")
 	grpcServer.Serve(lis)
 }
-

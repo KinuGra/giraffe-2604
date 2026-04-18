@@ -1,0 +1,56 @@
+name: Go CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "services/**"
+      - ".github/workflows/go-ci.yml"
+  push:
+    branches: [main]
+    paths:
+      - "services/**"
+      - ".github/workflows/go-ci.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.25"
+          cache-dependency-path: |
+            services/functions/go.sum
+            services/gateway/go.sum
+
+      - name: Format all Go files
+        run: gofmt -w services/
+
+      - name: Auto commit formatting fixes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "style: auto-fix go formatting"
+          file_pattern: "services/**"
+
+      - name: Vet functions
+        run: go vet ./...
+        working-directory: services/functions
+
+      - name: Vet gateway
+        run: go vet ./...
+        working-directory: services/gateway
+
+      - name: Build functions
+        run: go build ./...
+        working-directory: services/functions
+
+      - name: Build gateway
+        run: go build ./...
+        working-directory: services/gateway
