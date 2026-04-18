@@ -33,6 +33,26 @@ func (r *FunctionRepo) FindAll() ([]model.Function, error) {
 	return funcs, nil
 }
 
+func (r *FunctionRepo) Update(id, name, code string, timeoutSec int) (*model.Function, error) {
+	var f model.Function
+	if err := r.db.First(&f, "id = ?", id).Error; err != nil {
+		return nil, err
+	}
+	if name != "" {
+		f.Name = name
+	}
+	if code != "" {
+		f.Code = code
+	}
+	if timeoutSec > 0 {
+		f.TimeoutSec = timeoutSec
+	}
+	if err := r.db.Save(&f).Error; err != nil {
+		return nil, err
+	}
+	return &f, nil
+}
+
 func (r *FunctionRepo) Delete(id string) error {
 	return r.db.Delete(&model.Function{}, "id = ?", id).Error
 }

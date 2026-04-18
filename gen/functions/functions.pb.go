@@ -417,6 +417,74 @@ func (x *ExecuteFunctionResponse) GetDurationMs() int64 {
 	return 0
 }
 
+type UpdateFunctionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FunctionId    string                 `protobuf:"bytes,1,opt,name=function_id,json=functionId,proto3" json:"function_id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Code          string                 `protobuf:"bytes,3,opt,name=code,proto3" json:"code,omitempty"`
+	TimeoutSec    int32                  `protobuf:"varint,4,opt,name=timeout_sec,json=timeoutSec,proto3" json:"timeout_sec,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateFunctionRequest) Reset() {
+	*x = UpdateFunctionRequest{}
+	mi := &file_functions_functions_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateFunctionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateFunctionRequest) ProtoMessage() {}
+
+func (x *UpdateFunctionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_functions_functions_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateFunctionRequest.ProtoReflect.Descriptor instead.
+func (*UpdateFunctionRequest) Descriptor() ([]byte, []int) {
+	return file_functions_functions_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UpdateFunctionRequest) GetFunctionId() string {
+	if x != nil {
+		return x.FunctionId
+	}
+	return ""
+}
+
+func (x *UpdateFunctionRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateFunctionRequest) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+func (x *UpdateFunctionRequest) GetTimeoutSec() int32 {
+	if x != nil {
+		return x.TimeoutSec
+	}
+	return 0
+}
+
 type DeleteFunctionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	FunctionId    string                 `protobuf:"bytes,1,opt,name=function_id,json=functionId,proto3" json:"function_id,omitempty"`
@@ -426,7 +494,7 @@ type DeleteFunctionRequest struct {
 
 func (x *DeleteFunctionRequest) Reset() {
 	*x = DeleteFunctionRequest{}
-	mi := &file_functions_functions_proto_msgTypes[7]
+	mi := &file_functions_functions_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -438,7 +506,7 @@ func (x *DeleteFunctionRequest) String() string {
 func (*DeleteFunctionRequest) ProtoMessage() {}
 
 func (x *DeleteFunctionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_functions_functions_proto_msgTypes[7]
+	mi := &file_functions_functions_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -451,7 +519,7 @@ func (x *DeleteFunctionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteFunctionRequest.ProtoReflect.Descriptor instead.
 func (*DeleteFunctionRequest) Descriptor() ([]byte, []int) {
-	return file_functions_functions_proto_rawDescGZIP(), []int{7}
+	return file_functions_functions_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DeleteFunctionRequest) GetFunctionId() string {
@@ -470,7 +538,7 @@ type DeleteFunctionResponse struct {
 
 func (x *DeleteFunctionResponse) Reset() {
 	*x = DeleteFunctionResponse{}
-	mi := &file_functions_functions_proto_msgTypes[8]
+	mi := &file_functions_functions_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -482,7 +550,7 @@ func (x *DeleteFunctionResponse) String() string {
 func (*DeleteFunctionResponse) ProtoMessage() {}
 
 func (x *DeleteFunctionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_functions_functions_proto_msgTypes[8]
+	mi := &file_functions_functions_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -495,7 +563,7 @@ func (x *DeleteFunctionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteFunctionResponse.ProtoReflect.Descriptor instead.
 func (*DeleteFunctionResponse) Descriptor() ([]byte, []int) {
-	return file_functions_functions_proto_rawDescGZIP(), []int{8}
+	return file_functions_functions_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteFunctionResponse) GetSuccess() bool {
@@ -541,17 +609,25 @@ const file_functions_functions_proto_rawDesc = "" +
 	"\x05error\x18\x02 \x01(\tR\x05error\x12\x1b\n" +
 	"\texit_code\x18\x03 \x01(\x05R\bexitCode\x12\x1f\n" +
 	"\vduration_ms\x18\x04 \x01(\x03R\n" +
-	"durationMs\"8\n" +
+	"durationMs\"\x81\x01\n" +
+	"\x15UpdateFunctionRequest\x12\x1f\n" +
+	"\vfunction_id\x18\x01 \x01(\tR\n" +
+	"functionId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
+	"\x04code\x18\x03 \x01(\tR\x04code\x12\x1f\n" +
+	"\vtimeout_sec\x18\x04 \x01(\x05R\n" +
+	"timeoutSec\"8\n" +
 	"\x15DeleteFunctionRequest\x12\x1f\n" +
 	"\vfunction_id\x18\x01 \x01(\tR\n" +
 	"functionId\"2\n" +
 	"\x16DeleteFunctionResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xab\x03\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xf8\x03\n" +
 	"\x10FunctionsService\x12K\n" +
 	"\x0eCreateFunction\x12 .functions.CreateFunctionRequest\x1a\x17.functions.FunctionInfo\x12R\n" +
 	"\rListFunctions\x12\x1f.functions.ListFunctionsRequest\x1a .functions.ListFunctionsResponse\x12E\n" +
 	"\vGetFunction\x12\x1d.functions.GetFunctionRequest\x1a\x17.functions.FunctionInfo\x12X\n" +
-	"\x0fExecuteFunction\x12!.functions.ExecuteFunctionRequest\x1a\".functions.ExecuteFunctionResponse\x12U\n" +
+	"\x0fExecuteFunction\x12!.functions.ExecuteFunctionRequest\x1a\".functions.ExecuteFunctionResponse\x12K\n" +
+	"\x0eUpdateFunction\x12 .functions.UpdateFunctionRequest\x1a\x17.functions.FunctionInfo\x12U\n" +
 	"\x0eDeleteFunction\x12 .functions.DeleteFunctionRequest\x1a!.functions.DeleteFunctionResponseB/Z-github.com/KinuGra/giraffe-2604/gen/functionsb\x06proto3"
 
 var (
@@ -566,7 +642,7 @@ func file_functions_functions_proto_rawDescGZIP() []byte {
 	return file_functions_functions_proto_rawDescData
 }
 
-var file_functions_functions_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_functions_functions_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_functions_functions_proto_goTypes = []any{
 	(*CreateFunctionRequest)(nil),   // 0: functions.CreateFunctionRequest
 	(*FunctionInfo)(nil),            // 1: functions.FunctionInfo
@@ -575,8 +651,9 @@ var file_functions_functions_proto_goTypes = []any{
 	(*GetFunctionRequest)(nil),      // 4: functions.GetFunctionRequest
 	(*ExecuteFunctionRequest)(nil),  // 5: functions.ExecuteFunctionRequest
 	(*ExecuteFunctionResponse)(nil), // 6: functions.ExecuteFunctionResponse
-	(*DeleteFunctionRequest)(nil),   // 7: functions.DeleteFunctionRequest
-	(*DeleteFunctionResponse)(nil),  // 8: functions.DeleteFunctionResponse
+	(*UpdateFunctionRequest)(nil),   // 7: functions.UpdateFunctionRequest
+	(*DeleteFunctionRequest)(nil),   // 8: functions.DeleteFunctionRequest
+	(*DeleteFunctionResponse)(nil),  // 9: functions.DeleteFunctionResponse
 }
 var file_functions_functions_proto_depIdxs = []int32{
 	1, // 0: functions.ListFunctionsResponse.functions:type_name -> functions.FunctionInfo
@@ -584,14 +661,16 @@ var file_functions_functions_proto_depIdxs = []int32{
 	2, // 2: functions.FunctionsService.ListFunctions:input_type -> functions.ListFunctionsRequest
 	4, // 3: functions.FunctionsService.GetFunction:input_type -> functions.GetFunctionRequest
 	5, // 4: functions.FunctionsService.ExecuteFunction:input_type -> functions.ExecuteFunctionRequest
-	7, // 5: functions.FunctionsService.DeleteFunction:input_type -> functions.DeleteFunctionRequest
-	1, // 6: functions.FunctionsService.CreateFunction:output_type -> functions.FunctionInfo
-	3, // 7: functions.FunctionsService.ListFunctions:output_type -> functions.ListFunctionsResponse
-	1, // 8: functions.FunctionsService.GetFunction:output_type -> functions.FunctionInfo
-	6, // 9: functions.FunctionsService.ExecuteFunction:output_type -> functions.ExecuteFunctionResponse
-	8, // 10: functions.FunctionsService.DeleteFunction:output_type -> functions.DeleteFunctionResponse
-	6, // [6:11] is the sub-list for method output_type
-	1, // [1:6] is the sub-list for method input_type
+	7, // 5: functions.FunctionsService.UpdateFunction:input_type -> functions.UpdateFunctionRequest
+	8, // 6: functions.FunctionsService.DeleteFunction:input_type -> functions.DeleteFunctionRequest
+	1, // 7: functions.FunctionsService.CreateFunction:output_type -> functions.FunctionInfo
+	3, // 8: functions.FunctionsService.ListFunctions:output_type -> functions.ListFunctionsResponse
+	1, // 9: functions.FunctionsService.GetFunction:output_type -> functions.FunctionInfo
+	6, // 10: functions.FunctionsService.ExecuteFunction:output_type -> functions.ExecuteFunctionResponse
+	1, // 11: functions.FunctionsService.UpdateFunction:output_type -> functions.FunctionInfo
+	9, // 12: functions.FunctionsService.DeleteFunction:output_type -> functions.DeleteFunctionResponse
+	7, // [7:13] is the sub-list for method output_type
+	1, // [1:7] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
 	1, // [1:1] is the sub-list for extension extendee
 	0, // [0:1] is the sub-list for field type_name
@@ -608,7 +687,7 @@ func file_functions_functions_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_functions_functions_proto_rawDesc), len(file_functions_functions_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
