@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+  labels:
+    app: database
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+        - name: database
+          image: 517027174598.dkr.ecr.ap-northeast-1.amazonaws.com/database:v1.0.0
+          ports:
+            - containerPort: 50056
+          env:
+            - name: DATABASE_URL
+              value: "postgres://dev:dev@postgres:5432/user_db?sslmode=disable"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          readinessProbe:
+            grpc:
+              port: 50056
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            grpc:
+              port: 50056
+            initialDelaySeconds: 10
+            periodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+  labels:
+    app: database
+spec:
+  selector:
+    app: database
+  ports:
+    - port: 50056
+      targetPort: 50056
+      protocol: TCP
