@@ -15,6 +15,7 @@ import type { ColumnDef, TableInfo } from "@/lib/database-api";
 import { databaseApi } from "@/lib/database-api";
 import { Plus, RefreshCw, Shield, Table2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 function formatRowCount(count: number): string {
   if (count >= 1000) {
@@ -113,42 +114,60 @@ export default function EditorPage() {
 
   const handleInsertRow = useCallback(
     async (values: Record<string, unknown>) => {
-      await databaseApi.insertRow(selectedTable, values, schema);
-      await fetchTableData(
-        selectedTable,
-        schema,
-        rowsPerPage,
-        page * rowsPerPage,
-      );
-      await fetchTables(schema);
+      try {
+        await databaseApi.insertRow(selectedTable, values, schema);
+        await fetchTableData(
+          selectedTable,
+          schema,
+          rowsPerPage,
+          page * rowsPerPage,
+        );
+        await fetchTables(schema);
+        toast.success("Row inserted");
+      } catch (e) {
+        toast.error("Failed to insert row");
+        throw e;
+      }
     },
     [selectedTable, schema, rowsPerPage, page, fetchTableData, fetchTables],
   );
 
   const handleUpdateRow = useCallback(
     async (pk: Record<string, unknown>, values: Record<string, unknown>) => {
-      await databaseApi.updateRow(selectedTable, pk, values, schema);
-      await fetchTableData(
-        selectedTable,
-        schema,
-        rowsPerPage,
-        page * rowsPerPage,
-      );
+      try {
+        await databaseApi.updateRow(selectedTable, pk, values, schema);
+        await fetchTableData(
+          selectedTable,
+          schema,
+          rowsPerPage,
+          page * rowsPerPage,
+        );
+        toast.success("Row updated");
+      } catch (e) {
+        toast.error("Failed to update row");
+        throw e;
+      }
     },
     [selectedTable, schema, rowsPerPage, page, fetchTableData],
   );
 
   const handleDeleteRow = useCallback(
     async (pk: Record<string, unknown>) => {
-      await databaseApi.deleteRow(selectedTable, pk, schema);
-      setSelectedRow(null);
-      await fetchTableData(
-        selectedTable,
-        schema,
-        rowsPerPage,
-        page * rowsPerPage,
-      );
-      await fetchTables(schema);
+      try {
+        await databaseApi.deleteRow(selectedTable, pk, schema);
+        setSelectedRow(null);
+        await fetchTableData(
+          selectedTable,
+          schema,
+          rowsPerPage,
+          page * rowsPerPage,
+        );
+        await fetchTables(schema);
+        toast.success("Row deleted");
+      } catch (e) {
+        toast.error("Failed to delete row");
+        throw e;
+      }
     },
     [selectedTable, schema, rowsPerPage, page, fetchTableData, fetchTables],
   );
@@ -157,14 +176,19 @@ export default function EditorPage() {
     async (name: string) => {
       if (!window.confirm(`Delete table "${name}"? This cannot be undone.`))
         return;
-      await databaseApi.deleteTable(name, schema);
-      const list = await fetchTables(schema);
-      if (list.length > 0) setSelectedTable(list[0].name);
-      else {
-        setSelectedTable("");
-        setColumns([]);
-        setRows([]);
-        setTotalRowCount(0);
+      try {
+        await databaseApi.deleteTable(name, schema);
+        const list = await fetchTables(schema);
+        if (list.length > 0) setSelectedTable(list[0].name);
+        else {
+          setSelectedTable("");
+          setColumns([]);
+          setRows([]);
+          setTotalRowCount(0);
+        }
+        toast.success(`Table "${name}" deleted`);
+      } catch (e) {
+        toast.error("Failed to delete table");
       }
     },
     [schema, fetchTables],

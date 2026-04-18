@@ -20,6 +20,7 @@ import {
 import { type SqlResponse, databaseApi } from "@/lib/database-api";
 import { Loader2, Play } from "lucide-react";
 import { useCallback, useState } from "react";
+import { toast } from "sonner";
 
 const sampleQuery = `SELECT
   table_name,
@@ -42,8 +43,10 @@ export function SqlTab() {
     try {
       const resp = await databaseApi.executeSQL(query);
       setResult(resp);
+      toast.success("Query executed");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Query failed");
+      toast.error(e instanceof Error ? e.message : "Query failed");
       setResult(null);
     } finally {
       setRunning(false);

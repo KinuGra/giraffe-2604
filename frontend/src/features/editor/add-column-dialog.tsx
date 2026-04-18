@@ -21,6 +21,7 @@ import { Switch } from "@/components/ui/switch";
 import { databaseApi } from "@/lib/database-api";
 import { Loader2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const PG_TYPES = [
   "text",
@@ -82,8 +83,10 @@ export function AddColumnDialog({
       });
       await onSave();
       onOpenChange(false);
+      toast.success("Column added");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to add column");
+      toast.error("Failed to add column");
     } finally {
       setSaving(false);
     }
