@@ -46,6 +46,10 @@ func (u *FunctionUsecase) List() ([]model.Function, error) {
 	return u.repo.FindAll()
 }
 
+func (u *FunctionUsecase) Update(id, name, code string, timeoutSec int) (*model.Function, error) {
+	return u.repo.Update(id, name, code, timeoutSec)
+}
+
 func (u *FunctionUsecase) Delete(id string) error {
 	return u.repo.Delete(id)
 }

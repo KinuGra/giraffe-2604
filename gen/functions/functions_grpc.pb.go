@@ -23,6 +23,7 @@ const (
 	FunctionsService_ListFunctions_FullMethodName   = "/functions.FunctionsService/ListFunctions"
 	FunctionsService_GetFunction_FullMethodName     = "/functions.FunctionsService/GetFunction"
 	FunctionsService_ExecuteFunction_FullMethodName = "/functions.FunctionsService/ExecuteFunction"
+	FunctionsService_UpdateFunction_FullMethodName  = "/functions.FunctionsService/UpdateFunction"
 	FunctionsService_DeleteFunction_FullMethodName  = "/functions.FunctionsService/DeleteFunction"
 )
 
@@ -34,6 +35,7 @@ type FunctionsServiceClient interface {
 	ListFunctions(ctx context.Context, in *ListFunctionsRequest, opts ...grpc.CallOption) (*ListFunctionsResponse, error)
 	GetFunction(ctx context.Context, in *GetFunctionRequest, opts ...grpc.CallOption) (*FunctionInfo, error)
 	ExecuteFunction(ctx context.Context, in *ExecuteFunctionRequest, opts ...grpc.CallOption) (*ExecuteFunctionResponse, error)
+	UpdateFunction(ctx context.Context, in *UpdateFunctionRequest, opts ...grpc.CallOption) (*FunctionInfo, error)
 	DeleteFunction(ctx context.Context, in *DeleteFunctionRequest, opts ...grpc.CallOption) (*DeleteFunctionResponse, error)
 }
 
@@ -85,6 +87,16 @@ func (c *functionsServiceClient) ExecuteFunction(ctx context.Context, in *Execut
 	return out, nil
 }
 
+func (c *functionsServiceClient) UpdateFunction(ctx context.Context, in *UpdateFunctionRequest, opts ...grpc.CallOption) (*FunctionInfo, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FunctionInfo)
+	err := c.cc.Invoke(ctx, FunctionsService_UpdateFunction_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *functionsServiceClient) DeleteFunction(ctx context.Context, in *DeleteFunctionRequest, opts ...grpc.CallOption) (*DeleteFunctionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteFunctionResponse)
@@ -103,6 +115,7 @@ type FunctionsServiceServer interface {
 	ListFunctions(context.Context, *ListFunctionsRequest) (*ListFunctionsResponse, error)
 	GetFunction(context.Context, *GetFunctionRequest) (*FunctionInfo, error)
 	ExecuteFunction(context.Context, *ExecuteFunctionRequest) (*ExecuteFunctionResponse, error)
+	UpdateFunction(context.Context, *UpdateFunctionRequest) (*FunctionInfo, error)
 	DeleteFunction(context.Context, *DeleteFunctionRequest) (*DeleteFunctionResponse, error)
 	mustEmbedUnimplementedFunctionsServiceServer()
 }
@@ -125,6 +138,9 @@ func (UnimplementedFunctionsServiceServer) GetFunction(context.Context, *GetFunc
 }
 func (UnimplementedFunctionsServiceServer) ExecuteFunction(context.Context, *ExecuteFunctionRequest) (*ExecuteFunctionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ExecuteFunction not implemented")
+}
+func (UnimplementedFunctionsServiceServer) UpdateFunction(context.Context, *UpdateFunctionRequest) (*FunctionInfo, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateFunction not implemented")
 }
 func (UnimplementedFunctionsServiceServer) DeleteFunction(context.Context, *DeleteFunctionRequest) (*DeleteFunctionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteFunction not implemented")
@@ -222,6 +238,24 @@ func _FunctionsService_ExecuteFunction_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FunctionsService_UpdateFunction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateFunctionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FunctionsServiceServer).UpdateFunction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FunctionsService_UpdateFunction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FunctionsServiceServer).UpdateFunction(ctx, req.(*UpdateFunctionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _FunctionsService_DeleteFunction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteFunctionRequest)
 	if err := dec(in); err != nil {
@@ -262,6 +296,10 @@ var FunctionsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ExecuteFunction",
 			Handler:    _FunctionsService_ExecuteFunction_Handler,
+		},
+		{
+			MethodName: "UpdateFunction",
+			Handler:    _FunctionsService_UpdateFunction_Handler,
 		},
 		{
 			MethodName: "DeleteFunction",
