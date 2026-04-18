@@ -26,3 +26,11 @@ proto:
 		--go_opt=paths=source_relative \
 		--go-grpc_opt=paths=source_relative \
 		proto/**/*.proto
+	protoc --go_out=./services/database --go-grpc_out=./services/database \
+		--go_opt=paths=source_relative \
+		--go-grpc_opt=paths=source_relative \
+		proto/database/database.proto
+	protoc --go_out=./services/gateway --go-grpc_out=./services/gateway \
+		--go_opt=paths=source_relative \
+		--go-grpc_opt=paths=source_relative \
+		proto/database/database.proto
