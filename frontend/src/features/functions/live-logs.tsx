@@ -1,18 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { Search, RefreshCw, Download } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { functionLogs } from "@/lib/mock-data";
+import { cn } from "@/lib/utils";
+import { Download, RefreshCw, Search } from "lucide-react";
+import { useState } from "react";
 
 const levelColors: Record<string, string> = {
   info: "text-blue-400",
@@ -30,12 +30,15 @@ interface LiveLogsProps {
 
 export function LiveLogs({ fnName }: LiveLogsProps) {
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState<"all" | "info" | "warn" | "error">("all");
+  const [filter, setFilter] = useState<"all" | "info" | "warn" | "error">(
+    "all",
+  );
   const [timeRange, setTimeRange] = useState("1h");
 
   const filtered = functionLogs.filter((log) => {
     if (filter !== "all" && log.level !== filter) return false;
-    if (query && !log.msg.toLowerCase().includes(query.toLowerCase())) return false;
+    if (query && !log.msg.toLowerCase().includes(query.toLowerCase()))
+      return false;
     return true;
   });
 
@@ -67,7 +70,9 @@ export function LiveLogs({ fnName }: LiveLogsProps) {
                   : "text-muted-foreground hover:text-foreground",
               )}
             >
-              {level === "all" ? "All" : level.charAt(0).toUpperCase() + level.slice(1)}
+              {level === "all"
+                ? "All"
+                : level.charAt(0).toUpperCase() + level.slice(1)}
             </button>
           ))}
         </div>
@@ -105,7 +110,7 @@ export function LiveLogs({ fnName }: LiveLogsProps) {
       <div className="flex-1 overflow-y-auto max-h-[480px]">
         {filtered.map((log, i) => (
           <div
-            key={i}
+            key={`log-${log.t}-${i}`}
             className={cn(
               "flex items-start gap-3 px-3 py-1.5 font-mono text-[11.5px] leading-[1.6] border-b border-border/50 hover:bg-muted/30",
               levelBg[log.level],

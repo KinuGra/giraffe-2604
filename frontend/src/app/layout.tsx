@@ -1,7 +1,11 @@
-import type { Metadata } from "next";
-import { IBM_Plex_Sans, JetBrains_Mono, IBM_Plex_Serif } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import type { Metadata } from "next";
+import {
+  IBM_Plex_Sans,
+  IBM_Plex_Serif,
+  JetBrains_Mono,
+} from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -46,9 +50,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider>
-            {children}
-          </TooltipProvider>
+          <TooltipProvider>{children}</TooltipProvider>
           <Toaster />
         </ThemeProvider>
       </body>

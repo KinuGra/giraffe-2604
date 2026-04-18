@@ -1,10 +1,7 @@
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
 import { project } from "@/lib/mock-data";
 
 export function DatabaseSettings() {

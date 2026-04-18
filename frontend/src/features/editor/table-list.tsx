@@ -1,8 +1,5 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Lock, Plus, Search, Table2 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -18,6 +15,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { schemas, tables } from "@/lib/mock-data";
+import { cn } from "@/lib/utils";
+import { Lock, Plus, Search, Table2 } from "lucide-react";
+import { useMemo, useState } from "react";
 
 function formatRowCount(count: number): string {
   if (count >= 1000) {
@@ -45,7 +45,12 @@ export function TableList({ selectedTable, onSelectTable }: TableListProps) {
     <div className="flex w-60 shrink-0 flex-col border-r bg-panel">
       {/* Schema selector */}
       <div className="p-2">
-        <Select value={schema} onValueChange={(v) => { if (v) setSchema(v); }}>
+        <Select
+          value={schema}
+          onValueChange={(v) => {
+            if (v) setSchema(v);
+          }}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Schema" />
           </SelectTrigger>

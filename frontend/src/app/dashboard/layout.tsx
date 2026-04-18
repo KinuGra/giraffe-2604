@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { CommandPalette } from "@/components/command-palette";
 import { Sidebar } from "@/components/sidebar";
 import { TopBar } from "@/components/topbar";
-import { CommandPalette } from "@/components/command-palette";
+import { useEffect, useState } from "react";
 
 export default function DashboardLayout({
   children,
@@ -28,9 +28,7 @@ export default function DashboardLayout({
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0">
         <TopBar onOpenPalette={() => setPaletteOpen(true)} />
-        <main className="flex-1 overflow-y-auto">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto">{children}</main>
       </div>
       <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
     </div>

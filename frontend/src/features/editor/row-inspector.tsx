@@ -1,10 +1,10 @@
 "use client";
 
-import { Key, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { profilesColumns, profilesRows } from "@/lib/mock-data";
+import { Key, X } from "lucide-react";
 
 interface RowInspectorProps {
   rowIndex: number;
@@ -36,16 +36,22 @@ export function RowInspector({ rowIndex, onClose }: RowInspectorProps) {
           const value = row[col.name];
           return (
             <div key={col.name} className="space-y-1">
-              <label className="flex items-center gap-1.5 text-xs">
+              <label
+                htmlFor={`field-${col.name}`}
+                className="flex items-center gap-1.5 text-xs"
+              >
                 <span className="font-mono text-foreground">{col.name}</span>
-                <span className="text-[10px] text-muted-foreground">{col.type}</span>
-                {col.isPrimaryKey && (
-                  <Key className="size-3 text-amber-400" />
-                )}
+                <span className="text-[10px] text-muted-foreground">
+                  {col.type}
+                </span>
+                {col.isPrimaryKey && <Key className="size-3 text-amber-400" />}
               </label>
               <Input
+                id={`field-${col.name}`}
                 readOnly
-                value={value === null || value === undefined ? "" : String(value)}
+                value={
+                  value === null || value === undefined ? "" : String(value)
+                }
                 placeholder={value === null ? "NULL" : ""}
                 className="h-7 text-xs font-mono read-only:bg-muted/40"
               />
@@ -57,7 +63,11 @@ export function RowInspector({ rowIndex, onClose }: RowInspectorProps) {
       {/* Footer */}
       <Separator />
       <div className="flex items-center justify-between px-4 py-3">
-        <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-destructive hover:text-destructive"
+        >
           Delete
         </Button>
         <div className="flex items-center gap-2">

@@ -1,18 +1,18 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Table2, SquareFunction, ArrowRight } from "lucide-react";
 import {
   CommandDialog,
-  CommandInput,
-  CommandList,
   CommandEmpty,
   CommandGroup,
+  CommandInput,
   CommandItem,
+  CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
+import { functions, tables } from "@/lib/mock-data";
 import { navItems } from "@/lib/navigation";
-import { tables, functions } from "@/lib/mock-data";
+import { ArrowRight, SquareFunction, Table2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface CommandPaletteProps {
   open: boolean;

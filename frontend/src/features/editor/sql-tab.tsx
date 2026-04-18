@@ -1,4 +1,4 @@
-import { Play } from "lucide-react";
+import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CodeBlock } from "@/components/code-block";
+import { Play } from "lucide-react";
 
 const sampleQuery = `SELECT
   p.id,
@@ -43,9 +43,7 @@ export function SqlTab() {
       </CardHeader>
       <CardContent className="space-y-3">
         <CodeBlock code={sampleQuery} />
-        <p className="text-xs font-mono text-brand-400">
-          2 rows &middot; 8ms
-        </p>
+        <p className="text-xs font-mono text-brand-400">2 rows &middot; 8ms</p>
       </CardContent>
     </Card>
   );

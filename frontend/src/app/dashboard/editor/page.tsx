@@ -1,6 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DataBrowser } from "@/features/editor/data-browser";
+import { DefinitionTab } from "@/features/editor/definition-tab";
+import { RowInspector } from "@/features/editor/row-inspector";
+import { SqlTab } from "@/features/editor/sql-tab";
+import { TableList } from "@/features/editor/table-list";
+import { tables } from "@/lib/mock-data";
+import { cn } from "@/lib/utils";
 import {
   Download,
   Filter,
@@ -9,22 +19,7 @@ import {
   Shield,
   Table2,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
-import { tables } from "@/lib/mock-data";
-import { TableList } from "@/features/editor/table-list";
-import { DataBrowser } from "@/features/editor/data-browser";
-import { DefinitionTab } from "@/features/editor/definition-tab";
-import { SqlTab } from "@/features/editor/sql-tab";
-import { RowInspector } from "@/features/editor/row-inspector";
+import { useState } from "react";
 
 function formatRowCount(count: number): string {
   if (count >= 1000) {

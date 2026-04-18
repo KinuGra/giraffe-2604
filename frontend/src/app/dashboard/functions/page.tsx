@@ -1,49 +1,39 @@
 "use client";
 
-import { useState } from "react";
-import {
-  SquareFunction,
-  Play,
-  History,
-  MoreHorizontal,
-  Lock,
-  Eye,
-  EyeOff,
-  Plus,
-  TrendingUp,
-  TrendingDown,
-  Activity,
-  AlertTriangle,
-  Timer,
-  GitBranch,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FunctionsList } from "@/features/functions/functions-list";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CodeViewer } from "@/features/functions/code-viewer";
-import { LiveLogs } from "@/features/functions/live-logs";
 import { FunctionSettings } from "@/features/functions/function-settings";
+import { FunctionsList } from "@/features/functions/functions-list";
+import { LiveLogs } from "@/features/functions/live-logs";
 import { functions } from "@/lib/mock-data";
+import { cn } from "@/lib/utils";
+import {
+  Activity,
+  AlertTriangle,
+  Eye,
+  EyeOff,
+  GitBranch,
+  History,
+  Lock,
+  MoreHorizontal,
+  Play,
+  Plus,
+  SquareFunction,
+  Timer,
+  TrendingDown,
+  TrendingUp,
+} from "lucide-react";
+import { useState } from "react";
 
 const statusVariant: Record<string, "default" | "destructive" | "secondary"> = {
   active: "default",
@@ -90,9 +80,7 @@ export default function FunctionsPage() {
                   <h1 className="text-lg font-heading font-semibold">
                     {fn.name}
                   </h1>
-                  <Badge variant={statusVariant[fn.status]}>
-                    {fn.status}
-                  </Badge>
+                  <Badge variant={statusVariant[fn.status]}>{fn.status}</Badge>
                 </div>
                 <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-0.5">
                   <span className="font-mono">{fn.runtime}</span>
@@ -142,7 +130,10 @@ export default function FunctionsPage() {
                 sub = "total";
               } else if (stat.key === "errors") {
                 value = String(fn.errors);
-                sub = fn.errors === 0 ? "none" : `${((fn.errors / fn.invocations) * 100).toFixed(2)}% rate`;
+                sub =
+                  fn.errors === 0
+                    ? "none"
+                    : `${((fn.errors / fn.invocations) * 100).toFixed(2)}% rate`;
               } else if (stat.key === "p95") {
                 value = fn.p95;
                 sub = "latency";
@@ -221,9 +212,7 @@ export default function FunctionsPage() {
               <div className="mt-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-sm">
-                      Invocations (24h)
-                    </CardTitle>
+                    <CardTitle className="text-sm">Invocations (24h)</CardTitle>
                   </CardHeader>
                   <CardContent>
                     {/* Simple bar chart */}
@@ -233,9 +222,10 @@ export default function FunctionsPage() {
                           Math.sin(i * 0.5 + 1) * 0.4 +
                           Math.cos(i * 0.3 + 2) * 0.3 +
                           0.5;
+                        const hour = String(i).padStart(2, "0");
                         return (
                           <div
-                            key={i}
+                            key={hour}
                             className="flex-1 bg-primary/20 hover:bg-primary/40 rounded-t transition-colors"
                             style={{
                               height: `${Math.max(8, height * 100)}%`,
@@ -276,7 +266,9 @@ function SecretRow({ name, value }: { name: string; value: string }) {
       <div className="min-w-0">
         <p className="text-[11px] font-mono font-medium truncate">{name}</p>
         <p className="text-[10px] font-mono text-muted-foreground truncate">
-          {visible ? value : "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"}
+          {visible
+            ? value
+            : "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"}
         </p>
       </div>
       <button

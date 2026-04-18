@@ -1,5 +1,5 @@
-import { FileText } from "lucide-react";
 import { functionCode } from "@/lib/mock-data";
+import { FileText } from "lucide-react";
 
 export function CodeViewer() {
   const lines = functionCode.split("\n");
@@ -24,7 +24,10 @@ export function CodeViewer() {
             <table className="border-collapse">
               <tbody>
                 {lines.map((line, i) => (
-                  <tr key={i} className="hover:bg-muted/30">
+                  <tr
+                    key={`${i}:${line.slice(0, 20)}`}
+                    className="hover:bg-muted/30"
+                  >
                     <td className="sticky left-0 select-none text-right pr-4 pl-3 text-muted-foreground/50 bg-panel-2 w-[1%] whitespace-nowrap">
                       {i + 1}
                     </td>
@@ -58,19 +61,22 @@ function CodeLine({ text }: { text: string }) {
   const literals = /\b(true|false|null|undefined)\b/g;
 
   // Simple approach: highlight strings first, then keywords in non-string segments
-  let remaining = text;
-  let result: React.ReactNode[] = [];
+  const remaining = text;
+  const result: React.ReactNode[] = [];
   let key = 0;
 
   // Split by strings
   const stringPattern = /('[^']*'|"[^"]*"|`[^`]*`)/g;
   let lastIndex = 0;
-  let match: RegExpExecArray | null;
+  let match: RegExpExecArray | null = stringPattern.exec(remaining);
 
-  while ((match = stringPattern.exec(remaining)) !== null) {
+  while (match !== null) {
     if (match.index > lastIndex) {
       result.push(
-        <HighlightKeywords key={key++} text={remaining.slice(lastIndex, match.index)} />,
+        <HighlightKeywords
+          key={key++}
+          text={remaining.slice(lastIndex, match.index)}
+        />,
       );
     }
     result.push(
@@ -79,6 +85,7 @@ function CodeLine({ text }: { text: string }) {
       </span>,
     );
     lastIndex = match.index + match[0].length;
+    match = stringPattern.exec(remaining);
   }
 
   if (lastIndex < remaining.length) {
@@ -107,13 +114,33 @@ function HighlightKeywords({ text }: { text: string }) {
   const combined =
     /\b(import|from|export|const|let|var|function|await|async|return|new|if|else|for|in|of|default|throw|try|catch|serve|type|interface|true|false|null|undefined)\b/g;
   const keywords = new Set([
-    "import", "from", "export", "const", "let", "var", "function", "await",
-    "async", "return", "new", "if", "else", "for", "in", "of", "default",
-    "throw", "try", "catch", "serve", "type", "interface",
+    "import",
+    "from",
+    "export",
+    "const",
+    "let",
+    "var",
+    "function",
+    "await",
+    "async",
+    "return",
+    "new",
+    "if",
+    "else",
+    "for",
+    "in",
+    "of",
+    "default",
+    "throw",
+    "try",
+    "catch",
+    "serve",
+    "type",
+    "interface",
   ]);
 
-  let match: RegExpExecArray | null;
-  while ((match = combined.exec(text)) !== null) {
+  let match: RegExpExecArray | null = combined.exec(text);
+  while (match !== null) {
     if (match.index > lastIndex) {
       parts.push(<span key={key++}>{text.slice(lastIndex, match.index)}</span>);
     }
@@ -127,6 +154,7 @@ function HighlightKeywords({ text }: { text: string }) {
       </span>,
     );
     lastIndex = match.index + match[0].length;
+    match = combined.exec(text);
   }
 
   if (lastIndex < text.length) {

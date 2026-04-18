@@ -1,11 +1,6 @@
 import { LogoMark } from "@/components/logo-mark";
 import { Badge } from "@/components/ui/badge";
-import {
-  Database,
-  SquareFunction,
-  Key,
-  HardDrive,
-} from "lucide-react";
+import { Database, HardDrive, Key, SquareFunction } from "lucide-react";
 
 const features = [
   {
@@ -59,7 +54,10 @@ export function MarketingPanel() {
         <span className="font-heading text-[18px] font-semibold tracking-tight text-white">
           giraffe
         </span>
-        <Badge variant="outline" className="ml-1 border-brand-500/30 text-brand-400 text-[10px]">
+        <Badge
+          variant="outline"
+          className="ml-1 border-brand-500/30 text-brand-400 text-[10px]"
+        >
           BaaS
         </Badge>
       </div>

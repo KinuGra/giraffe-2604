@@ -1,7 +1,7 @@
-import { Copy } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Copy } from "lucide-react";
 
 const methodBg: Record<string, string> = {
   GET: "bg-blue-500/15 text-blue-400 border-blue-500/20",
@@ -27,8 +27,14 @@ export function RestReference({ route }: RestReferenceProps) {
         >
           {route.method}
         </span>
-        <code className="text-[14px] font-mono text-foreground">{route.path}</code>
-        <Button variant="ghost" size="icon-xs" className="text-muted-foreground">
+        <code className="text-[14px] font-mono text-foreground">
+          {route.path}
+        </code>
+        <Button
+          variant="ghost"
+          size="icon-xs"
+          className="text-muted-foreground"
+        >
           <Copy className="size-3" />
         </Button>
       </div>

@@ -1,13 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { MoreHorizontal, UserPlus } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -16,6 +11,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { teamMembers } from "@/lib/mock-data";
+import { MoreHorizontal, UserPlus } from "lucide-react";
+import { useState } from "react";
 
 export function MembersSettings() {
   const [members] = useState(teamMembers);

@@ -1,18 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { CodeBlock } from "@/components/code-block";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EndpointList } from "@/features/api-docs/endpoint-list";
-import { RestReference } from "@/features/api-docs/rest-reference";
 import { ExampleRequest } from "@/features/api-docs/example-request";
 import { ParamsTable } from "@/features/api-docs/params-table";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
-import { CodeBlock } from "@/components/code-block";
+import { RestReference } from "@/features/api-docs/rest-reference";
 import { apiRoutes } from "@/lib/mock-data";
+import { useState } from "react";
 
 const sampleResponse = `{
   "data": [

@@ -1,7 +1,7 @@
-import { Pause, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Pause, Trash2 } from "lucide-react";
 
 export function DangerZone() {
   return (
@@ -28,7 +28,9 @@ export function DangerZone() {
           <Separator />
           <div className="flex items-center justify-between py-3">
             <div>
-              <p className="text-sm font-medium text-destructive">Delete project</p>
+              <p className="text-sm font-medium text-destructive">
+                Delete project
+              </p>
               <p className="text-xs text-muted-foreground">
                 プロジェクトと全データを完全に削除します。この操作は元に戻せません。
               </p>

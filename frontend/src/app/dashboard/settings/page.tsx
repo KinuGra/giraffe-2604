@@ -1,21 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Settings,
-  Key,
-  Database,
-  Users,
-  CreditCard,
-  AlertTriangle,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { GeneralSettings } from "@/features/settings/general-settings";
 import { ApiSettings } from "@/features/settings/api-settings";
-import { DatabaseSettings } from "@/features/settings/database-settings";
-import { MembersSettings } from "@/features/settings/members-settings";
 import { BillingSettings } from "@/features/settings/billing-settings";
 import { DangerZone } from "@/features/settings/danger-zone";
+import { DatabaseSettings } from "@/features/settings/database-settings";
+import { GeneralSettings } from "@/features/settings/general-settings";
+import { MembersSettings } from "@/features/settings/members-settings";
+import { cn } from "@/lib/utils";
+import {
+  AlertTriangle,
+  CreditCard,
+  Database,
+  Key,
+  Settings,
+  Users,
+} from "lucide-react";
+import { useState } from "react";
 
 const sections = [
   { id: "general", label: "General", icon: Settings },
@@ -37,13 +37,14 @@ export default function SettingsPage() {
       <nav className="w-[220px] border-r bg-card/50 py-3 px-2 space-y-0.5 shrink-0">
         {sections.map((section) => (
           <button
+            type="button"
             key={section.id}
             onClick={() => setActive(section.id)}
             className={cn(
               "flex items-center gap-2 w-full px-2 py-1.5 rounded-md text-sm transition-colors text-left",
               active === section.id
                 ? "bg-accent text-accent-foreground"
-                : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                : "text-muted-foreground hover:text-foreground hover:bg-accent/50",
             )}
           >
             <section.icon className="h-4 w-4" />

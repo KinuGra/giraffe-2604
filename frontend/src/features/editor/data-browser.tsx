@@ -1,16 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsUpDown,
-  Filter,
-  Key,
-  ListOrdered,
-  Search,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +12,17 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { profilesColumns, profilesRows } from "@/lib/mock-data";
+import { cn } from "@/lib/utils";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsUpDown,
+  Filter,
+  Key,
+  ListOrdered,
+  Search,
+} from "lucide-react";
+import { useMemo } from "react";
 
 interface DataBrowserProps {
   selectedRow: number | null;
@@ -38,7 +38,14 @@ function renderCellValue(value: unknown, colName: string) {
 
   if (typeof value === "boolean") {
     return (
-      <Badge variant={value ? "default" : "secondary"} className={cn(value ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/20" : "")}>
+      <Badge
+        variant={value ? "default" : "secondary"}
+        className={cn(
+          value
+            ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/20"
+            : "",
+        )}
+      >
         {String(value)}
       </Badge>
     );
@@ -60,7 +67,11 @@ function renderCellValue(value: unknown, colName: string) {
     );
   }
 
-  return <span className="truncate max-w-[220px] inline-block align-middle">{String(value)}</span>;
+  return (
+    <span className="truncate max-w-[220px] inline-block align-middle">
+      {String(value)}
+    </span>
+  );
 }
 
 export function DataBrowser({
@@ -73,8 +84,11 @@ export function DataBrowser({
     if (!filter) return profilesRows;
     const lower = filter.toLowerCase();
     return profilesRows.filter((row) =>
-      Object.values(row).some((v) =>
-        v !== null && v !== undefined && String(v).toLowerCase().includes(lower),
+      Object.values(row).some(
+        (v) =>
+          v !== null &&
+          v !== undefined &&
+          String(v).toLowerCase().includes(lower),
       ),
     );
   }, [filter]);
@@ -95,11 +109,19 @@ export function DataBrowser({
           />
         </div>
 
-        <Button variant="ghost" size="xs" className="gap-1 text-xs text-muted-foreground">
+        <Button
+          variant="ghost"
+          size="xs"
+          className="gap-1 text-xs text-muted-foreground"
+        >
           <Filter className="size-3" />
           where
         </Button>
-        <Button variant="ghost" size="xs" className="gap-1 text-xs text-muted-foreground">
+        <Button
+          variant="ghost"
+          size="xs"
+          className="gap-1 text-xs text-muted-foreground"
+        >
           <ListOrdered className="size-3" />
           order
         </Button>
@@ -155,14 +177,24 @@ export function DataBrowser({
                     {col.isPrimaryKey && (
                       <Key className="size-3 text-amber-400" />
                     )}
-                    <span className="font-mono text-foreground">{col.name}</span>
-                    <Badge variant="outline" className="ml-0.5 h-4 px-1 text-[10px] font-mono font-normal">
+                    <span className="font-mono text-foreground">
+                      {col.name}
+                    </span>
+                    <Badge
+                      variant="outline"
+                      className="ml-0.5 h-4 px-1 text-[10px] font-mono font-normal"
+                    >
                       {col.type}
                     </Badge>
                     {!col.nullable && (
-                      <span className="text-[10px] text-muted-foreground">NOT NULL</span>
+                      <span className="text-[10px] text-muted-foreground">
+                        NOT NULL
+                      </span>
                     )}
-                    <button type="button" className="ml-auto opacity-0 group-hover/th:opacity-100">
+                    <button
+                      type="button"
+                      className="ml-auto opacity-0 group-hover/th:opacity-100"
+                    >
                       <ChevronsUpDown className="size-3 text-muted-foreground" />
                     </button>
                   </div>
@@ -175,6 +207,10 @@ export function DataBrowser({
               <tr
                 key={String(row.id)}
                 onClick={() => onSelectRow(selectedRow === idx ? null : idx)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ")
+                    onSelectRow(selectedRow === idx ? null : idx);
+                }}
                 className={cn(
                   "cursor-pointer border-b border-border/50 transition-colors hover:bg-muted/40",
                   selectedRow === idx && "bg-primary/5",
@@ -202,7 +238,9 @@ export function DataBrowser({
 
       {/* Footer bar */}
       <div className="flex items-center gap-3 border-t bg-panel-2 px-3 py-1.5 text-[11px] text-muted-foreground">
-        <span>Query ran in <span className="text-brand-400">14ms</span></span>
+        <span>
+          Query ran in <span className="text-brand-400">14ms</span>
+        </span>
         <Separator orientation="vertical" className="h-3" />
         <span className="truncate font-mono text-[10px]">
           SELECT * FROM public.profiles ORDER BY created_at DESC LIMIT 25;

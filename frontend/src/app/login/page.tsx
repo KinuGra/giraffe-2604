@@ -1,5 +1,5 @@
-import { MarketingPanel } from "@/features/auth/marketing-panel";
 import { LoginForm } from "@/features/auth/login-form";
+import { MarketingPanel } from "@/features/auth/marketing-panel";
 
 export default function LoginPage() {
   return (

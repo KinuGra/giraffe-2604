@@ -1,12 +1,12 @@
 "use client";
 
-import { Search, Plus } from "lucide-react";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { functions } from "@/lib/mock-data";
+import { cn } from "@/lib/utils";
+import { Plus, Search } from "lucide-react";
+import { useState } from "react";
 
 const statusColor: Record<string, string> = {
   active: "bg-brand-400",

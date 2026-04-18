@@ -1,20 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import { Eye, EyeOff, Info, AlertTriangle } from "lucide-react";
+import { CopyButton } from "@/components/copy-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from "@/components/ui/card";
-import { CopyButton } from "@/components/copy-button";
+import { Textarea } from "@/components/ui/textarea";
 import { project } from "@/lib/mock-data";
+import { AlertTriangle, Eye, EyeOff, Info } from "lucide-react";
+import { useState } from "react";
 
 export function ApiSettings() {
   const [showServiceRole, setShowServiceRole] = useState(false);
@@ -23,7 +23,9 @@ export function ApiSettings() {
     <section className="space-y-4">
       <div>
         <h2 className="text-lg font-semibold">API</h2>
-        <p className="text-sm text-muted-foreground">Project URLとAPIキーの管理</p>
+        <p className="text-sm text-muted-foreground">
+          Project URLとAPIキーの管理
+        </p>
       </div>
 
       <Card>
@@ -63,16 +65,22 @@ export function ApiSettings() {
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium">service_role</span>
-              <Badge variant="outline" className="gap-1 text-xs text-yellow-500 border-yellow-500/30">
+              <Badge
+                variant="outline"
+                className="gap-1 text-xs text-yellow-500 border-yellow-500/30"
+              >
                 <AlertTriangle className="h-3 w-3" />
                 secret
               </Badge>
             </div>
             <div className="flex items-center gap-2">
               <code className="flex-1 rounded border bg-muted px-3 py-2 text-xs font-mono truncate">
-                {showServiceRole ? project.serviceRoleKey : "••••••••••••••••••••••••••••••••"}
+                {showServiceRole
+                  ? project.serviceRoleKey
+                  : "••••••••••••••••••••••••••••••••"}
               </code>
               <button
+                type="button"
                 onClick={() => setShowServiceRole(!showServiceRole)}
                 className="inline-flex items-center justify-center h-6 w-6 rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
               >

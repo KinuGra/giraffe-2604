@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { Search } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { apiRoutes } from "@/lib/mock-data";
+import { cn } from "@/lib/utils";
+import { Search } from "lucide-react";
+import { useState } from "react";
 
 const methodColor: Record<string, string> = {
   GET: "text-blue-400",

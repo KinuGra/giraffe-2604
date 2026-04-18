@@ -259,9 +259,24 @@ export const orgs = [
 ];
 
 export const projects = [
-  { id: "prj_kf82hs9", name: "acorn-prod", region: "Tokyo", status: "healthy" as const },
-  { id: "prj_a7b2ksd", name: "acorn-staging", region: "Tokyo", status: "healthy" as const },
-  { id: "prj_92mndsa", name: "kokoro-api", region: "Singapore", status: "paused" as const },
+  {
+    id: "prj_kf82hs9",
+    name: "acorn-prod",
+    region: "Tokyo",
+    status: "healthy" as const,
+  },
+  {
+    id: "prj_a7b2ksd",
+    name: "acorn-staging",
+    region: "Tokyo",
+    status: "healthy" as const,
+  },
+  {
+    id: "prj_92mndsa",
+    name: "kokoro-api",
+    region: "Singapore",
+    status: "paused" as const,
+  },
 ];
 
 // ---------------------------------------------------------------------------

@@ -1,35 +1,35 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  ChevronsUpDown,
-  Building,
-  Plus,
-  BookOpen,
-  HelpCircle,
-  ExternalLink,
-  MoreHorizontal,
-  Users,
-  Settings,
-  LogOut,
-  Lock,
-} from "lucide-react";
+import { LogoMark } from "@/components/logo-mark";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { LogoMark } from "@/components/logo-mark";
+import { orgs, project, projects } from "@/lib/mock-data";
+import { comingSoonItems, navItems } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
-import { navItems, comingSoonItems } from "@/lib/navigation";
-import { project, orgs, projects } from "@/lib/mock-data";
+import {
+  BookOpen,
+  Building,
+  ChevronsUpDown,
+  ExternalLink,
+  HelpCircle,
+  Lock,
+  LogOut,
+  MoreHorizontal,
+  Plus,
+  Settings,
+  Users,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function Sidebar({ onLogout }: { onLogout?: () => void }) {
   const pathname = usePathname();
@@ -44,7 +44,10 @@ export function Sidebar({ onLogout }: { onLogout?: () => void }) {
             <div className="flex-1 min-w-0 text-left">
               <div className="flex items-center gap-1 text-[12.5px] font-semibold truncate">
                 {project.name}
-                <Badge variant="outline" className="ml-1 h-[17px] text-[9.5px] px-1 font-mono">
+                <Badge
+                  variant="outline"
+                  className="ml-1 h-[17px] text-[9.5px] px-1 font-mono"
+                >
                   PRO
                 </Badge>
               </div>
@@ -72,11 +75,15 @@ export function Sidebar({ onLogout }: { onLogout?: () => void }) {
                 <span
                   className={cn(
                     "w-1.5 h-1.5 rounded-full shrink-0",
-                    p.status === "healthy" ? "bg-brand-400" : "bg-muted-foreground",
+                    p.status === "healthy"
+                      ? "bg-brand-400"
+                      : "bg-muted-foreground",
                   )}
                 />
                 <span className="flex-1 truncate">{p.name}</span>
-                <span className="text-[10px] text-muted-foreground">{p.region}</span>
+                <span className="text-[10px] text-muted-foreground">
+                  {p.region}
+                </span>
               </DropdownMenuItem>
             ))}
             <DropdownMenuSeparator />
@@ -91,7 +98,7 @@ export function Sidebar({ onLogout }: { onLogout?: () => void }) {
       <nav className="flex-1 overflow-y-auto px-2 py-2 space-y-0.5">
         {navItems.map((item) => {
           const active =
-            pathname === item.href || pathname.startsWith(item.href + "/");
+            pathname === item.href || pathname.startsWith(`${item.href}/`);
           return (
             <Link
               key={item.href}
@@ -132,19 +139,19 @@ export function Sidebar({ onLogout }: { onLogout?: () => void }) {
 
       {/* Footer */}
       <div className="border-t border-border p-2 space-y-1">
-        <a
-          href="#"
-          className="flex items-center gap-2 h-7 px-2 rounded-md text-[12px] text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+        <button
+          type="button"
+          className="flex items-center gap-2 h-7 px-2 rounded-md text-[12px] text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors w-full"
         >
           <BookOpen className="h-3.5 w-3.5" /> Docs
           <ExternalLink className="h-3 w-3 ml-auto opacity-60" />
-        </a>
-        <a
-          href="#"
-          className="flex items-center gap-2 h-7 px-2 rounded-md text-[12px] text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+        </button>
+        <button
+          type="button"
+          className="flex items-center gap-2 h-7 px-2 rounded-md text-[12px] text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors w-full"
         >
           <HelpCircle className="h-3.5 w-3.5" /> Support
-        </a>
+        </button>
         <div className="pt-1">
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-2 w-full h-9 px-1.5 rounded-md hover:bg-secondary transition-colors cursor-pointer">
@@ -154,7 +161,9 @@ export function Sidebar({ onLogout }: { onLogout?: () => void }) {
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0 text-left">
-                <div className="text-[12px] font-medium truncate">Ren Hattori</div>
+                <div className="text-[12px] font-medium truncate">
+                  Ren Hattori
+                </div>
                 <div className="text-[10.5px] text-muted-foreground truncate">
                   ren@acorn.dev
                 </div>

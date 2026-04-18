@@ -1,14 +1,14 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { Search, Sparkles, Bell, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { Bell, Rocket, Search, Sparkles } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 interface TopBarProps {
   onOpenPalette: () => void;
@@ -31,7 +31,7 @@ export function TopBar({ onOpenPalette }: TopBarProps) {
       {/* Breadcrumbs */}
       <div className="flex items-center gap-1.5 text-[12.5px] min-w-0">
         {crumbs.map((c, i) => (
-          <span key={`${c}-${i}`} className="flex items-center gap-1.5">
+          <span key={c} className="flex items-center gap-1.5">
             {i > 0 && (
               <span className="text-muted-foreground/40 text-[10px]">/</span>
             )}
@@ -52,11 +52,14 @@ export function TopBar({ onOpenPalette }: TopBarProps) {
       <div className="ml-auto flex items-center gap-2">
         {/* Search / CMD+K */}
         <button
+          type="button"
           onClick={onOpenPalette}
           className="flex items-center gap-2 h-7 w-[220px] pl-2.5 pr-1.5 rounded-md border border-border bg-card hover:bg-accent text-muted-foreground transition-colors"
         >
           <Search className="h-3.5 w-3.5" />
-          <span className="flex-1 text-left text-[12px]">Search or jump to…</span>
+          <span className="flex-1 text-left text-[12px]">
+            Search or jump to…
+          </span>
           <kbd className="inline-flex items-center justify-center h-[18px] min-w-[18px] px-1 rounded border border-border bg-panel-hi text-[10.5px] font-mono text-muted-foreground">
             ⌘
           </kbd>
