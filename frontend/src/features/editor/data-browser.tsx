@@ -10,16 +10,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import type { ColumnDef } from "@/lib/database-api";
 import { cn } from "@/lib/utils";
 import {
   ChevronLeft,
   ChevronRight,
   ChevronsUpDown,
-  Filter,
   Key,
-  ListOrdered,
   Search,
 } from "lucide-react";
 import { useMemo } from "react";
@@ -127,25 +124,6 @@ export function DataBrowser({
             className="h-7 w-52 pl-7 text-xs"
           />
         </div>
-
-        <Button
-          variant="ghost"
-          size="xs"
-          className="gap-1 text-xs text-muted-foreground"
-        >
-          <Filter className="size-3" />
-          where
-        </Button>
-        <Button
-          variant="ghost"
-          size="xs"
-          className="gap-1 text-xs text-muted-foreground"
-        >
-          <ListOrdered className="size-3" />
-          order
-        </Button>
-
-        <Separator orientation="vertical" className="mx-1 h-4" />
 
         <span className="text-xs text-muted-foreground">Rows per page</span>
         <Select

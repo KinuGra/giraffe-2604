@@ -21,7 +21,14 @@ export const functionsApi = {
     const res = await fetch(`${GATEWAY_URL}/functions`);
     if (!res.ok) throw new Error("Failed to fetch functions");
     const data = await res.json();
-    return data.functions ?? [];
+    return (data.functions ?? []).map((f: Record<string, unknown>) => ({
+      id: f.id as string,
+      name: f.name as string,
+      runtime: f.runtime as string,
+      code: f.code as string,
+      createdAt: (f.created_at ?? "") as string,
+      timeoutSec: (f.timeout_sec ?? 30) as number,
+    }));
   },
 
   create: async (
@@ -36,7 +43,15 @@ export const functionsApi = {
       body: JSON.stringify({ name, runtime, code, timeout_sec: timeoutSec }),
     });
     if (!res.ok) throw new Error("Failed to create function");
-    return res.json();
+    const data = await res.json();
+    return {
+      id: data.id,
+      name: data.name,
+      runtime: data.runtime,
+      code: data.code,
+      createdAt: data.created_at ?? "",
+      timeoutSec: data.timeout_sec ?? 30,
+    };
   },
 
   update: async (
@@ -53,7 +68,15 @@ export const functionsApi = {
       }),
     });
     if (!res.ok) throw new Error("Failed to update function");
-    return res.json();
+    const data = await res.json();
+    return {
+      id: data.id,
+      name: data.name,
+      runtime: data.runtime,
+      code: data.code,
+      createdAt: data.created_at ?? "",
+      timeoutSec: data.timeout_sec ?? 30,
+    };
   },
 
   execute: async (id: string, timeoutSec = 0): Promise<ExecuteResult> => {
@@ -63,7 +86,13 @@ export const functionsApi = {
       body: JSON.stringify({ timeout_sec: timeoutSec }),
     });
     if (!res.ok) throw new Error("Failed to execute function");
-    return res.json();
+    const data = await res.json();
+    return {
+      output: data.output ?? "",
+      error: data.error ?? "",
+      exitCode: data.exit_code ?? 0,
+      durationMs: data.duration_ms ?? 0,
+    };
   },
 
   delete: async (id: string): Promise<void> => {

@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/tooltip";
 import type { TableInfo } from "@/lib/database-api";
 import { cn } from "@/lib/utils";
-import { Lock, Plus, Search, Table2 } from "lucide-react";
+import { Lock, Plus, Search, Table2, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 
 const schemas = [
@@ -38,6 +38,8 @@ interface TableListProps {
   selectedTable: string;
   onSelectTable: (name: string) => void;
   onSchemaChange: (schema: string) => void;
+  onCreateTable: () => void;
+  onDeleteTable: (name: string) => void;
 }
 
 export function TableList({
@@ -45,6 +47,8 @@ export function TableList({
   selectedTable,
   onSelectTable,
   onSchemaChange,
+  onCreateTable,
+  onDeleteTable,
 }: TableListProps) {
   const [schema, setSchema] = useState("public");
   const [search, setSearch] = useState("");
@@ -100,7 +104,7 @@ export function TableList({
             type="button"
             onClick={() => onSelectTable(table.name)}
             className={cn(
-              "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors hover:bg-muted/60",
+              "group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors hover:bg-muted/60",
               selectedTable === table.name && "bg-primary/10 text-foreground",
             )}
           >
@@ -123,13 +127,34 @@ export function TableList({
             <span className="shrink-0 text-[10px] tabular-nums text-muted-foreground">
               {formatRowCount(table.rowCount)}
             </span>
+
+            <span
+              className="opacity-0 group-hover:opacity-100 transition-opacity"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDeleteTable(table.name);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.stopPropagation();
+                  onDeleteTable(table.name);
+                }
+              }}
+            >
+              <Trash2 className="size-3 text-muted-foreground hover:text-destructive" />
+            </span>
           </button>
         ))}
       </div>
 
       {/* New table button */}
       <div className="border-t p-2">
-        <Button variant="outline" size="sm" className="w-full gap-1.5">
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full gap-1.5"
+          onClick={onCreateTable}
+        >
           <Plus className="size-3.5" />
           New table
         </Button>

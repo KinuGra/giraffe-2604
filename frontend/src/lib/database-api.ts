@@ -126,6 +126,29 @@ export const databaseApi = {
     if (!res.ok) throw new Error("Failed to delete column");
   },
 
+  updateColumn: async (
+    table: string,
+    column: string,
+    schema: string,
+    updates: {
+      new_name?: string;
+      new_type?: string;
+      new_default?: string;
+      set_nullable?: boolean;
+      nullable?: boolean;
+    },
+  ): Promise<void> => {
+    const res = await fetch(
+      `${GATEWAY_URL}/database/v1/tables/${encodeURIComponent(table)}/columns/${encodeURIComponent(column)}?schema=${encodeURIComponent(schema)}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      },
+    );
+    if (!res.ok) throw new Error("Failed to update column");
+  },
+
   getRows: async (
     table: string,
     schema = "public",
