@@ -1,0 +1,2 @@
+aws_profile        = "your-profile-name"
+dev_ip_cidr_blocks = ["YOUR_IP/32"]
