@@ -30,7 +30,11 @@ import { CodeViewer } from "@/features/functions/code-viewer";
 import { FunctionSettings } from "@/features/functions/function-settings";
 import { FunctionsList } from "@/features/functions/functions-list";
 import { LiveLogs } from "@/features/functions/live-logs";
-import { type ExecuteResult, type FunctionInfo, functionsApi } from "@/lib/functions-api";
+import {
+  type ExecuteResult,
+  type FunctionInfo,
+  functionsApi,
+} from "@/lib/functions-api";
 import { cn } from "@/lib/utils";
 import {
   Activity,
@@ -59,15 +63,17 @@ export default function FunctionsPage() {
     try {
       const list = await functionsApi.list();
       setFunctions(list);
-      if (list.length > 0 && !selected) setSelected(list[0].id);
+      setSelected((prev) =>
+        prev === "" && list.length > 0 ? list[0].id : prev,
+      );
     } catch (e) {
       console.error(e);
     }
-  }, [selected]);
+  }, []);
 
   useEffect(() => {
     fetchList();
-  }, []);
+  }, [fetchList]);
 
   const fn = functions.find((f) => f.id === selected);
 
@@ -89,7 +95,9 @@ export default function FunctionsPage() {
   const handleSaveCode = async (code: string) => {
     if (!fn) return;
     const updated = await functionsApi.update(fn.id, { code });
-    setFunctions((prev) => prev.map((f) => (f.id === updated.id ? updated : f)));
+    setFunctions((prev) =>
+      prev.map((f) => (f.id === updated.id ? updated : f)),
+    );
   };
 
   const handleDelete = async () => {
@@ -333,17 +341,25 @@ export default function FunctionsPage() {
           <DialogTitle>New Function</DialogTitle>
           <div className="space-y-4 mt-2">
             <div className="space-y-1">
-              <label className="text-xs font-medium">Name</label>
+              <label htmlFor="fn-name" className="text-xs font-medium">
+                Name
+              </label>
               <Input
+                id="fn-name"
                 placeholder="my-function"
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-medium">Runtime</label>
-              <Select value={newRuntime} onValueChange={(v) => v && setNewRuntime(v)}>
-                <SelectTrigger>
+              <label htmlFor="fn-runtime" className="text-xs font-medium">
+                Runtime
+              </label>
+              <Select
+                value={newRuntime}
+                onValueChange={(v) => v && setNewRuntime(v)}
+              >
+                <SelectTrigger id="fn-runtime">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -353,8 +369,11 @@ export default function FunctionsPage() {
               </Select>
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-medium">Code</label>
+              <label htmlFor="fn-code" className="text-xs font-medium">
+                Code
+              </label>
               <Textarea
+                id="fn-code"
                 className="font-mono text-xs min-h-[160px]"
                 value={newCode}
                 onChange={(e) => setNewCode(e.target.value)}
