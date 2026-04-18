@@ -1,0 +1,17 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: biome
+      glob: "frontend/**/*.{ts,tsx,js,jsx,json}"
+      run: cd frontend && bun run lint
+
+    - name: gofmt
+      glob: "services/**/*.go"
+      run: |
+        unformatted=$(gofmt -l {staged_files})
+        if [ -n "$unformatted" ]; then
+          echo "Not formatted:"
+          echo "$unformatted"
+          gofmt -d {staged_files}
+          exit 1
+        fi

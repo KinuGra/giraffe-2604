@@ -12,6 +12,9 @@ on:
       - "frontend/**"
       - ".github/workflows/frontend-ci.yml"
 
+permissions:
+  contents: write
+
 jobs:
   frontend:
     runs-on: ubuntu-latest
@@ -20,6 +23,8 @@ jobs:
         working-directory: frontend
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - uses: oven-sh/setup-bun@v2
 
@@ -33,11 +38,17 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Biome lint and format check
-        run: bun run lint
+      - name: Biome lint and format fix
+        run: bun run lint:fix
 
       - name: TypeScript type check
         run: bunx tsc --noEmit
+
+      - name: Auto commit fixes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "style: auto-fix frontend formatting"
+          file_pattern: "frontend/**"
 
       - name: Build
         if: github.event_name == 'push'
