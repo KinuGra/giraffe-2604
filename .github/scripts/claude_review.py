@@ -79,8 +79,10 @@ def call_bedrock(diff: str) -> str:
     )
 
     result = json.loads(response["body"].read())
-    # Bedrock Messages API returns {"content": [{"type": "text", "text": "..."}]}
-    return result["content"][0]["text"]
+    content = result.get("content", [])
+    if not content or "text" not in content[0]:
+        raise RuntimeError(f"Unexpected Bedrock response: {result}")
+    return content[0]["text"]
 
 
 def post_review(review_text: str) -> None:
