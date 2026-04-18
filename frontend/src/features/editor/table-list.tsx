@@ -60,7 +60,7 @@ export function TableList({
   }, [tables, search]);
 
   return (
-    <div className="flex w-60 shrink-0 flex-col border-r bg-panel">
+    <div className="flex w-60 shrink-0 flex-col overflow-hidden border-r bg-panel">
       {/* Schema selector */}
       <div className="p-2">
         <Select
