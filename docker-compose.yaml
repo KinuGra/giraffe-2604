@@ -25,11 +25,15 @@ services:
     depends_on: [postgres]
   # --- Functions Service ---
   functions:
-    build: ./services/functions
+    build:
+      context: .
+      dockerfile: services/functions/Dockerfile
     ports:
       - "50055:50055"
     environment:
       DATABASE_URL: postgres://dev:dev@postgres:5432/functions_db?sslmode=disable
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       postgres:
         condition: service_healthy

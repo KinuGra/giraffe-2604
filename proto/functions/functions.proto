@@ -1,0 +1,57 @@
+syntax = "proto3";
+package functions;
+option go_package = "github.com/KinuGra/giraffe-2604/gen/functions";
+
+service FunctionsService {
+  rpc CreateFunction(CreateFunctionRequest) returns (FunctionInfo);
+  rpc ListFunctions(ListFunctionsRequest) returns (ListFunctionsResponse);
+  rpc GetFunction(GetFunctionRequest) returns (FunctionInfo);
+  rpc ExecuteFunction(ExecuteFunctionRequest) returns (ExecuteFunctionResponse);
+  rpc DeleteFunction(DeleteFunctionRequest) returns (DeleteFunctionResponse);
+}
+
+message CreateFunctionRequest {
+  string name = 1;
+  string runtime = 2;
+  string code = 3;
+  int32 timeout_sec = 4;
+}
+
+message FunctionInfo {
+  string id = 1;
+  string name = 2;
+  string runtime = 3;
+  string code = 4;
+  string created_at = 5;
+  int32 timeout_sec = 6;
+}
+
+message ListFunctionsRequest {}
+
+message ListFunctionsResponse {
+  repeated FunctionInfo functions = 1;
+}
+
+message GetFunctionRequest {
+  string function_id = 1;
+}
+
+message ExecuteFunctionRequest {
+  string function_id = 1;
+  int32 timeout_sec = 2;
+}
+
+message ExecuteFunctionResponse {
+  string output = 1;
+  string error = 2;
+  int32 exit_code = 3;
+  int64 duration_ms = 4;
+}
+
+message DeleteFunctionRequest {
+  string function_id = 1;
+}
+
+message DeleteFunctionResponse {
+  bool success = 1;
+}
