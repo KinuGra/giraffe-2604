@@ -16,12 +16,12 @@ spec:
     spec:
       containers:
         - name: database
-          image: 517027174598.dkr.ecr.ap-northeast-1.amazonaws.com/back-services
+          image: 517027174598.dkr.ecr.ap-northeast-1.amazonaws.com/database:latest
           ports:
             - containerPort: 50056
           env:
             - name: DATABASE_URL
-              value: "postgres://baas_admin:98b84eb5384fe82261427774fe27c8c268da47669bfd0615d1fc08029fccf06b@superbase-meta-db.cje4lvea2jve.us-east-1.rds.amazonaws.com:5432/baas_db?sslmode=require"
+              value: "postgres://baas_admin:98b84eb5384fe82261427774fe27c8c268da47669bfd0615d1fc08029fccf06b@giraffe-dev-baas-db.cp602cumav3u.ap-northeast-1.rds.amazonaws.com:5432/baas_db?sslmode=require"
           resources:
             requests:
               cpu: 100m
@@ -30,12 +30,12 @@ spec:
               cpu: 500m
               memory: 512Mi
           readinessProbe:
-            grpc:
+            tcpSocket:
               port: 50056
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
-            grpc:
+            tcpSocket:
               port: 50056
             initialDelaySeconds: 10
             periodSeconds: 30
