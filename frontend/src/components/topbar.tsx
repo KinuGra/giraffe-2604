@@ -1,5 +1,6 @@
 "use client";
 
+import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 
@@ -35,6 +36,9 @@ export function TopBar() {
             </span>
           </span>
         ))}
+      </div>
+      <div className="ml-auto">
+        <ThemeToggle />
       </div>
     </header>
   );
