@@ -14,6 +14,7 @@ import (
 	dbpb "github.com/KinuGra/giraffe-2604/gen/database"
 	pb "github.com/KinuGra/giraffe-2604/gen/functions"
 	"github.com/KinuGra/giraffe-2604/services/gateway/routes"
+	stpb "github.com/KinuGra/giraffe-2604/services/storage/pb"
 )
 
 func cors() gin.HandlerFunc {
@@ -143,6 +144,18 @@ func main() {
 			dbClient := dbpb.NewDatabaseServiceClient(dbConn)
 			routes.RegisterDatabaseRoutes(r, dbClient)
 			log.Printf("Database routes registered (connecting to %s)", dbAddr)
+		}
+	}
+
+	stAddr := os.Getenv("STORAGE_GRPC_ADDR")
+	if stAddr != "" {
+		stConn, err := grpc.NewClient(stAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+		if err != nil {
+			log.Printf("WARNING: Cannot connect to storage service: %v", err)
+		} else {
+			stClient := stpb.NewStorageServiceClient(stConn)
+			routes.RegisterStorageRoutes(r, stClient)
+			log.Printf("Storage routes registered (connecting to %s)", stAddr)
 		}
 	}
 
