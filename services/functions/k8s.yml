@@ -16,12 +16,13 @@ spec:
     spec:
       containers:
         - name: functions
-          image: 517027174598.dkr.ecr.ap-northeast-1.amazonaws.com/back-functions
+          image: 517027174598.dkr.ecr.ap-northeast-1.amazonaws.com/back-functions:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 50055
           env:
-            - name: DATABASE_URL
-              value: "postgres://dev:dev@postgres:5432/functions_db?sslmode=disable"
+          - name: DATABASE_URL
+            value: "postgres://baas_admin:98b84eb5384fe82261427774fe27c8c268da47669bfd0615d1fc08029fccf06b@giraffe-dev-baas-db.cp602cumav3u.ap-northeast-1.rds.amazonaws.com:5432/baas_db?sslmode=require"
           resources:
             requests:
               cpu: 100m
