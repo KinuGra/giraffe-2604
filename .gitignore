@@ -31,3 +31,5 @@ out/
 *.tfstate.*
 *.tfvars
 !*.tfvars.example
+
+services/storage/data

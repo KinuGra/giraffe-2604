@@ -4,6 +4,7 @@ go 1.25.4
 
 require (
 	github.com/KinuGra/giraffe-2604/gen v0.0.0-00010101000000-000000000000
+	github.com/KinuGra/giraffe-2604/services/storage v0.0.0-00010101000000-000000000000
 	github.com/gin-gonic/gin v1.12.0
 	google.golang.org/grpc v1.80.0
 )
@@ -42,3 +43,5 @@ require (
 )
 
 replace github.com/KinuGra/giraffe-2604/gen => ../../gen
+
+replace github.com/KinuGra/giraffe-2604/services/storage => ../../services/storage
