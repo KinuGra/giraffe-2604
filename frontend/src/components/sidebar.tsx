@@ -69,21 +69,27 @@ export function Sidebar({ onLogout }: { onLogout?: () => void }) {
           );
         })}
 
-        <div className="pt-4 pb-1.5 px-2 text-[10px] uppercase tracking-wider text-muted-foreground/70 font-semibold">
-          Coming soon
-        </div>
-        {comingSoonItems.map((item) => (
-          <div
-            key={item.label}
-            className="flex items-center gap-2.5 w-full h-8 px-2 rounded-md text-[12.5px] text-muted-foreground/60 cursor-not-allowed"
-          >
-            <item.icon className="h-3.5 w-3.5" />
-            <span className="flex-1 text-left">{item.label}</span>
-            <Badge variant="outline" className="h-4 text-[9px] font-mono">
-              soon
-            </Badge>
-          </div>
-        ))}
+        {comingSoonItems.length > 0 && (
+          <>
+            <div className="pt-4 pb-1.5 px-2 text-[10px]font-semibold">
+              Coming soon
+            </div>
+            {comingSoonItems.map((item) => (
+              <>
+                <div
+                  key={item.label}
+                  className="flex items-center gap-2.5 w-full h-8 px-2 rounded-md text-[12.5px] text-muted-foreground/60 cursor-not-allowed"
+                >
+                  <item.icon className="h-3.5 w-3.5" />
+                  <span className="flex-1 text-left">{item.label}</span>
+                  <Badge variant="outline" className="h-4 text-[9px] font-mono">
+                    soon
+                  </Badge>
+                </div>
+              </>
+            ))}
+          </>
+        )}
       </nav>
 
       {/* Footer */}

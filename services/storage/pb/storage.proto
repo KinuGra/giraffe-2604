@@ -10,6 +10,8 @@ service StorageService {
   rpc Delete(DeleteRequest) returns (DeleteResponse);
   rpc List(ListRequest) returns (ListResponse);
   rpc Stat(StatRequest) returns (StatResponse);
+  rpc CreateBucket(CreateBucketRequest) returns (CreateBucketResponse);
+  rpc ListBuckets(ListBucketsRequest) returns (ListBucketsResponse);
 }
 
 message UploadRequest {
@@ -72,4 +74,18 @@ message StatResponse {
   int64 size = 3;
   int64 last_modified = 4;
   string etag = 5;
+}
+
+message CreateBucketRequest {
+  string bucket = 1;
+}
+
+message CreateBucketResponse {
+  string bucket = 1;
+}
+
+message ListBucketsRequest {}
+
+message ListBucketsResponse {
+  repeated string buckets = 1;
 }
