@@ -33,7 +33,7 @@ const footerLinks = [
 
 export function MarketingPanel() {
   return (
-    <div className="relative flex h-full flex-col justify-between overflow-hidden bg-[oklch(0.13_0.015_155)] px-10 py-8">
+    <div className="relative flex h-full flex-col justify-between overflow-hidden bg-[oklch(0.13_0.015_75)] px-10 py-8">
       {/* Decorative grid background */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.04]"
