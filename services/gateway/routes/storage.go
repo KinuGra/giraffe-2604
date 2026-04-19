@@ -49,7 +49,7 @@ func uploadFile(client pb.StorageServiceClient) gin.HandlerFunc {
 
 		resp, err := client.Upload(c.Request.Context(), &pb.UploadRequest{
 			Bucket:  bucket,
-			Key:    key,
+			Key:     key,
 			Content: content,
 		})
 		if err != nil {
@@ -59,8 +59,8 @@ func uploadFile(client pb.StorageServiceClient) gin.HandlerFunc {
 
 		c.JSON(http.StatusOK, gin.H{
 			"bucket": resp.Bucket,
-			"key":   resp.Key,
-			"etag":  resp.Etag,
+			"key":    resp.Key,
+			"etag":   resp.Etag,
 		})
 	}
 }
@@ -72,7 +72,7 @@ func downloadFile(client pb.StorageServiceClient) gin.HandlerFunc {
 
 		resp, err := client.Download(c.Request.Context(), &pb.DownloadRequest{
 			Bucket: bucket,
-			Key:   key,
+			Key:    key,
 		})
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
@@ -97,7 +97,7 @@ func deleteObject(client pb.StorageServiceClient) gin.HandlerFunc {
 
 		_, err := client.Delete(c.Request.Context(), &pb.DeleteRequest{
 			Bucket: bucket,
-			Key:   key,
+			Key:    key,
 		})
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -139,7 +139,7 @@ func statObject(client pb.StorageServiceClient) gin.HandlerFunc {
 
 		resp, err := client.Stat(c.Request.Context(), &pb.StatRequest{
 			Bucket: bucket,
-			Key:   key,
+			Key:    key,
 		})
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
@@ -148,10 +148,10 @@ func statObject(client pb.StorageServiceClient) gin.HandlerFunc {
 
 		c.JSON(http.StatusOK, gin.H{
 			"bucket":       resp.Bucket,
-			"key":         resp.Key,
-			"size":        resp.Size,
+			"key":          resp.Key,
+			"size":         resp.Size,
 			"lastModified": resp.LastModified,
-			"etag":        resp.Etag,
+			"etag":         resp.Etag,
 		})
 	}
 }
