@@ -16,12 +16,12 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: 517027174598.dkr.ecr.ap-northeast-1.amazonaws.com/front:v1.0.2
+          image: 517027174598.dkr.ecr.ap-northeast-1.amazonaws.com/front:v2.0.0
           ports:
             - containerPort: 3000
           env:
             - name: NEXT_PUBLIC_GATEWAY_URL
-              value: "http://7736a53662944306a6179665e6c7ee6-1178642588.ap-northeast-1.elb.amazonaws.com"
+              value: "http://a7736a53662944306a6179665e6c7ee6-1178642588.ap-northeast-1.elb.amazonaws.com"
           resources:
             requests:
               cpu: 100m
