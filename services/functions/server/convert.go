@@ -13,6 +13,7 @@ func modelToProto(f *model.Function) *pb.FunctionInfo {
 		Code:       f.Code,
 		TimeoutSec: int32(f.TimeoutSec),
 		CreatedAt:  f.CreatedAt.Format("2006-01-02T15:04:05Z07:00"),
+		Status:     f.Status,
 	}
 }
 

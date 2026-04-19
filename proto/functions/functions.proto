@@ -27,6 +27,7 @@ message FunctionInfo {
   string code = 4;
   string created_at = 5;
   int32 timeout_sec = 6;
+  string status = 7;
 }
 
 message ListFunctionsRequest {}

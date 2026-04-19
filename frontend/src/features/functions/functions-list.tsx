@@ -70,11 +70,17 @@ export function FunctionsList({
               )}
             >
               <div className="flex items-center gap-2 min-w-0">
-                <span className="size-2 rounded-full shrink-0 bg-brand-400" />
+                {fn.status === "deactivated" ? (
+                  <span className="text-xs shrink-0 leading-none">💀</span>
+                ) : (
+                  <span className="size-2 rounded-full shrink-0 bg-brand-400" />
+                )}
                 <span
                   className={cn(
                     "text-sm font-semibold truncate",
                     isSelected && "text-primary",
+                    fn.status === "deactivated" &&
+                      "line-through text-muted-foreground",
                   )}
                 >
                   {fn.name}

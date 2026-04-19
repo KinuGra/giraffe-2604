@@ -7,6 +7,7 @@ export interface FunctionInfo {
   code: string;
   createdAt: string;
   timeoutSec: number;
+  status: "active" | "deactivated";
 }
 
 export interface ExecuteResult {
@@ -34,6 +35,7 @@ function mapFn(r: Record<string, unknown>): FunctionInfo {
     code: r.code as string,
     createdAt: (r.created_at ?? "") as string,
     timeoutSec: (r.timeout_sec ?? 30) as number,
+    status: (r.status as "active" | "deactivated") ?? "active",
   };
 }
 
@@ -78,6 +80,12 @@ export const functionsApi = {
       body: JSON.stringify({ name, runtime, code, timeout_sec: timeoutSec }),
     });
     if (!res.ok) throw new Error("Failed to create function");
+    return mapFn(await res.json());
+  },
+
+  get: async (id: string): Promise<FunctionInfo> => {
+    const res = await fetch(`${GATEWAY_URL}/functions/${id}`);
+    if (!res.ok) throw new Error("Failed to fetch function");
     return mapFn(await res.json());
   },
 

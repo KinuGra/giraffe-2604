@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"errors"
 
 	pb "github.com/KinuGra/giraffe-2604/gen/functions"
 	"github.com/KinuGra/giraffe-2604/services/functions/usecase"
@@ -61,6 +62,9 @@ func (s *FunctionsServer) ExecuteFunction(ctx context.Context, req *pb.ExecuteFu
 		Stdin:      req.Stdin,
 	})
 	if err != nil {
+		if errors.Is(err, usecase.ErrDeactivated) {
+			return nil, status.Errorf(codes.FailedPrecondition, "DEACTIVATED")
+		}
 		return nil, status.Errorf(codes.Internal, "execute failed: %v", err)
 	}
 	return &pb.ExecuteFunctionResponse{
