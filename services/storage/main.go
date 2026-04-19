@@ -10,11 +10,32 @@ import (
 	"net"
 	"os"
 	"path/filepath"
+	"strings"
 
 	pb "github.com/KinuGra/giraffe-2604/services/storage/pb"
 
 	"google.golang.org/grpc"
 )
+
+func (s *server) validatePath(bucket, key string) (string, error) {
+	bucketPath := filepath.Join(s.dataDir, bucket)
+	filePath := filepath.Join(bucketPath, key)
+
+	absPath, err := filepath.Abs(filePath)
+	if err != nil {
+		return "", fmt.Errorf("invalid path")
+	}
+	absDataDir, err := filepath.Abs(s.dataDir)
+	if err != nil {
+		return "", fmt.Errorf("invalid path")
+	}
+	absDataDir = absDataDir + string(filepath.Separator)
+
+	if !strings.HasPrefix(absPath, absDataDir) {
+		return "", fmt.Errorf("invalid path")
+	}
+	return filePath, nil
+}
 
 func main() {
 	port := os.Getenv("GRPC_PORT")
@@ -46,8 +67,12 @@ func newServer() *server {
 	if dataDir == "" {
 		dataDir = "./data"
 	}
-	os.MkdirAll(dataDir, 0755)
-	return &server{dataDir: dataDir}
+	absDataDir, _ := filepath.Abs(dataDir)
+	if err := os.MkdirAll(absDataDir, 0755); err != nil {
+		log.Printf("WARNING: failed to create data dir: %v", err)
+	}
+	absDataDir, _ = filepath.Abs(dataDir)
+	return &server{dataDir: absDataDir}
 }
 
 func (s *server) Upload(ctx context.Context, req *pb.UploadRequest) (*pb.UploadResponse, error) {
@@ -58,12 +83,15 @@ func (s *server) Upload(ctx context.Context, req *pb.UploadRequest) (*pb.UploadR
 		return nil, fmt.Errorf("bucket and key are required")
 	}
 
-	bucketPath := filepath.Join(s.dataDir, bucket)
-	os.MkdirAll(bucketPath, 0755)
+	filePath, err := s.validatePath(bucket, key)
+	if err != nil {
+		return nil, err
+	}
 
-	filePath := filepath.Join(bucketPath, key)
 	fileDir := filepath.Dir(filePath)
-	os.MkdirAll(fileDir, 0755)
+	if err := os.MkdirAll(fileDir, 0755); err != nil {
+		return nil, fmt.Errorf("failed to create directory: %w", err)
+	}
 
 	file, err := os.Create(filePath)
 	if err != nil {
@@ -90,7 +118,11 @@ func (s *server) Download(ctx context.Context, req *pb.DownloadRequest) (*pb.Dow
 	bucket := req.Bucket
 	key := req.Key
 
-	filePath := filepath.Join(s.dataDir, bucket, key)
+	filePath, err := s.validatePath(bucket, key)
+	if err != nil {
+		return nil, err
+	}
+
 	data, err := os.ReadFile(filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -121,8 +153,12 @@ func (s *server) Delete(ctx context.Context, req *pb.DeleteRequest) (*pb.DeleteR
 	bucket := req.Bucket
 	key := req.Key
 
-	filePath := filepath.Join(s.dataDir, bucket, key)
-	err := os.Remove(filePath)
+	filePath, err := s.validatePath(bucket, key)
+	if err != nil {
+		return nil, err
+	}
+
+	err = os.Remove(filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return nil, fmt.Errorf("not found")
@@ -136,8 +172,7 @@ func (s *server) Delete(ctx context.Context, req *pb.DeleteRequest) (*pb.DeleteR
 func (s *server) List(ctx context.Context, req *pb.ListRequest) (*pb.ListResponse, error) {
 	bucket := req.Bucket
 
-	bucketPath := filepath.Join(s.dataDir, bucket)
-	entries, err := os.ReadDir(bucketPath)
+	bucketPath, err := s.validatePath(bucket, "")
 	if err != nil {
 		if os.IsNotExist(err) {
 			return &pb.ListResponse{Objects: nil}, nil
@@ -146,16 +181,33 @@ func (s *server) List(ctx context.Context, req *pb.ListRequest) (*pb.ListRespons
 	}
 
 	var objects []*pb.ObjectSummary
-	for _, entry := range entries {
-		if entry.IsDir() {
-			continue
+	err = filepath.WalkDir(bucketPath, func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
 		}
-		info, _ := entry.Info()
+		if d.IsDir() {
+			return nil
+		}
+		relPath, err := filepath.Rel(bucketPath, path)
+		if err != nil {
+			return nil
+		}
+		info, err := d.Info()
+		if err != nil {
+			return nil
+		}
 		objects = append(objects, &pb.ObjectSummary{
-			Key:          info.Name(),
+			Key:          relPath,
 			Size:         info.Size(),
 			LastModified: info.ModTime().Unix(),
 		})
+		return nil
+	})
+	if err != nil {
+		if os.IsNotExist(err) {
+			return &pb.ListResponse{Objects: nil}, nil
+		}
+		return nil, err
 	}
 
 	return &pb.ListResponse{Objects: objects}, nil
@@ -165,7 +217,11 @@ func (s *server) Stat(ctx context.Context, req *pb.StatRequest) (*pb.StatRespons
 	bucket := req.Bucket
 	key := req.Key
 
-	filePath := filepath.Join(s.dataDir, bucket, key)
+	filePath, err := s.validatePath(bucket, key)
+	if err != nil {
+		return nil, err
+	}
+
 	info, err := os.Stat(filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -174,13 +230,18 @@ func (s *server) Stat(ctx context.Context, req *pb.StatRequest) (*pb.StatRespons
 		return nil, err
 	}
 
-	hash := md5.Sum(nil)
-	file, _ := os.Open(filePath)
-	if file != nil {
-		data, _ := io.ReadAll(file)
-		hash = md5.Sum(data)
-		file.Close()
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open file")
 	}
+	defer file.Close()
+
+	data, err := io.ReadAll(file)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read file")
+	}
+
+	hash := md5.Sum(data)
 	etag := hex.EncodeToString(hash[:])
 
 	return &pb.StatResponse{

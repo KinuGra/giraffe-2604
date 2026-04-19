@@ -3,6 +3,7 @@ package routes
 import (
 	"io"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 
@@ -20,6 +21,8 @@ func RegisterStorageRoutes(r *gin.Engine, client pb.StorageServiceClient) {
 	}
 }
 
+const maxUploadSize = 10 << 20 // 10MB
+
 func uploadFile(client pb.StorageServiceClient) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		bucket := c.PostForm("bucket")
@@ -32,11 +35,17 @@ func uploadFile(client pb.StorageServiceClient) gin.HandlerFunc {
 		}
 		defer file.Close()
 
-		content, err := io.ReadAll(file)
-		if err != nil {
+		content := make([]byte, maxUploadSize)
+		n, err := io.ReadFull(file, content)
+		if err == nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "file too large (max 10MB)"})
+			return
+		}
+		if err != io.EOF && err != io.ErrUnexpectedEOF {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "cannot read file"})
 			return
 		}
+		content = content[:n]
 
 		resp, err := client.Upload(c.Request.Context(), &pb.UploadRequest{
 			Bucket:  bucket,
@@ -73,9 +82,9 @@ func downloadFile(client pb.StorageServiceClient) gin.HandlerFunc {
 		c.Header("Content-Type", "application/octet-stream")
 		c.Header("X-Bucket", resp.Bucket)
 		c.Header("X-Key", resp.Key)
-		c.Header("X-Size", string(rune(resp.Size)))
+		c.Header("X-Size", strconv.FormatInt(resp.Size, 10))
 		c.Header("X-Etag", resp.Etag)
-		c.Header("X-Last-Modified", string(rune(resp.LastModified)))
+		c.Header("X-Last-Modified", strconv.FormatInt(resp.LastModified, 10))
 
 		c.Data(http.StatusOK, "application/octet-stream", resp.Content)
 	}
