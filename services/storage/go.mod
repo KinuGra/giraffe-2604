@@ -1,4 +1,4 @@
-module storage
+module github.com/KinuGra/giraffe-2604/services/storage
 
 go 1.25.3
 

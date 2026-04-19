@@ -148,6 +148,11 @@ func main() {
 	}
 
 	stAddr := os.Getenv("STORAGE_GRPC_ADDR")
+
+	if stAddr == "" {
+		stAddr = "localhost:50054"
+	}
+
 	if stAddr != "" {
 		stConn, err := grpc.NewClient(stAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {

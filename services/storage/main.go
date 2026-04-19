@@ -11,7 +11,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"storage/pb"
+	pb "github.com/KinuGra/giraffe-2604/services/storage/pb"
 
 	"google.golang.org/grpc"
 )
