@@ -32,8 +32,8 @@ function mapFn(r: Record<string, unknown>): FunctionInfo {
     name: r.name as string,
     runtime: r.runtime as string,
     code: r.code as string,
-    createdAt: r.created_at as string,
-    timeoutSec: r.timeout_sec as number,
+    createdAt: (r.created_at ?? "") as string,
+    timeoutSec: (r.timeout_sec ?? 30) as number,
   };
 }
 

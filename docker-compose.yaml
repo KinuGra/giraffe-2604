@@ -15,6 +15,18 @@ services:
       interval: 2s
       timeout: 5s
       retries: 10
+  # --- Database Service ---
+  database:
+    build:
+      context: .
+      dockerfile: services/database/Dockerfile
+    ports:
+      - "50056:50056"
+    environment:
+      DATABASE_URL: postgres://dev:dev@postgres:5432/user_db?sslmode=disable&default_query_exec_mode=simple_protocol
+    depends_on:
+      postgres:
+        condition: service_healthy
   # --- API Gateway（gin）---
   gateway:
     build:
@@ -24,7 +36,8 @@ services:
       - "8080:8080"
     environment:
       FUNCTIONS_GRPC_ADDR: functions:50055
-    depends_on: [postgres]
+      DATABASE_GRPC_ADDR: database:50056
+    depends_on: [postgres, database]
   # --- Functions Service ---
   functions:
     build:

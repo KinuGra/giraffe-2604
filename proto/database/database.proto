@@ -1,0 +1,169 @@
+syntax = "proto3";
+
+package database;
+
+option go_package = "github.com/KinuGra/giraffe-2604/gen/database";
+
+message TableInfo {
+  string name = 1;
+  string schema = 2;
+  bool rls = 3;
+  int64 row_count = 4;
+}
+
+message ColumnDef {
+  string name = 1;
+  string type = 2;
+  string default_value = 3;
+  bool nullable = 4;
+  bool is_primary_key = 5;
+  bool is_unique = 6;
+}
+
+// --- Table RPCs ---
+
+message ListTablesRequest {
+  string schema = 1;
+}
+
+message ListTablesResponse {
+  repeated TableInfo tables = 1;
+}
+
+message CreateTableRequest {
+  string schema = 1;
+  string name = 2;
+  repeated ColumnDef columns = 3;
+}
+
+message CreateTableResponse {
+  TableInfo table = 1;
+}
+
+message DeleteTableRequest {
+  string schema = 1;
+  string name = 2;
+}
+
+message DeleteTableResponse {}
+
+// --- Column RPCs ---
+
+message ListColumnsRequest {
+  string schema = 1;
+  string table = 2;
+}
+
+message ListColumnsResponse {
+  repeated ColumnDef columns = 1;
+}
+
+message AddColumnRequest {
+  string schema = 1;
+  string table = 2;
+  ColumnDef column = 3;
+}
+
+message AddColumnResponse {
+  ColumnDef column = 1;
+}
+
+message UpdateColumnRequest {
+  string schema = 1;
+  string table = 2;
+  string column_name = 3;
+  string new_name = 4;
+  string new_type = 5;
+  string new_default = 6;
+  bool set_nullable = 7;
+  bool nullable = 8;
+}
+
+message UpdateColumnResponse {
+  ColumnDef column = 1;
+}
+
+message DeleteColumnRequest {
+  string schema = 1;
+  string table = 2;
+  string column_name = 3;
+}
+
+message DeleteColumnResponse {}
+
+// --- Row RPCs ---
+
+message GetRowsRequest {
+  string schema = 1;
+  string table = 2;
+  int32 limit = 3;
+  int32 offset = 4;
+  string order_by = 5;
+}
+
+message GetRowsResponse {
+  repeated bytes rows = 1;
+  int64 total_count = 2;
+}
+
+// --- Row Mutations ---
+
+message InsertRowRequest {
+  string schema = 1;
+  string table = 2;
+  bytes values = 3;
+}
+
+message InsertRowResponse {
+  bytes row = 1;
+}
+
+message UpdateRowRequest {
+  string schema = 1;
+  string table = 2;
+  bytes pk = 3;
+  bytes values = 4;
+}
+
+message UpdateRowResponse {
+  bytes row = 1;
+}
+
+message DeleteRowRequest {
+  string schema = 1;
+  string table = 2;
+  bytes pk = 3;
+}
+
+message DeleteRowResponse {
+  int64 affected_rows = 1;
+}
+
+// --- SQL ---
+
+message ExecuteSQLRequest {
+  string query = 1;
+}
+
+message ExecuteSQLResponse {
+  repeated bytes rows = 1;
+  int64 affected_rows = 2;
+  double execution_time_ms = 3;
+}
+
+// --- Service ---
+
+service DatabaseService {
+  rpc ListTables(ListTablesRequest) returns (ListTablesResponse);
+  rpc CreateTable(CreateTableRequest) returns (CreateTableResponse);
+  rpc DeleteTable(DeleteTableRequest) returns (DeleteTableResponse);
+  rpc ListColumns(ListColumnsRequest) returns (ListColumnsResponse);
+  rpc AddColumn(AddColumnRequest) returns (AddColumnResponse);
+  rpc UpdateColumn(UpdateColumnRequest) returns (UpdateColumnResponse);
+  rpc DeleteColumn(DeleteColumnRequest) returns (DeleteColumnResponse);
+  rpc GetRows(GetRowsRequest) returns (GetRowsResponse);
+  rpc InsertRow(InsertRowRequest) returns (InsertRowResponse);
+  rpc UpdateRow(UpdateRowRequest) returns (UpdateRowResponse);
+  rpc DeleteRow(DeleteRowRequest) returns (DeleteRowResponse);
+  rpc ExecuteSQL(ExecuteSQLRequest) returns (ExecuteSQLResponse);
+}

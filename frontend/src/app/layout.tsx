@@ -40,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      className={`${ibmPlexSans.variable} ${jetbrainsMono.variable} ${ibmPlexSerif.variable} dark h-full`}
+      className={`${ibmPlexSans.variable} ${jetbrainsMono.variable} ${ibmPlexSerif.variable} h-full`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
