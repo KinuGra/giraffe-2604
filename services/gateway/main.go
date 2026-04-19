@@ -14,8 +14,8 @@ import (
 
 	dbpb "github.com/KinuGra/giraffe-2604/gen/database"
 	pb "github.com/KinuGra/giraffe-2604/gen/functions"
-	storagepb "github.com/KinuGra/giraffe-2604/services/storage/pb"
 	"github.com/KinuGra/giraffe-2604/services/gateway/routes"
+	storagepb "github.com/KinuGra/giraffe-2604/services/storage/pb"
 )
 
 func cors() gin.HandlerFunc {
