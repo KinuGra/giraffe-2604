@@ -27,6 +27,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { CodeViewer } from "@/features/functions/code-viewer";
+import { ExtinctionOverlay } from "@/features/functions/extinction-overlay";
 import { FunctionSettings } from "@/features/functions/function-settings";
 import { FunctionsList } from "@/features/functions/functions-list";
 import { LiveLogs } from "@/features/functions/live-logs";
@@ -46,7 +47,7 @@ import {
   SquareFunction,
   Timer,
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function FunctionsPage() {
   const [functions, setFunctions] = useState<FunctionInfo[]>([]);
@@ -60,10 +61,18 @@ export default function FunctionsPage() {
   const [newRuntime, setNewRuntime] = useState("python3.12");
   const [newCode, setNewCode] = useState('print("hello world")');
   const [creating, setCreating] = useState(false);
+  const [extinction, setExtinction] = useState<string | null>(null);
+  const extinctionShownRef = useRef<Set<string>>(new Set());
 
   const fetchList = useCallback(async () => {
     try {
       const list = await functionsApi.list();
+      // 既に絶滅済みの関数はアニメーション対象外にする
+      for (const f of list) {
+        if (f.status === "deactivated") {
+          extinctionShownRef.current.add(f.id);
+        }
+      }
       setFunctions(list);
       setSelected((prev) =>
         prev === "" && list.length > 0 ? list[0].id : prev,
@@ -78,6 +87,29 @@ export default function FunctionsPage() {
   }, [fetchList]);
 
   const fn = functions.find((f) => f.id === selected);
+
+  // アクティブな関数を2秒ごとにポーリングし、絶滅を自動検知する
+  useEffect(() => {
+    if (!selected) return;
+    const timer = setInterval(async () => {
+      try {
+        const updated = await functionsApi.get(selected);
+        if (
+          updated.status === "deactivated" &&
+          !extinctionShownRef.current.has(selected)
+        ) {
+          extinctionShownRef.current.add(selected);
+          setExtinction(updated.name);
+          setFunctions((prev) =>
+            prev.map((f) => (f.id === selected ? updated : f)),
+          );
+        }
+      } catch {
+        // ignore
+      }
+    }, 2000);
+    return () => clearInterval(timer);
+  }, [selected]);
 
   const fetchHistory = useCallback(async (id: string) => {
     try {
@@ -144,6 +176,12 @@ export default function FunctionsPage() {
 
   return (
     <div className="flex h-full">
+      {extinction && (
+        <ExtinctionOverlay
+          functionName={extinction}
+          onDismiss={() => setExtinction(null)}
+        />
+      )}
       <FunctionsList
         functions={functions}
         selected={selected}
@@ -175,7 +213,11 @@ export default function FunctionsPage() {
                     <h1 className="text-lg font-heading font-semibold">
                       {fn.name}
                     </h1>
-                    <Badge variant="default">active</Badge>
+                    {fn.status === "deactivated" ? (
+                      <Badge variant="destructive">💀 絶滅</Badge>
+                    ) : (
+                      <Badge variant="default">active</Badge>
+                    )}
                   </div>
                   <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-0.5">
                     <span className="font-mono">{fn.runtime}</span>
@@ -192,10 +234,17 @@ export default function FunctionsPage() {
                   size="sm"
                   className="gap-1.5"
                   onClick={handleInvoke}
-                  disabled={executing}
+                  disabled={executing || fn.status === "deactivated"}
+                  variant={
+                    fn.status === "deactivated" ? "destructive" : "default"
+                  }
                 >
                   <Play className="size-3" />
-                  {executing ? "Running…" : "Invoke"}
+                  {fn.status === "deactivated"
+                    ? "💀 絶滅済"
+                    : executing
+                      ? "Running…"
+                      : "Invoke"}
                 </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger

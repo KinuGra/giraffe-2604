@@ -2,12 +2,18 @@ package model
 
 import "time"
 
+const (
+	StatusActive      = "active"
+	StatusDeactivated = "deactivated"
+)
+
 type Function struct {
 	ID         string `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	Name       string `gorm:"not null"`
 	Runtime    string `gorm:"not null"`
 	Code       string `gorm:"type:text;not null"`
 	TimeoutSec int    `gorm:"default:30;not null"`
+	Status     string `gorm:"default:'active';not null"`
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 }
