@@ -31,7 +31,7 @@ export function FunctionsList({
     <div className="flex w-[280px] flex-col border-r bg-panel">
       <div className="flex items-center justify-between px-3 py-3 border-b">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">Functions</span>
+          <span className="text-sm font-medium">Server Functions</span>
           <Badge variant="secondary" className="text-[11px] px-1.5">
             {functions.length}
           </Badge>
