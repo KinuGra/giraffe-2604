@@ -297,17 +297,63 @@ func (x *GetFunctionRequest) GetFunctionId() string {
 	return ""
 }
 
+type GetFunctionByNameRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetFunctionByNameRequest) Reset() {
+	*x = GetFunctionByNameRequest{}
+	mi := &file_functions_functions_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetFunctionByNameRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFunctionByNameRequest) ProtoMessage() {}
+
+func (x *GetFunctionByNameRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_functions_functions_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFunctionByNameRequest.ProtoReflect.Descriptor instead.
+func (*GetFunctionByNameRequest) Descriptor() ([]byte, []int) {
+	return file_functions_functions_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetFunctionByNameRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
 type ExecuteFunctionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	FunctionId    string                 `protobuf:"bytes,1,opt,name=function_id,json=functionId,proto3" json:"function_id,omitempty"`
 	TimeoutSec    int32                  `protobuf:"varint,2,opt,name=timeout_sec,json=timeoutSec,proto3" json:"timeout_sec,omitempty"`
+	Env           map[string]string      `protobuf:"bytes,3,rep,name=env,proto3" json:"env,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Stdin         string                 `protobuf:"bytes,4,opt,name=stdin,proto3" json:"stdin,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ExecuteFunctionRequest) Reset() {
 	*x = ExecuteFunctionRequest{}
-	mi := &file_functions_functions_proto_msgTypes[5]
+	mi := &file_functions_functions_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -319,7 +365,7 @@ func (x *ExecuteFunctionRequest) String() string {
 func (*ExecuteFunctionRequest) ProtoMessage() {}
 
 func (x *ExecuteFunctionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_functions_functions_proto_msgTypes[5]
+	mi := &file_functions_functions_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -332,7 +378,7 @@ func (x *ExecuteFunctionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExecuteFunctionRequest.ProtoReflect.Descriptor instead.
 func (*ExecuteFunctionRequest) Descriptor() ([]byte, []int) {
-	return file_functions_functions_proto_rawDescGZIP(), []int{5}
+	return file_functions_functions_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ExecuteFunctionRequest) GetFunctionId() string {
@@ -349,6 +395,20 @@ func (x *ExecuteFunctionRequest) GetTimeoutSec() int32 {
 	return 0
 }
 
+func (x *ExecuteFunctionRequest) GetEnv() map[string]string {
+	if x != nil {
+		return x.Env
+	}
+	return nil
+}
+
+func (x *ExecuteFunctionRequest) GetStdin() string {
+	if x != nil {
+		return x.Stdin
+	}
+	return ""
+}
+
 type ExecuteFunctionResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Output        string                 `protobuf:"bytes,1,opt,name=output,proto3" json:"output,omitempty"`
@@ -361,7 +421,7 @@ type ExecuteFunctionResponse struct {
 
 func (x *ExecuteFunctionResponse) Reset() {
 	*x = ExecuteFunctionResponse{}
-	mi := &file_functions_functions_proto_msgTypes[6]
+	mi := &file_functions_functions_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -373,7 +433,7 @@ func (x *ExecuteFunctionResponse) String() string {
 func (*ExecuteFunctionResponse) ProtoMessage() {}
 
 func (x *ExecuteFunctionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_functions_functions_proto_msgTypes[6]
+	mi := &file_functions_functions_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -386,7 +446,7 @@ func (x *ExecuteFunctionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExecuteFunctionResponse.ProtoReflect.Descriptor instead.
 func (*ExecuteFunctionResponse) Descriptor() ([]byte, []int) {
-	return file_functions_functions_proto_rawDescGZIP(), []int{6}
+	return file_functions_functions_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ExecuteFunctionResponse) GetOutput() string {
@@ -429,7 +489,7 @@ type UpdateFunctionRequest struct {
 
 func (x *UpdateFunctionRequest) Reset() {
 	*x = UpdateFunctionRequest{}
-	mi := &file_functions_functions_proto_msgTypes[7]
+	mi := &file_functions_functions_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -441,7 +501,7 @@ func (x *UpdateFunctionRequest) String() string {
 func (*UpdateFunctionRequest) ProtoMessage() {}
 
 func (x *UpdateFunctionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_functions_functions_proto_msgTypes[7]
+	mi := &file_functions_functions_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -454,7 +514,7 @@ func (x *UpdateFunctionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateFunctionRequest.ProtoReflect.Descriptor instead.
 func (*UpdateFunctionRequest) Descriptor() ([]byte, []int) {
-	return file_functions_functions_proto_rawDescGZIP(), []int{7}
+	return file_functions_functions_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *UpdateFunctionRequest) GetFunctionId() string {
@@ -494,7 +554,7 @@ type DeleteFunctionRequest struct {
 
 func (x *DeleteFunctionRequest) Reset() {
 	*x = DeleteFunctionRequest{}
-	mi := &file_functions_functions_proto_msgTypes[8]
+	mi := &file_functions_functions_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -506,7 +566,7 @@ func (x *DeleteFunctionRequest) String() string {
 func (*DeleteFunctionRequest) ProtoMessage() {}
 
 func (x *DeleteFunctionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_functions_functions_proto_msgTypes[8]
+	mi := &file_functions_functions_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -519,7 +579,7 @@ func (x *DeleteFunctionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteFunctionRequest.ProtoReflect.Descriptor instead.
 func (*DeleteFunctionRequest) Descriptor() ([]byte, []int) {
-	return file_functions_functions_proto_rawDescGZIP(), []int{8}
+	return file_functions_functions_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteFunctionRequest) GetFunctionId() string {
@@ -538,7 +598,7 @@ type DeleteFunctionResponse struct {
 
 func (x *DeleteFunctionResponse) Reset() {
 	*x = DeleteFunctionResponse{}
-	mi := &file_functions_functions_proto_msgTypes[9]
+	mi := &file_functions_functions_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -550,7 +610,7 @@ func (x *DeleteFunctionResponse) String() string {
 func (*DeleteFunctionResponse) ProtoMessage() {}
 
 func (x *DeleteFunctionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_functions_functions_proto_msgTypes[9]
+	mi := &file_functions_functions_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -563,7 +623,7 @@ func (x *DeleteFunctionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteFunctionResponse.ProtoReflect.Descriptor instead.
 func (*DeleteFunctionResponse) Descriptor() ([]byte, []int) {
-	return file_functions_functions_proto_rawDescGZIP(), []int{9}
+	return file_functions_functions_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *DeleteFunctionResponse) GetSuccess() bool {
@@ -571,6 +631,186 @@ func (x *DeleteFunctionResponse) GetSuccess() bool {
 		return x.Success
 	}
 	return false
+}
+
+type ExecutionLogInfo struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	FunctionId    string                 `protobuf:"bytes,2,opt,name=function_id,json=functionId,proto3" json:"function_id,omitempty"`
+	Output        string                 `protobuf:"bytes,3,opt,name=output,proto3" json:"output,omitempty"`
+	Error         string                 `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
+	ExitCode      int32                  `protobuf:"varint,5,opt,name=exit_code,json=exitCode,proto3" json:"exit_code,omitempty"`
+	DurationMs    int64                  `protobuf:"varint,6,opt,name=duration_ms,json=durationMs,proto3" json:"duration_ms,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ExecutionLogInfo) Reset() {
+	*x = ExecutionLogInfo{}
+	mi := &file_functions_functions_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ExecutionLogInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExecutionLogInfo) ProtoMessage() {}
+
+func (x *ExecutionLogInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_functions_functions_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExecutionLogInfo.ProtoReflect.Descriptor instead.
+func (*ExecutionLogInfo) Descriptor() ([]byte, []int) {
+	return file_functions_functions_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ExecutionLogInfo) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ExecutionLogInfo) GetFunctionId() string {
+	if x != nil {
+		return x.FunctionId
+	}
+	return ""
+}
+
+func (x *ExecutionLogInfo) GetOutput() string {
+	if x != nil {
+		return x.Output
+	}
+	return ""
+}
+
+func (x *ExecutionLogInfo) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+func (x *ExecutionLogInfo) GetExitCode() int32 {
+	if x != nil {
+		return x.ExitCode
+	}
+	return 0
+}
+
+func (x *ExecutionLogInfo) GetDurationMs() int64 {
+	if x != nil {
+		return x.DurationMs
+	}
+	return 0
+}
+
+func (x *ExecutionLogInfo) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+type ListLogsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FunctionId    string                 `protobuf:"bytes,1,opt,name=function_id,json=functionId,proto3" json:"function_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListLogsRequest) Reset() {
+	*x = ListLogsRequest{}
+	mi := &file_functions_functions_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListLogsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListLogsRequest) ProtoMessage() {}
+
+func (x *ListLogsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_functions_functions_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListLogsRequest.ProtoReflect.Descriptor instead.
+func (*ListLogsRequest) Descriptor() ([]byte, []int) {
+	return file_functions_functions_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *ListLogsRequest) GetFunctionId() string {
+	if x != nil {
+		return x.FunctionId
+	}
+	return ""
+}
+
+type ListLogsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Logs          []*ExecutionLogInfo    `protobuf:"bytes,1,rep,name=logs,proto3" json:"logs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListLogsResponse) Reset() {
+	*x = ListLogsResponse{}
+	mi := &file_functions_functions_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListLogsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListLogsResponse) ProtoMessage() {}
+
+func (x *ListLogsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_functions_functions_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListLogsResponse.ProtoReflect.Descriptor instead.
+func (*ListLogsResponse) Descriptor() ([]byte, []int) {
+	return file_functions_functions_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *ListLogsResponse) GetLogs() []*ExecutionLogInfo {
+	if x != nil {
+		return x.Logs
+	}
+	return nil
 }
 
 var File_functions_functions_proto protoreflect.FileDescriptor
@@ -598,12 +838,19 @@ const file_functions_functions_proto_rawDesc = "" +
 	"\tfunctions\x18\x01 \x03(\v2\x17.functions.FunctionInfoR\tfunctions\"5\n" +
 	"\x12GetFunctionRequest\x12\x1f\n" +
 	"\vfunction_id\x18\x01 \x01(\tR\n" +
-	"functionId\"Z\n" +
+	"functionId\".\n" +
+	"\x18GetFunctionByNameRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\"\xe6\x01\n" +
 	"\x16ExecuteFunctionRequest\x12\x1f\n" +
 	"\vfunction_id\x18\x01 \x01(\tR\n" +
 	"functionId\x12\x1f\n" +
 	"\vtimeout_sec\x18\x02 \x01(\x05R\n" +
-	"timeoutSec\"\x85\x01\n" +
+	"timeoutSec\x12<\n" +
+	"\x03env\x18\x03 \x03(\v2*.functions.ExecuteFunctionRequest.EnvEntryR\x03env\x12\x14\n" +
+	"\x05stdin\x18\x04 \x01(\tR\x05stdin\x1a6\n" +
+	"\bEnvEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x85\x01\n" +
 	"\x17ExecuteFunctionResponse\x12\x16\n" +
 	"\x06output\x18\x01 \x01(\tR\x06output\x12\x14\n" +
 	"\x05error\x18\x02 \x01(\tR\x05error\x12\x1b\n" +
@@ -621,14 +868,32 @@ const file_functions_functions_proto_rawDesc = "" +
 	"\vfunction_id\x18\x01 \x01(\tR\n" +
 	"functionId\"2\n" +
 	"\x16DeleteFunctionResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xf8\x03\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xce\x01\n" +
+	"\x10ExecutionLogInfo\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n" +
+	"\vfunction_id\x18\x02 \x01(\tR\n" +
+	"functionId\x12\x16\n" +
+	"\x06output\x18\x03 \x01(\tR\x06output\x12\x14\n" +
+	"\x05error\x18\x04 \x01(\tR\x05error\x12\x1b\n" +
+	"\texit_code\x18\x05 \x01(\x05R\bexitCode\x12\x1f\n" +
+	"\vduration_ms\x18\x06 \x01(\x03R\n" +
+	"durationMs\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\a \x01(\tR\tcreatedAt\"2\n" +
+	"\x0fListLogsRequest\x12\x1f\n" +
+	"\vfunction_id\x18\x01 \x01(\tR\n" +
+	"functionId\"C\n" +
+	"\x10ListLogsResponse\x12/\n" +
+	"\x04logs\x18\x01 \x03(\v2\x1b.functions.ExecutionLogInfoR\x04logs2\x90\x05\n" +
 	"\x10FunctionsService\x12K\n" +
 	"\x0eCreateFunction\x12 .functions.CreateFunctionRequest\x1a\x17.functions.FunctionInfo\x12R\n" +
 	"\rListFunctions\x12\x1f.functions.ListFunctionsRequest\x1a .functions.ListFunctionsResponse\x12E\n" +
-	"\vGetFunction\x12\x1d.functions.GetFunctionRequest\x1a\x17.functions.FunctionInfo\x12X\n" +
+	"\vGetFunction\x12\x1d.functions.GetFunctionRequest\x1a\x17.functions.FunctionInfo\x12Q\n" +
+	"\x11GetFunctionByName\x12#.functions.GetFunctionByNameRequest\x1a\x17.functions.FunctionInfo\x12X\n" +
 	"\x0fExecuteFunction\x12!.functions.ExecuteFunctionRequest\x1a\".functions.ExecuteFunctionResponse\x12K\n" +
 	"\x0eUpdateFunction\x12 .functions.UpdateFunctionRequest\x1a\x17.functions.FunctionInfo\x12U\n" +
-	"\x0eDeleteFunction\x12 .functions.DeleteFunctionRequest\x1a!.functions.DeleteFunctionResponseB/Z-github.com/KinuGra/giraffe-2604/gen/functionsb\x06proto3"
+	"\x0eDeleteFunction\x12 .functions.DeleteFunctionRequest\x1a!.functions.DeleteFunctionResponse\x12C\n" +
+	"\bListLogs\x12\x1a.functions.ListLogsRequest\x1a\x1b.functions.ListLogsResponseB/Z-github.com/KinuGra/giraffe-2604/gen/functionsb\x06proto3"
 
 var (
 	file_functions_functions_proto_rawDescOnce sync.Once
@@ -642,38 +907,49 @@ func file_functions_functions_proto_rawDescGZIP() []byte {
 	return file_functions_functions_proto_rawDescData
 }
 
-var file_functions_functions_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_functions_functions_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_functions_functions_proto_goTypes = []any{
-	(*CreateFunctionRequest)(nil),   // 0: functions.CreateFunctionRequest
-	(*FunctionInfo)(nil),            // 1: functions.FunctionInfo
-	(*ListFunctionsRequest)(nil),    // 2: functions.ListFunctionsRequest
-	(*ListFunctionsResponse)(nil),   // 3: functions.ListFunctionsResponse
-	(*GetFunctionRequest)(nil),      // 4: functions.GetFunctionRequest
-	(*ExecuteFunctionRequest)(nil),  // 5: functions.ExecuteFunctionRequest
-	(*ExecuteFunctionResponse)(nil), // 6: functions.ExecuteFunctionResponse
-	(*UpdateFunctionRequest)(nil),   // 7: functions.UpdateFunctionRequest
-	(*DeleteFunctionRequest)(nil),   // 8: functions.DeleteFunctionRequest
-	(*DeleteFunctionResponse)(nil),  // 9: functions.DeleteFunctionResponse
+	(*CreateFunctionRequest)(nil),    // 0: functions.CreateFunctionRequest
+	(*FunctionInfo)(nil),             // 1: functions.FunctionInfo
+	(*ListFunctionsRequest)(nil),     // 2: functions.ListFunctionsRequest
+	(*ListFunctionsResponse)(nil),    // 3: functions.ListFunctionsResponse
+	(*GetFunctionRequest)(nil),       // 4: functions.GetFunctionRequest
+	(*GetFunctionByNameRequest)(nil), // 5: functions.GetFunctionByNameRequest
+	(*ExecuteFunctionRequest)(nil),   // 6: functions.ExecuteFunctionRequest
+	(*ExecuteFunctionResponse)(nil),  // 7: functions.ExecuteFunctionResponse
+	(*UpdateFunctionRequest)(nil),    // 8: functions.UpdateFunctionRequest
+	(*DeleteFunctionRequest)(nil),    // 9: functions.DeleteFunctionRequest
+	(*DeleteFunctionResponse)(nil),   // 10: functions.DeleteFunctionResponse
+	(*ExecutionLogInfo)(nil),         // 11: functions.ExecutionLogInfo
+	(*ListLogsRequest)(nil),          // 12: functions.ListLogsRequest
+	(*ListLogsResponse)(nil),         // 13: functions.ListLogsResponse
+	nil,                              // 14: functions.ExecuteFunctionRequest.EnvEntry
 }
 var file_functions_functions_proto_depIdxs = []int32{
-	1, // 0: functions.ListFunctionsResponse.functions:type_name -> functions.FunctionInfo
-	0, // 1: functions.FunctionsService.CreateFunction:input_type -> functions.CreateFunctionRequest
-	2, // 2: functions.FunctionsService.ListFunctions:input_type -> functions.ListFunctionsRequest
-	4, // 3: functions.FunctionsService.GetFunction:input_type -> functions.GetFunctionRequest
-	5, // 4: functions.FunctionsService.ExecuteFunction:input_type -> functions.ExecuteFunctionRequest
-	7, // 5: functions.FunctionsService.UpdateFunction:input_type -> functions.UpdateFunctionRequest
-	8, // 6: functions.FunctionsService.DeleteFunction:input_type -> functions.DeleteFunctionRequest
-	1, // 7: functions.FunctionsService.CreateFunction:output_type -> functions.FunctionInfo
-	3, // 8: functions.FunctionsService.ListFunctions:output_type -> functions.ListFunctionsResponse
-	1, // 9: functions.FunctionsService.GetFunction:output_type -> functions.FunctionInfo
-	6, // 10: functions.FunctionsService.ExecuteFunction:output_type -> functions.ExecuteFunctionResponse
-	1, // 11: functions.FunctionsService.UpdateFunction:output_type -> functions.FunctionInfo
-	9, // 12: functions.FunctionsService.DeleteFunction:output_type -> functions.DeleteFunctionResponse
-	7, // [7:13] is the sub-list for method output_type
-	1, // [1:7] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	1,  // 0: functions.ListFunctionsResponse.functions:type_name -> functions.FunctionInfo
+	14, // 1: functions.ExecuteFunctionRequest.env:type_name -> functions.ExecuteFunctionRequest.EnvEntry
+	11, // 2: functions.ListLogsResponse.logs:type_name -> functions.ExecutionLogInfo
+	0,  // 3: functions.FunctionsService.CreateFunction:input_type -> functions.CreateFunctionRequest
+	2,  // 4: functions.FunctionsService.ListFunctions:input_type -> functions.ListFunctionsRequest
+	4,  // 5: functions.FunctionsService.GetFunction:input_type -> functions.GetFunctionRequest
+	5,  // 6: functions.FunctionsService.GetFunctionByName:input_type -> functions.GetFunctionByNameRequest
+	6,  // 7: functions.FunctionsService.ExecuteFunction:input_type -> functions.ExecuteFunctionRequest
+	8,  // 8: functions.FunctionsService.UpdateFunction:input_type -> functions.UpdateFunctionRequest
+	9,  // 9: functions.FunctionsService.DeleteFunction:input_type -> functions.DeleteFunctionRequest
+	12, // 10: functions.FunctionsService.ListLogs:input_type -> functions.ListLogsRequest
+	1,  // 11: functions.FunctionsService.CreateFunction:output_type -> functions.FunctionInfo
+	3,  // 12: functions.FunctionsService.ListFunctions:output_type -> functions.ListFunctionsResponse
+	1,  // 13: functions.FunctionsService.GetFunction:output_type -> functions.FunctionInfo
+	1,  // 14: functions.FunctionsService.GetFunctionByName:output_type -> functions.FunctionInfo
+	7,  // 15: functions.FunctionsService.ExecuteFunction:output_type -> functions.ExecuteFunctionResponse
+	1,  // 16: functions.FunctionsService.UpdateFunction:output_type -> functions.FunctionInfo
+	10, // 17: functions.FunctionsService.DeleteFunction:output_type -> functions.DeleteFunctionResponse
+	13, // 18: functions.FunctionsService.ListLogs:output_type -> functions.ListLogsResponse
+	11, // [11:19] is the sub-list for method output_type
+	3,  // [3:11] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_functions_functions_proto_init() }
@@ -687,7 +963,7 @@ func file_functions_functions_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_functions_functions_proto_rawDesc), len(file_functions_functions_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

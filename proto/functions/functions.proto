@@ -6,9 +6,11 @@ service FunctionsService {
   rpc CreateFunction(CreateFunctionRequest) returns (FunctionInfo);
   rpc ListFunctions(ListFunctionsRequest) returns (ListFunctionsResponse);
   rpc GetFunction(GetFunctionRequest) returns (FunctionInfo);
+  rpc GetFunctionByName(GetFunctionByNameRequest) returns (FunctionInfo);
   rpc ExecuteFunction(ExecuteFunctionRequest) returns (ExecuteFunctionResponse);
   rpc UpdateFunction(UpdateFunctionRequest) returns (FunctionInfo);
   rpc DeleteFunction(DeleteFunctionRequest) returns (DeleteFunctionResponse);
+  rpc ListLogs(ListLogsRequest) returns (ListLogsResponse);
 }
 
 message CreateFunctionRequest {
@@ -37,9 +39,15 @@ message GetFunctionRequest {
   string function_id = 1;
 }
 
+message GetFunctionByNameRequest {
+  string name = 1;
+}
+
 message ExecuteFunctionRequest {
   string function_id = 1;
   int32 timeout_sec = 2;
+  map<string, string> env = 3;
+  string stdin = 4;
 }
 
 message ExecuteFunctionResponse {
@@ -62,4 +70,22 @@ message DeleteFunctionRequest {
 
 message DeleteFunctionResponse {
   bool success = 1;
+}
+
+message ExecutionLogInfo {
+  string id = 1;
+  string function_id = 2;
+  string output = 3;
+  string error = 4;
+  int32 exit_code = 5;
+  int64 duration_ms = 6;
+  string created_at = 7;
+}
+
+message ListLogsRequest {
+  string function_id = 1;
+}
+
+message ListLogsResponse {
+  repeated ExecutionLogInfo logs = 1;
 }

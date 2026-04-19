@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -90,7 +91,9 @@ func main() {
 
 	r.POST("/functions/:id/execute", func(c *gin.Context) {
 		var body struct {
-			TimeoutSec int32 `json:"timeout_sec"`
+			TimeoutSec int32             `json:"timeout_sec"`
+			Env        map[string]string `json:"env"`
+			Stdin      string            `json:"stdin"`
 		}
 		_ = c.ShouldBindJSON(&body)
 		ctx, cancel := context.WithTimeout(c.Request.Context(), 60*time.Second)
@@ -98,6 +101,50 @@ func main() {
 		resp, err := fn.ExecuteFunction(ctx, &pb.ExecuteFunctionRequest{
 			FunctionId: c.Param("id"),
 			TimeoutSec: body.TimeoutSec,
+			Env:        body.Env,
+			Stdin:      body.Stdin,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	})
+
+	r.GET("/functions/:id/logs", func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
+		defer cancel()
+		resp, err := fn.ListLogs(ctx, &pb.ListLogsRequest{FunctionId: c.Param("id")})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	})
+
+	// HTTP trigger: POST /functions/v1/:name
+	// Executes a function by name; body is passed as stdin
+	r.POST("/functions/v1/:name", func(c *gin.Context) {
+		bodyBytes, _ := io.ReadAll(c.Request.Body)
+		var env map[string]string
+		// Allow env vars via X-Env-* headers
+		env = make(map[string]string)
+		for k, v := range c.Request.Header {
+			if len(k) > 6 && k[:6] == "X-Env-" {
+				env[k[6:]] = v[0]
+			}
+		}
+		fnResp, err := fn.GetFunctionByName(c.Request.Context(), &pb.GetFunctionByNameRequest{Name: c.Param("name")})
+		if err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "function not found"})
+			return
+		}
+		ctx, cancel := context.WithTimeout(c.Request.Context(), 60*time.Second)
+		defer cancel()
+		resp, err := fn.ExecuteFunction(ctx, &pb.ExecuteFunctionRequest{
+			FunctionId: fnResp.Id,
+			Env:        env,
+			Stdin:      string(bodyBytes),
 		})
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

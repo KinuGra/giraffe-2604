@@ -15,3 +15,15 @@ func modelToProto(f *model.Function) *pb.FunctionInfo {
 		CreatedAt:  f.CreatedAt.Format("2006-01-02T15:04:05Z07:00"),
 	}
 }
+
+func logToProto(l *model.ExecutionLog) *pb.ExecutionLogInfo {
+	return &pb.ExecutionLogInfo{
+		Id:         l.ID,
+		FunctionId: l.FunctionID,
+		Output:     l.Output,
+		Error:      l.Error,
+		ExitCode:   int32(l.ExitCode),
+		DurationMs: l.DurationMs,
+		CreatedAt:  l.CreatedAt.Format("2006-01-02T15:04:05Z07:00"),
+	}
+}

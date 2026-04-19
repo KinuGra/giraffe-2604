@@ -32,6 +32,7 @@ import { FunctionsList } from "@/features/functions/functions-list";
 import { LiveLogs } from "@/features/functions/live-logs";
 import {
   type ExecuteResult,
+  type ExecutionLog,
   type FunctionInfo,
   functionsApi,
 } from "@/lib/functions-api";
@@ -53,6 +54,7 @@ export default function FunctionsPage() {
   const [activeTab, setActiveTab] = useState("code");
   const [executing, setExecuting] = useState(false);
   const [execResult, setExecResult] = useState<ExecuteResult | null>(null);
+  const [history, setHistory] = useState<ExecutionLog[]>([]);
   const [newOpen, setNewOpen] = useState(false);
   const [newName, setNewName] = useState("");
   const [newRuntime, setNewRuntime] = useState("python3.12");
@@ -77,6 +79,15 @@ export default function FunctionsPage() {
 
   const fn = functions.find((f) => f.id === selected);
 
+  const fetchHistory = useCallback(async (id: string) => {
+    try {
+      const logs = await functionsApi.logs(id);
+      setHistory(logs);
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
+
   const handleInvoke = async () => {
     if (!fn) return;
     setExecuting(true);
@@ -85,6 +96,7 @@ export default function FunctionsPage() {
     try {
       const result = await functionsApi.execute(fn.id);
       setExecResult(result);
+      fetchHistory(fn.id);
     } catch (e) {
       console.error(e);
     } finally {
@@ -138,6 +150,7 @@ export default function FunctionsPage() {
         onSelect={(id) => {
           setSelected(id);
           setExecResult(null);
+          fetchHistory(id);
         }}
         onNew={() => setNewOpen(true)}
       />
@@ -260,6 +273,7 @@ export default function FunctionsPage() {
               <TabsList variant="line">
                 <TabsTrigger value="code">Code</TabsTrigger>
                 <TabsTrigger value="logs">Output</TabsTrigger>
+                <TabsTrigger value="history">History</TabsTrigger>
                 <TabsTrigger value="settings">Settings</TabsTrigger>
               </TabsList>
 
@@ -321,6 +335,48 @@ export default function FunctionsPage() {
                     <p className="text-sm text-muted-foreground">
                       Press Invoke to run the function
                     </p>
+                  )}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="history">
+                <div className="mt-4 space-y-2">
+                  {history.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">
+                      No execution history yet
+                    </p>
+                  ) : (
+                    history.map((log) => (
+                      <Card key={log.id} size="sm">
+                        <CardContent className="py-2 space-y-1">
+                          <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
+                            <span
+                              className={
+                                log.exitCode !== 0
+                                  ? "text-destructive font-mono"
+                                  : "font-mono"
+                              }
+                            >
+                              exit {log.exitCode}
+                            </span>
+                            <span>{log.durationMs}ms</span>
+                            <span>
+                              {new Date(log.createdAt).toLocaleString()}
+                            </span>
+                          </div>
+                          {log.output && (
+                            <pre className="text-xs font-mono whitespace-pre-wrap">
+                              {log.output}
+                            </pre>
+                          )}
+                          {log.error && (
+                            <pre className="text-xs font-mono whitespace-pre-wrap text-destructive">
+                              {log.error}
+                            </pre>
+                          )}
+                        </CardContent>
+                      </Card>
+                    ))
                   )}
                 </div>
               </TabsContent>

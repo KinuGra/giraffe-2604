@@ -19,12 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	FunctionsService_CreateFunction_FullMethodName  = "/functions.FunctionsService/CreateFunction"
-	FunctionsService_ListFunctions_FullMethodName   = "/functions.FunctionsService/ListFunctions"
-	FunctionsService_GetFunction_FullMethodName     = "/functions.FunctionsService/GetFunction"
-	FunctionsService_ExecuteFunction_FullMethodName = "/functions.FunctionsService/ExecuteFunction"
-	FunctionsService_UpdateFunction_FullMethodName  = "/functions.FunctionsService/UpdateFunction"
-	FunctionsService_DeleteFunction_FullMethodName  = "/functions.FunctionsService/DeleteFunction"
+	FunctionsService_CreateFunction_FullMethodName    = "/functions.FunctionsService/CreateFunction"
+	FunctionsService_ListFunctions_FullMethodName     = "/functions.FunctionsService/ListFunctions"
+	FunctionsService_GetFunction_FullMethodName       = "/functions.FunctionsService/GetFunction"
+	FunctionsService_GetFunctionByName_FullMethodName = "/functions.FunctionsService/GetFunctionByName"
+	FunctionsService_ExecuteFunction_FullMethodName   = "/functions.FunctionsService/ExecuteFunction"
+	FunctionsService_UpdateFunction_FullMethodName    = "/functions.FunctionsService/UpdateFunction"
+	FunctionsService_DeleteFunction_FullMethodName    = "/functions.FunctionsService/DeleteFunction"
+	FunctionsService_ListLogs_FullMethodName          = "/functions.FunctionsService/ListLogs"
 )
 
 // FunctionsServiceClient is the client API for FunctionsService service.
@@ -34,9 +36,11 @@ type FunctionsServiceClient interface {
 	CreateFunction(ctx context.Context, in *CreateFunctionRequest, opts ...grpc.CallOption) (*FunctionInfo, error)
 	ListFunctions(ctx context.Context, in *ListFunctionsRequest, opts ...grpc.CallOption) (*ListFunctionsResponse, error)
 	GetFunction(ctx context.Context, in *GetFunctionRequest, opts ...grpc.CallOption) (*FunctionInfo, error)
+	GetFunctionByName(ctx context.Context, in *GetFunctionByNameRequest, opts ...grpc.CallOption) (*FunctionInfo, error)
 	ExecuteFunction(ctx context.Context, in *ExecuteFunctionRequest, opts ...grpc.CallOption) (*ExecuteFunctionResponse, error)
 	UpdateFunction(ctx context.Context, in *UpdateFunctionRequest, opts ...grpc.CallOption) (*FunctionInfo, error)
 	DeleteFunction(ctx context.Context, in *DeleteFunctionRequest, opts ...grpc.CallOption) (*DeleteFunctionResponse, error)
+	ListLogs(ctx context.Context, in *ListLogsRequest, opts ...grpc.CallOption) (*ListLogsResponse, error)
 }
 
 type functionsServiceClient struct {
@@ -77,6 +81,16 @@ func (c *functionsServiceClient) GetFunction(ctx context.Context, in *GetFunctio
 	return out, nil
 }
 
+func (c *functionsServiceClient) GetFunctionByName(ctx context.Context, in *GetFunctionByNameRequest, opts ...grpc.CallOption) (*FunctionInfo, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FunctionInfo)
+	err := c.cc.Invoke(ctx, FunctionsService_GetFunctionByName_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *functionsServiceClient) ExecuteFunction(ctx context.Context, in *ExecuteFunctionRequest, opts ...grpc.CallOption) (*ExecuteFunctionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ExecuteFunctionResponse)
@@ -107,6 +121,16 @@ func (c *functionsServiceClient) DeleteFunction(ctx context.Context, in *DeleteF
 	return out, nil
 }
 
+func (c *functionsServiceClient) ListLogs(ctx context.Context, in *ListLogsRequest, opts ...grpc.CallOption) (*ListLogsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListLogsResponse)
+	err := c.cc.Invoke(ctx, FunctionsService_ListLogs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FunctionsServiceServer is the server API for FunctionsService service.
 // All implementations must embed UnimplementedFunctionsServiceServer
 // for forward compatibility.
@@ -114,9 +138,11 @@ type FunctionsServiceServer interface {
 	CreateFunction(context.Context, *CreateFunctionRequest) (*FunctionInfo, error)
 	ListFunctions(context.Context, *ListFunctionsRequest) (*ListFunctionsResponse, error)
 	GetFunction(context.Context, *GetFunctionRequest) (*FunctionInfo, error)
+	GetFunctionByName(context.Context, *GetFunctionByNameRequest) (*FunctionInfo, error)
 	ExecuteFunction(context.Context, *ExecuteFunctionRequest) (*ExecuteFunctionResponse, error)
 	UpdateFunction(context.Context, *UpdateFunctionRequest) (*FunctionInfo, error)
 	DeleteFunction(context.Context, *DeleteFunctionRequest) (*DeleteFunctionResponse, error)
+	ListLogs(context.Context, *ListLogsRequest) (*ListLogsResponse, error)
 	mustEmbedUnimplementedFunctionsServiceServer()
 }
 
@@ -136,6 +162,9 @@ func (UnimplementedFunctionsServiceServer) ListFunctions(context.Context, *ListF
 func (UnimplementedFunctionsServiceServer) GetFunction(context.Context, *GetFunctionRequest) (*FunctionInfo, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetFunction not implemented")
 }
+func (UnimplementedFunctionsServiceServer) GetFunctionByName(context.Context, *GetFunctionByNameRequest) (*FunctionInfo, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetFunctionByName not implemented")
+}
 func (UnimplementedFunctionsServiceServer) ExecuteFunction(context.Context, *ExecuteFunctionRequest) (*ExecuteFunctionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ExecuteFunction not implemented")
 }
@@ -144,6 +173,9 @@ func (UnimplementedFunctionsServiceServer) UpdateFunction(context.Context, *Upda
 }
 func (UnimplementedFunctionsServiceServer) DeleteFunction(context.Context, *DeleteFunctionRequest) (*DeleteFunctionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteFunction not implemented")
+}
+func (UnimplementedFunctionsServiceServer) ListLogs(context.Context, *ListLogsRequest) (*ListLogsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListLogs not implemented")
 }
 func (UnimplementedFunctionsServiceServer) mustEmbedUnimplementedFunctionsServiceServer() {}
 func (UnimplementedFunctionsServiceServer) testEmbeddedByValue()                          {}
@@ -220,6 +252,24 @@ func _FunctionsService_GetFunction_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FunctionsService_GetFunctionByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFunctionByNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FunctionsServiceServer).GetFunctionByName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FunctionsService_GetFunctionByName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FunctionsServiceServer).GetFunctionByName(ctx, req.(*GetFunctionByNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _FunctionsService_ExecuteFunction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ExecuteFunctionRequest)
 	if err := dec(in); err != nil {
@@ -274,6 +324,24 @@ func _FunctionsService_DeleteFunction_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FunctionsService_ListLogs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListLogsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FunctionsServiceServer).ListLogs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FunctionsService_ListLogs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FunctionsServiceServer).ListLogs(ctx, req.(*ListLogsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FunctionsService_ServiceDesc is the grpc.ServiceDesc for FunctionsService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -294,6 +362,10 @@ var FunctionsService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _FunctionsService_GetFunction_Handler,
 		},
 		{
+			MethodName: "GetFunctionByName",
+			Handler:    _FunctionsService_GetFunctionByName_Handler,
+		},
+		{
 			MethodName: "ExecuteFunction",
 			Handler:    _FunctionsService_ExecuteFunction_Handler,
 		},
@@ -304,6 +376,10 @@ var FunctionsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteFunction",
 			Handler:    _FunctionsService_DeleteFunction_Handler,
+		},
+		{
+			MethodName: "ListLogs",
+			Handler:    _FunctionsService_ListLogs_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
