@@ -10,7 +10,7 @@ const features = [
   },
   {
     icon: SquareFunction,
-    title: "Edge Functions",
+    title: "Server Functions",
     description: "Deno Runtime",
   },
   {
@@ -68,12 +68,12 @@ export function MarketingPanel() {
           <h1 className="font-heading text-[44px] font-bold leading-[1.15] tracking-tight text-white">
             Postgres と
             <br />
-            Edge Functions を、
+            Server Functions を、
             <br />
             <span className="text-brand-400">一晩で。</span>
           </h1>
           <p className="max-w-[380px] text-[14px] leading-relaxed text-white/50">
-            giraffe は、認証・データベース・ストレージ・Edge Functions
+            giraffe は、認証・データベース・ストレージ・Server Functions
             をひとつのプラットフォームで提供するオープンソース BaaS です。
           </p>
         </div>

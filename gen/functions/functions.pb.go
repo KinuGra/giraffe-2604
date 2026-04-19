@@ -97,6 +97,7 @@ type FunctionInfo struct {
 	Code          string                 `protobuf:"bytes,4,opt,name=code,proto3" json:"code,omitempty"`
 	CreatedAt     string                 `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	TimeoutSec    int32                  `protobuf:"varint,6,opt,name=timeout_sec,json=timeoutSec,proto3" json:"timeout_sec,omitempty"`
+	Status        string                 `protobuf:"bytes,7,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -171,6 +172,13 @@ func (x *FunctionInfo) GetTimeoutSec() int32 {
 		return x.TimeoutSec
 	}
 	return 0
+}
+
+func (x *FunctionInfo) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
 }
 
 type ListFunctionsRequest struct {
@@ -823,7 +831,7 @@ const file_functions_functions_proto_rawDesc = "" +
 	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x12\n" +
 	"\x04code\x18\x03 \x01(\tR\x04code\x12\x1f\n" +
 	"\vtimeout_sec\x18\x04 \x01(\x05R\n" +
-	"timeoutSec\"\xa0\x01\n" +
+	"timeoutSec\"\xb8\x01\n" +
 	"\fFunctionInfo\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
@@ -832,7 +840,8 @@ const file_functions_functions_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x05 \x01(\tR\tcreatedAt\x12\x1f\n" +
 	"\vtimeout_sec\x18\x06 \x01(\x05R\n" +
-	"timeoutSec\"\x16\n" +
+	"timeoutSec\x12\x16\n" +
+	"\x06status\x18\a \x01(\tR\x06status\"\x16\n" +
 	"\x14ListFunctionsRequest\"N\n" +
 	"\x15ListFunctionsResponse\x125\n" +
 	"\tfunctions\x18\x01 \x03(\v2\x17.functions.FunctionInfoR\tfunctions\"5\n" +

@@ -80,7 +80,7 @@ resource "aws_db_instance" "baas_db" {
   db_subnet_group_name   = aws_db_subnet_group.baas_db.name
   vpc_security_group_ids = [aws_security_group.baas_db.id]
 
-  publicly_accessible = false
+  publicly_accessible = true
   multi_az            = var.environment == "prod"
   storage_encrypted   = true
 

@@ -31,7 +31,7 @@ export function FunctionsList({
     <div className="flex w-[280px] flex-col border-r bg-panel">
       <div className="flex items-center justify-between px-3 py-3 border-b">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">Functions</span>
+          <span className="text-sm font-medium">Server Functions</span>
           <Badge variant="secondary" className="text-[11px] px-1.5">
             {functions.length}
           </Badge>
@@ -70,11 +70,17 @@ export function FunctionsList({
               )}
             >
               <div className="flex items-center gap-2 min-w-0">
-                <span className="size-2 rounded-full shrink-0 bg-brand-400" />
+                {fn.status === "deactivated" ? (
+                  <span className="text-xs shrink-0 leading-none">💀</span>
+                ) : (
+                  <span className="size-2 rounded-full shrink-0 bg-brand-400" />
+                )}
                 <span
                   className={cn(
                     "text-sm font-semibold truncate",
                     isSelected && "text-primary",
+                    fn.status === "deactivated" &&
+                      "line-through text-muted-foreground",
                   )}
                 >
                   {fn.name}

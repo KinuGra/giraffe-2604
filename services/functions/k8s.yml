@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: functions
+  labels:
+    app: functions
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: functions
+  template:
+    metadata:
+      labels:
+        app: functions
+    spec:
+      containers:
+        - name: functions
+          image: 517027174598.dkr.ecr.ap-northeast-1.amazonaws.com/back-functions:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 50055
+          env:
+          - name: DATABASE_URL
+            value: "postgres://baas_admin:98b84eb5384fe82261427774fe27c8c268da47669bfd0615d1fc08029fccf06b@giraffe-dev-baas-db.cp602cumav3u.ap-northeast-1.rds.amazonaws.com:5432/baas_db?sslmode=require"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          readinessProbe:
+            grpc:
+              port: 50055
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            grpc:
+              port: 50055
+            initialDelaySeconds: 10
+            periodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: functions
+  labels:
+    app: functions
+spec:
+  selector:
+    app: functions
+  ports:
+    - port: 50055
+      targetPort: 50055
+      protocol: TCP

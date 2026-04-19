@@ -3,8 +3,10 @@ package usecase
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"io"
+	"sync"
 	"time"
 
 	"github.com/KinuGra/giraffe-2604/services/functions/model"
@@ -14,13 +16,66 @@ import (
 	"github.com/docker/docker/client"
 )
 
+var ErrDeactivated = errors.New("DEACTIVATED")
+
+const (
+	evolutionWindow   = 10 * time.Second
+	evolutionMinCalls = 3
+)
+
+type callWindow struct {
+	mu        sync.Mutex
+	count     int
+	scheduled bool
+}
+
 type FunctionUsecase struct {
-	repo *repository.FunctionRepo
-	sem  chan struct{}
+	repo    *repository.FunctionRepo
+	sem     chan struct{}
+	windows sync.Map // map[functionID]*callWindow
 }
 
 func NewFunctionUsecase(repo *repository.FunctionRepo) *FunctionUsecase {
 	return &FunctionUsecase{repo: repo, sem: make(chan struct{}, 10)}
+}
+
+// recordAndScheduleEvolve は実行を記録し、最初の呼び出し時に10秒後の審判をスケジュールする。
+func (u *FunctionUsecase) recordAndScheduleEvolve(id string) {
+	raw, _ := u.windows.LoadOrStore(id, &callWindow{})
+	cw := raw.(*callWindow)
+
+	cw.mu.Lock()
+	cw.count++
+	shouldSchedule := !cw.scheduled
+	if shouldSchedule {
+		cw.scheduled = true
+	}
+	cw.mu.Unlock()
+
+	if shouldSchedule {
+		time.AfterFunc(evolutionWindow, func() {
+			u.evaluateEvolution(id)
+		})
+	}
+}
+
+func (u *FunctionUsecase) evaluateEvolution(id string) {
+	raw, ok := u.windows.Load(id)
+	if !ok {
+		return
+	}
+	cw := raw.(*callWindow)
+
+	cw.mu.Lock()
+	count := cw.count
+	// ウィンドウをリセットして次のサイクルに備える
+	cw.count = 0
+	cw.scheduled = false
+	cw.mu.Unlock()
+
+	if count <= evolutionMinCalls {
+		_ = u.repo.Deactivate(id)
+	}
 }
 
 func (u *FunctionUsecase) Create(name, runtime, code string, timeoutSec int) (*model.Function, error) {
@@ -92,6 +147,10 @@ func (u *FunctionUsecase) Execute(id string, opts ExecuteOptions) (*ExecuteResul
 	f, err := u.repo.FindByID(id)
 	if err != nil {
 		return nil, fmt.Errorf("function not found: %w", err)
+	}
+
+	if f.Status == model.StatusDeactivated {
+		return nil, ErrDeactivated
 	}
 
 	image, ok := runtimeImages[f.Runtime]
@@ -209,6 +268,9 @@ func (u *FunctionUsecase) Execute(id string, opts ExecuteOptions) (*ExecuteResul
 		ExitCode:   exitCode,
 		DurationMs: durationMs,
 	})
+
+	// 進化論：最初の呼び出しから10秒後に審判。その間3回以下なら消滅
+	u.recordAndScheduleEvolve(id)
 
 	return result, nil
 }

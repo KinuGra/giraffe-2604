@@ -6,6 +6,8 @@ import (
 	"os"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/health"
+	"google.golang.org/grpc/health/grpc_health_v1"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
@@ -38,6 +40,9 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterFunctionsServiceServer(grpcServer, srv)
+
+	healthSrv := health.NewServer()
+	grpc_health_v1.RegisterHealthServer(grpcServer, healthSrv)
 
 	log.Println("Functions Service listening on :50055")
 	grpcServer.Serve(lis)

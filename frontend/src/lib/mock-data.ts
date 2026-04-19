@@ -669,7 +669,7 @@ export const billingUsage = [
   { label: "Storage", used: 3.4, total: 100, unit: "GB" },
   { label: "Bandwidth", used: 12, total: 50, unit: "GB" },
   {
-    label: "Edge Functions",
+    label: "Server Functions",
     used: 450_000,
     total: 2_000_000,
     unit: "invocations",

@@ -14,7 +14,7 @@ export const navItems = [
   { label: "Home", href: "/dashboard/home", icon: Home },
   { label: "Table Editor", href: "/dashboard/editor", icon: Table2 },
   {
-    label: "Edge Functions",
+    label: "Server Functions",
     href: "/dashboard/functions",
     icon: SquareFunction,
   },

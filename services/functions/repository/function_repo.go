@@ -57,6 +57,10 @@ func (r *FunctionRepo) Delete(id string) error {
 	return r.db.Delete(&model.Function{}, "id = ?", id).Error
 }
 
+func (r *FunctionRepo) Deactivate(id string) error {
+	return r.db.Model(&model.Function{}).Where("id = ?", id).Update("status", model.StatusDeactivated).Error
+}
+
 func (r *FunctionRepo) CreateLog(l *model.ExecutionLog) error {
 	return r.db.Create(l).Error
 }

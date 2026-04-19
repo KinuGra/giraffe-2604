@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 const routeLabels: Record<string, string[]> = {
   "/dashboard/home": ["Project", "Home"],
   "/dashboard/editor": ["Database", "Table Editor"],
-  "/dashboard/functions": ["Edge Functions"],
+  "/dashboard/functions": ["Server Functions"],
   "/dashboard/api": ["API Docs", "REST"],
   "/dashboard/settings": ["Settings", "General"],
 };
