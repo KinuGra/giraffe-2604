@@ -16,12 +16,54 @@ export interface ExecuteResult {
   durationMs: number;
 }
 
+export interface ExecutionLog {
+  id: string;
+  functionId: string;
+  output: string;
+  error: string;
+  exitCode: number;
+  durationMs: number;
+  createdAt: string;
+}
+
+function mapFn(r: Record<string, unknown>): FunctionInfo {
+  return {
+    id: r.id as string,
+    name: r.name as string,
+    runtime: r.runtime as string,
+    code: r.code as string,
+    createdAt: r.created_at as string,
+    timeoutSec: r.timeout_sec as number,
+  };
+}
+
+function mapResult(r: Record<string, unknown>): ExecuteResult {
+  return {
+    output: (r.output as string) ?? "",
+    error: (r.error as string) ?? "",
+    exitCode: (r.exit_code as number) ?? 0,
+    durationMs: (r.duration_ms as number) ?? 0,
+  };
+}
+
+function mapLog(r: Record<string, unknown>): ExecutionLog {
+  return {
+    id: r.id as string,
+    functionId: r.function_id as string,
+    output: (r.output as string) ?? "",
+    error: (r.error as string) ?? "",
+    exitCode: (r.exit_code as number) ?? 0,
+    durationMs: (r.duration_ms as number) ?? 0,
+    createdAt: r.created_at as string,
+  };
+}
+
 export const functionsApi = {
   list: async (): Promise<FunctionInfo[]> => {
     const res = await fetch(`${GATEWAY_URL}/functions`);
     if (!res.ok) throw new Error("Failed to fetch functions");
     const data = await res.json();
-    return data.functions ?? [];
+    return (data.functions ?? []).map(mapFn);
   },
 
   create: async (
@@ -36,7 +78,7 @@ export const functionsApi = {
       body: JSON.stringify({ name, runtime, code, timeout_sec: timeoutSec }),
     });
     if (!res.ok) throw new Error("Failed to create function");
-    return res.json();
+    return mapFn(await res.json());
   },
 
   update: async (
@@ -53,17 +95,35 @@ export const functionsApi = {
       }),
     });
     if (!res.ok) throw new Error("Failed to update function");
-    return res.json();
+    return mapFn(await res.json());
   },
 
-  execute: async (id: string, timeoutSec = 0): Promise<ExecuteResult> => {
+  execute: async (
+    id: string,
+    opts: {
+      timeoutSec?: number;
+      env?: Record<string, string>;
+      stdin?: string;
+    } = {},
+  ): Promise<ExecuteResult> => {
     const res = await fetch(`${GATEWAY_URL}/functions/${id}/execute`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ timeout_sec: timeoutSec }),
+      body: JSON.stringify({
+        timeout_sec: opts.timeoutSec ?? 0,
+        env: opts.env ?? {},
+        stdin: opts.stdin ?? "",
+      }),
     });
     if (!res.ok) throw new Error("Failed to execute function");
-    return res.json();
+    return mapResult(await res.json());
+  },
+
+  logs: async (id: string): Promise<ExecutionLog[]> => {
+    const res = await fetch(`${GATEWAY_URL}/functions/${id}/logs`);
+    if (!res.ok) throw new Error("Failed to fetch logs");
+    const data = await res.json();
+    return (data.logs ?? []).map(mapLog);
   },
 
   delete: async (id: string): Promise<void> => {

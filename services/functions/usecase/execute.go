@@ -16,10 +16,11 @@ import (
 
 type FunctionUsecase struct {
 	repo *repository.FunctionRepo
+	sem  chan struct{}
 }
 
 func NewFunctionUsecase(repo *repository.FunctionRepo) *FunctionUsecase {
-	return &FunctionUsecase{repo: repo}
+	return &FunctionUsecase{repo: repo, sem: make(chan struct{}, 10)}
 }
 
 func (u *FunctionUsecase) Create(name, runtime, code string, timeoutSec int) (*model.Function, error) {
@@ -42,6 +43,10 @@ func (u *FunctionUsecase) Get(id string) (*model.Function, error) {
 	return u.repo.FindByID(id)
 }
 
+func (u *FunctionUsecase) GetByName(name string) (*model.Function, error) {
+	return u.repo.FindByName(name)
+}
+
 func (u *FunctionUsecase) List() ([]model.Function, error) {
 	return u.repo.FindAll()
 }
@@ -52,6 +57,16 @@ func (u *FunctionUsecase) Update(id, name, code string, timeoutSec int) (*model.
 
 func (u *FunctionUsecase) Delete(id string) error {
 	return u.repo.Delete(id)
+}
+
+func (u *FunctionUsecase) ListLogs(functionID string) ([]model.ExecutionLog, error) {
+	return u.repo.FindLogsByFunctionID(functionID)
+}
+
+type ExecuteOptions struct {
+	TimeoutSec int
+	Env        map[string]string
+	Stdin      string
 }
 
 type ExecuteResult struct {
@@ -66,7 +81,14 @@ var runtimeImages = map[string]string{
 	"node20":     "node:20-alpine",
 }
 
-func (u *FunctionUsecase) Execute(id string, timeoutSec int) (*ExecuteResult, error) {
+func (u *FunctionUsecase) Execute(id string, opts ExecuteOptions) (*ExecuteResult, error) {
+	select {
+	case u.sem <- struct{}{}:
+		defer func() { <-u.sem }()
+	default:
+		return nil, fmt.Errorf("too many concurrent executions (max 10)")
+	}
+
 	f, err := u.repo.FindByID(id)
 	if err != nil {
 		return nil, fmt.Errorf("function not found: %w", err)
@@ -78,8 +100,8 @@ func (u *FunctionUsecase) Execute(id string, timeoutSec int) (*ExecuteResult, er
 	}
 
 	timeout := f.TimeoutSec
-	if timeoutSec > 0 {
-		timeout = timeoutSec
+	if opts.TimeoutSec > 0 {
+		timeout = opts.TimeoutSec
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(timeout)*time.Second)
@@ -91,7 +113,6 @@ func (u *FunctionUsecase) Execute(id string, timeoutSec int) (*ExecuteResult, er
 	}
 	defer cli.Close()
 
-	// イメージがローカルになければ pull する（出力は破棄）
 	rc, err := cli.ImagePull(ctx, image, dockerimage.PullOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("image pull error: %w", err)
@@ -107,16 +128,42 @@ func (u *FunctionUsecase) Execute(id string, timeoutSec int) (*ExecuteResult, er
 		cmd = []string{"node", "-e", f.Code}
 	}
 
-	resp, err := cli.ContainerCreate(ctx, &container.Config{
+	var envList []string
+	for k, v := range opts.Env {
+		envList = append(envList, k+"="+v)
+	}
+
+	containerCfg := &container.Config{
 		Image: image,
 		Cmd:   cmd,
-	}, nil, nil, nil, "")
+		Env:   envList,
+	}
+	if opts.Stdin != "" {
+		containerCfg.OpenStdin = true
+		containerCfg.StdinOnce = true
+	}
+
+	resp, err := cli.ContainerCreate(ctx, containerCfg, nil, nil, nil, "")
 	if err != nil {
 		return nil, fmt.Errorf("container create error: %w", err)
 	}
 
 	containerID := resp.ID
 	defer cli.ContainerRemove(context.Background(), containerID, container.RemoveOptions{Force: true})
+
+	if opts.Stdin != "" {
+		attachResp, err := cli.ContainerAttach(ctx, containerID, container.AttachOptions{
+			Stream: true,
+			Stdin:  true,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("container attach error: %w", err)
+		}
+		go func() {
+			defer attachResp.Conn.Close()
+			io.WriteString(attachResp.Conn, opts.Stdin)
+		}()
+	}
 
 	start := time.Now()
 	if err := cli.ContainerStart(ctx, containerID, container.StartOptions{}); err != nil {

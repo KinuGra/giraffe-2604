@@ -46,8 +46,20 @@ func (s *FunctionsServer) GetFunction(ctx context.Context, req *pb.GetFunctionRe
 	return modelToProto(f), nil
 }
 
+func (s *FunctionsServer) GetFunctionByName(ctx context.Context, req *pb.GetFunctionByNameRequest) (*pb.FunctionInfo, error) {
+	f, err := s.uc.GetByName(req.Name)
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, "not found: %v", err)
+	}
+	return modelToProto(f), nil
+}
+
 func (s *FunctionsServer) ExecuteFunction(ctx context.Context, req *pb.ExecuteFunctionRequest) (*pb.ExecuteFunctionResponse, error) {
-	result, err := s.uc.Execute(req.FunctionId, int(req.TimeoutSec))
+	result, err := s.uc.Execute(req.FunctionId, usecase.ExecuteOptions{
+		TimeoutSec: int(req.TimeoutSec),
+		Env:        req.Env,
+		Stdin:      req.Stdin,
+	})
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "execute failed: %v", err)
 	}
@@ -72,4 +84,16 @@ func (s *FunctionsServer) DeleteFunction(ctx context.Context, req *pb.DeleteFunc
 		return nil, status.Errorf(codes.Internal, "delete failed: %v", err)
 	}
 	return &pb.DeleteFunctionResponse{Success: true}, nil
+}
+
+func (s *FunctionsServer) ListLogs(ctx context.Context, req *pb.ListLogsRequest) (*pb.ListLogsResponse, error) {
+	logs, err := s.uc.ListLogs(req.FunctionId)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "list logs failed: %v", err)
+	}
+	infos := make([]*pb.ExecutionLogInfo, len(logs))
+	for i := range logs {
+		infos[i] = logToProto(&logs[i])
+	}
+	return &pb.ListLogsResponse{Logs: infos}, nil
 }

@@ -60,3 +60,19 @@ func (r *FunctionRepo) Delete(id string) error {
 func (r *FunctionRepo) CreateLog(l *model.ExecutionLog) error {
 	return r.db.Create(l).Error
 }
+
+func (r *FunctionRepo) FindByName(name string) (*model.Function, error) {
+	var f model.Function
+	if err := r.db.First(&f, "name = ?", name).Error; err != nil {
+		return nil, err
+	}
+	return &f, nil
+}
+
+func (r *FunctionRepo) FindLogsByFunctionID(functionID string) ([]model.ExecutionLog, error) {
+	var logs []model.ExecutionLog
+	if err := r.db.Where("function_id = ?", functionID).Order("created_at desc").Find(&logs).Error; err != nil {
+		return nil, err
+	}
+	return logs, nil
+}
