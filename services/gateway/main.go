@@ -14,6 +14,7 @@ import (
 
 	dbpb "github.com/KinuGra/giraffe-2604/gen/database"
 	pb "github.com/KinuGra/giraffe-2604/gen/functions"
+	storagepb "github.com/KinuGra/giraffe-2604/services/storage/pb"
 	"github.com/KinuGra/giraffe-2604/services/gateway/routes"
 )
 
@@ -180,6 +181,18 @@ func main() {
 		}
 		c.JSON(http.StatusOK, resp)
 	})
+
+	storageAddr := os.Getenv("STORAGE_GRPC_ADDR")
+	if storageAddr != "" {
+		storageConn, err := grpc.NewClient(storageAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+		if err != nil {
+			log.Printf("WARNING: Cannot connect to storage service: %v", err)
+		} else {
+			storageClient := storagepb.NewStorageServiceClient(storageConn)
+			routes.RegisterStorageRoutes(r, storageClient)
+			log.Printf("Storage routes registered (connecting to %s)", storageAddr)
+		}
+	}
 
 	dbAddr := os.Getenv("DATABASE_GRPC_ADDR")
 	if dbAddr != "" {

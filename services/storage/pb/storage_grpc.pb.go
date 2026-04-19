@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.33.0
-// source: pb/storage.proto
+// source: services/storage/pb/storage.proto
 
 package pb
 
@@ -19,11 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	StorageService_Upload_FullMethodName   = "/pb.StorageService/Upload"
-	StorageService_Download_FullMethodName = "/pb.StorageService/Download"
-	StorageService_Delete_FullMethodName   = "/pb.StorageService/Delete"
-	StorageService_List_FullMethodName     = "/pb.StorageService/List"
-	StorageService_Stat_FullMethodName     = "/pb.StorageService/Stat"
+	StorageService_Upload_FullMethodName       = "/pb.StorageService/Upload"
+	StorageService_Download_FullMethodName     = "/pb.StorageService/Download"
+	StorageService_Delete_FullMethodName       = "/pb.StorageService/Delete"
+	StorageService_List_FullMethodName         = "/pb.StorageService/List"
+	StorageService_Stat_FullMethodName         = "/pb.StorageService/Stat"
+	StorageService_CreateBucket_FullMethodName = "/pb.StorageService/CreateBucket"
+	StorageService_ListBuckets_FullMethodName  = "/pb.StorageService/ListBuckets"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -35,6 +37,8 @@ type StorageServiceClient interface {
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
 	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 	Stat(ctx context.Context, in *StatRequest, opts ...grpc.CallOption) (*StatResponse, error)
+	CreateBucket(ctx context.Context, in *CreateBucketRequest, opts ...grpc.CallOption) (*CreateBucketResponse, error)
+	ListBuckets(ctx context.Context, in *ListBucketsRequest, opts ...grpc.CallOption) (*ListBucketsResponse, error)
 }
 
 type storageServiceClient struct {
@@ -95,6 +99,26 @@ func (c *storageServiceClient) Stat(ctx context.Context, in *StatRequest, opts .
 	return out, nil
 }
 
+func (c *storageServiceClient) CreateBucket(ctx context.Context, in *CreateBucketRequest, opts ...grpc.CallOption) (*CreateBucketResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateBucketResponse)
+	err := c.cc.Invoke(ctx, StorageService_CreateBucket_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) ListBuckets(ctx context.Context, in *ListBucketsRequest, opts ...grpc.CallOption) (*ListBucketsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListBucketsResponse)
+	err := c.cc.Invoke(ctx, StorageService_ListBuckets_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
@@ -104,6 +128,8 @@ type StorageServiceServer interface {
 	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
 	List(context.Context, *ListRequest) (*ListResponse, error)
 	Stat(context.Context, *StatRequest) (*StatResponse, error)
+	CreateBucket(context.Context, *CreateBucketRequest) (*CreateBucketResponse, error)
+	ListBuckets(context.Context, *ListBucketsRequest) (*ListBucketsResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -128,6 +154,12 @@ func (UnimplementedStorageServiceServer) List(context.Context, *ListRequest) (*L
 }
 func (UnimplementedStorageServiceServer) Stat(context.Context, *StatRequest) (*StatResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Stat not implemented")
+}
+func (UnimplementedStorageServiceServer) CreateBucket(context.Context, *CreateBucketRequest) (*CreateBucketResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateBucket not implemented")
+}
+func (UnimplementedStorageServiceServer) ListBuckets(context.Context, *ListBucketsRequest) (*ListBucketsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListBuckets not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -240,6 +272,42 @@ func _StorageService_Stat_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_CreateBucket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateBucketRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).CreateBucket(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_CreateBucket_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).CreateBucket(ctx, req.(*CreateBucketRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_ListBuckets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListBucketsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).ListBuckets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_ListBuckets_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).ListBuckets(ctx, req.(*ListBucketsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -267,7 +335,15 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "Stat",
 			Handler:    _StorageService_Stat_Handler,
 		},
+		{
+			MethodName: "CreateBucket",
+			Handler:    _StorageService_CreateBucket_Handler,
+		},
+		{
+			MethodName: "ListBuckets",
+			Handler:    _StorageService_ListBuckets_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "pb/storage.proto",
+	Metadata: "services/storage/pb/storage.proto",
 }

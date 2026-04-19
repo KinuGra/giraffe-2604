@@ -37,7 +37,8 @@ services:
     environment:
       FUNCTIONS_GRPC_ADDR: functions:50055
       DATABASE_GRPC_ADDR: database:50056
-    depends_on: [postgres, database]
+      STORAGE_GRPC_ADDR: storage:50054
+    depends_on: [postgres]
   # --- Functions Service ---
   functions:
     build:
@@ -52,6 +53,18 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+  # --- Storage Service ---
+  storage:
+    build:
+      context: .
+      dockerfile: services/storage/Dockerfile
+    ports:
+      - "50054:50054"
+    environment:
+      GRPC_PORT: "50054"
+      STORAGE_DATA_DIR: /data
+    volumes:
+      - storage-data:/data
   # --- Next.js ダッシュボード ---
   frontend:
     build: ./frontend
@@ -60,3 +73,4 @@ services:
     depends_on: [gateway]
 volumes:
   pgdata:
+  storage-data:

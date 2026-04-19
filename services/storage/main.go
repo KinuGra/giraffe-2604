@@ -252,3 +252,37 @@ func (s *server) Stat(ctx context.Context, req *pb.StatRequest) (*pb.StatRespons
 		Etag:         etag,
 	}, nil
 }
+
+func (s *server) CreateBucket(ctx context.Context, req *pb.CreateBucketRequest) (*pb.CreateBucketResponse, error) {
+	bucket := req.Bucket
+	if bucket == "" {
+		return nil, fmt.Errorf("bucket name is required")
+	}
+
+	bucketPath, err := s.validatePath(bucket, "")
+	if err != nil {
+		return nil, err
+	}
+
+	if err := os.MkdirAll(bucketPath, 0755); err != nil {
+		return nil, fmt.Errorf("failed to create bucket: %w", err)
+	}
+
+	return &pb.CreateBucketResponse{Bucket: bucket}, nil
+}
+
+func (s *server) ListBuckets(ctx context.Context, req *pb.ListBucketsRequest) (*pb.ListBucketsResponse, error) {
+	entries, err := os.ReadDir(s.dataDir)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read data dir: %w", err)
+	}
+
+	var buckets []string
+	for _, e := range entries {
+		if e.IsDir() {
+			buckets = append(buckets, e.Name())
+		}
+	}
+
+	return &pb.ListBucketsResponse{Buckets: buckets}, nil
+}

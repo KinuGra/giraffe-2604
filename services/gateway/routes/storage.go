@@ -18,6 +18,8 @@ func RegisterStorageRoutes(r *gin.Engine, client pb.StorageServiceClient) {
 		g.DELETE("/objects/:bucket/*key", deleteObject(client))
 		g.GET("/objects/:bucket", listObjects(client))
 		g.GET("/stat/:bucket/*key", statObject(client))
+		g.POST("/buckets", createBucket(client))
+		g.GET("/buckets", listBuckets(client))
 	}
 }
 
@@ -153,5 +155,39 @@ func statObject(client pb.StorageServiceClient) gin.HandlerFunc {
 			"lastModified": resp.LastModified,
 			"etag":         resp.Etag,
 		})
+	}
+}
+
+func createBucket(client pb.StorageServiceClient) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var req struct {
+			Bucket string `json:"bucket"`
+		}
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "bucket is required"})
+			return
+		}
+
+		resp, err := client.CreateBucket(c.Request.Context(), &pb.CreateBucketRequest{
+			Bucket: req.Bucket,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"bucket": resp.Bucket})
+	}
+}
+
+func listBuckets(client pb.StorageServiceClient) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		resp, err := client.ListBuckets(c.Request.Context(), &pb.ListBucketsRequest{})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"buckets": resp.Buckets})
 	}
 }

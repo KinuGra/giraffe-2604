@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v6.33.0
-// source: pb/storage.proto
+// source: services/storage/pb/storage.proto
 
 package pb
 
@@ -32,7 +32,7 @@ type UploadRequest struct {
 
 func (x *UploadRequest) Reset() {
 	*x = UploadRequest{}
-	mi := &file_pb_storage_proto_msgTypes[0]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +44,7 @@ func (x *UploadRequest) String() string {
 func (*UploadRequest) ProtoMessage() {}
 
 func (x *UploadRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_storage_proto_msgTypes[0]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +57,7 @@ func (x *UploadRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadRequest.ProtoReflect.Descriptor instead.
 func (*UploadRequest) Descriptor() ([]byte, []int) {
-	return file_pb_storage_proto_rawDescGZIP(), []int{0}
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *UploadRequest) GetBucket() string {
@@ -92,7 +92,7 @@ type UploadResponse struct {
 
 func (x *UploadResponse) Reset() {
 	*x = UploadResponse{}
-	mi := &file_pb_storage_proto_msgTypes[1]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -104,7 +104,7 @@ func (x *UploadResponse) String() string {
 func (*UploadResponse) ProtoMessage() {}
 
 func (x *UploadResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_storage_proto_msgTypes[1]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -117,7 +117,7 @@ func (x *UploadResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadResponse.ProtoReflect.Descriptor instead.
 func (*UploadResponse) Descriptor() ([]byte, []int) {
-	return file_pb_storage_proto_rawDescGZIP(), []int{1}
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *UploadResponse) GetBucket() string {
@@ -151,7 +151,7 @@ type DownloadRequest struct {
 
 func (x *DownloadRequest) Reset() {
 	*x = DownloadRequest{}
-	mi := &file_pb_storage_proto_msgTypes[2]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -163,7 +163,7 @@ func (x *DownloadRequest) String() string {
 func (*DownloadRequest) ProtoMessage() {}
 
 func (x *DownloadRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_storage_proto_msgTypes[2]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -176,7 +176,7 @@ func (x *DownloadRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DownloadRequest.ProtoReflect.Descriptor instead.
 func (*DownloadRequest) Descriptor() ([]byte, []int) {
-	return file_pb_storage_proto_rawDescGZIP(), []int{2}
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *DownloadRequest) GetBucket() string {
@@ -207,7 +207,7 @@ type DownloadResponse struct {
 
 func (x *DownloadResponse) Reset() {
 	*x = DownloadResponse{}
-	mi := &file_pb_storage_proto_msgTypes[3]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -219,7 +219,7 @@ func (x *DownloadResponse) String() string {
 func (*DownloadResponse) ProtoMessage() {}
 
 func (x *DownloadResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_storage_proto_msgTypes[3]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -232,7 +232,7 @@ func (x *DownloadResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DownloadResponse.ProtoReflect.Descriptor instead.
 func (*DownloadResponse) Descriptor() ([]byte, []int) {
-	return file_pb_storage_proto_rawDescGZIP(), []int{3}
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *DownloadResponse) GetContent() []byte {
@@ -287,7 +287,7 @@ type DeleteRequest struct {
 
 func (x *DeleteRequest) Reset() {
 	*x = DeleteRequest{}
-	mi := &file_pb_storage_proto_msgTypes[4]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -299,7 +299,7 @@ func (x *DeleteRequest) String() string {
 func (*DeleteRequest) ProtoMessage() {}
 
 func (x *DeleteRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_storage_proto_msgTypes[4]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -312,7 +312,7 @@ func (x *DeleteRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteRequest.ProtoReflect.Descriptor instead.
 func (*DeleteRequest) Descriptor() ([]byte, []int) {
-	return file_pb_storage_proto_rawDescGZIP(), []int{4}
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DeleteRequest) GetBucket() string {
@@ -338,7 +338,7 @@ type DeleteResponse struct {
 
 func (x *DeleteResponse) Reset() {
 	*x = DeleteResponse{}
-	mi := &file_pb_storage_proto_msgTypes[5]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -350,7 +350,7 @@ func (x *DeleteResponse) String() string {
 func (*DeleteResponse) ProtoMessage() {}
 
 func (x *DeleteResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_storage_proto_msgTypes[5]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -363,7 +363,7 @@ func (x *DeleteResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteResponse.ProtoReflect.Descriptor instead.
 func (*DeleteResponse) Descriptor() ([]byte, []int) {
-	return file_pb_storage_proto_rawDescGZIP(), []int{5}
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DeleteResponse) GetSuccess() bool {
@@ -382,7 +382,7 @@ type ListRequest struct {
 
 func (x *ListRequest) Reset() {
 	*x = ListRequest{}
-	mi := &file_pb_storage_proto_msgTypes[6]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -394,7 +394,7 @@ func (x *ListRequest) String() string {
 func (*ListRequest) ProtoMessage() {}
 
 func (x *ListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_storage_proto_msgTypes[6]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -407,7 +407,7 @@ func (x *ListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRequest.ProtoReflect.Descriptor instead.
 func (*ListRequest) Descriptor() ([]byte, []int) {
-	return file_pb_storage_proto_rawDescGZIP(), []int{6}
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ListRequest) GetBucket() string {
@@ -428,7 +428,7 @@ type ObjectSummary struct {
 
 func (x *ObjectSummary) Reset() {
 	*x = ObjectSummary{}
-	mi := &file_pb_storage_proto_msgTypes[7]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -440,7 +440,7 @@ func (x *ObjectSummary) String() string {
 func (*ObjectSummary) ProtoMessage() {}
 
 func (x *ObjectSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_storage_proto_msgTypes[7]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -453,7 +453,7 @@ func (x *ObjectSummary) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ObjectSummary.ProtoReflect.Descriptor instead.
 func (*ObjectSummary) Descriptor() ([]byte, []int) {
-	return file_pb_storage_proto_rawDescGZIP(), []int{7}
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ObjectSummary) GetKey() string {
@@ -486,7 +486,7 @@ type ListResponse struct {
 
 func (x *ListResponse) Reset() {
 	*x = ListResponse{}
-	mi := &file_pb_storage_proto_msgTypes[8]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -498,7 +498,7 @@ func (x *ListResponse) String() string {
 func (*ListResponse) ProtoMessage() {}
 
 func (x *ListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_storage_proto_msgTypes[8]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -511,7 +511,7 @@ func (x *ListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListResponse.ProtoReflect.Descriptor instead.
 func (*ListResponse) Descriptor() ([]byte, []int) {
-	return file_pb_storage_proto_rawDescGZIP(), []int{8}
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ListResponse) GetObjects() []*ObjectSummary {
@@ -531,7 +531,7 @@ type StatRequest struct {
 
 func (x *StatRequest) Reset() {
 	*x = StatRequest{}
-	mi := &file_pb_storage_proto_msgTypes[9]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -543,7 +543,7 @@ func (x *StatRequest) String() string {
 func (*StatRequest) ProtoMessage() {}
 
 func (x *StatRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_storage_proto_msgTypes[9]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -556,7 +556,7 @@ func (x *StatRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatRequest.ProtoReflect.Descriptor instead.
 func (*StatRequest) Descriptor() ([]byte, []int) {
-	return file_pb_storage_proto_rawDescGZIP(), []int{9}
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *StatRequest) GetBucket() string {
@@ -586,7 +586,7 @@ type StatResponse struct {
 
 func (x *StatResponse) Reset() {
 	*x = StatResponse{}
-	mi := &file_pb_storage_proto_msgTypes[10]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -598,7 +598,7 @@ func (x *StatResponse) String() string {
 func (*StatResponse) ProtoMessage() {}
 
 func (x *StatResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_storage_proto_msgTypes[10]
+	mi := &file_services_storage_pb_storage_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -611,7 +611,7 @@ func (x *StatResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatResponse.ProtoReflect.Descriptor instead.
 func (*StatResponse) Descriptor() ([]byte, []int) {
-	return file_pb_storage_proto_rawDescGZIP(), []int{10}
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *StatResponse) GetBucket() string {
@@ -649,11 +649,179 @@ func (x *StatResponse) GetEtag() string {
 	return ""
 }
 
-var File_pb_storage_proto protoreflect.FileDescriptor
+type CreateBucketRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Bucket        string                 `protobuf:"bytes,1,opt,name=bucket,proto3" json:"bucket,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
 
-const file_pb_storage_proto_rawDesc = "" +
+func (x *CreateBucketRequest) Reset() {
+	*x = CreateBucketRequest{}
+	mi := &file_services_storage_pb_storage_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateBucketRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateBucketRequest) ProtoMessage() {}
+
+func (x *CreateBucketRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_services_storage_pb_storage_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateBucketRequest.ProtoReflect.Descriptor instead.
+func (*CreateBucketRequest) Descriptor() ([]byte, []int) {
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *CreateBucketRequest) GetBucket() string {
+	if x != nil {
+		return x.Bucket
+	}
+	return ""
+}
+
+type CreateBucketResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Bucket        string                 `protobuf:"bytes,1,opt,name=bucket,proto3" json:"bucket,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateBucketResponse) Reset() {
+	*x = CreateBucketResponse{}
+	mi := &file_services_storage_pb_storage_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateBucketResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateBucketResponse) ProtoMessage() {}
+
+func (x *CreateBucketResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_services_storage_pb_storage_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateBucketResponse.ProtoReflect.Descriptor instead.
+func (*CreateBucketResponse) Descriptor() ([]byte, []int) {
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *CreateBucketResponse) GetBucket() string {
+	if x != nil {
+		return x.Bucket
+	}
+	return ""
+}
+
+type ListBucketsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListBucketsRequest) Reset() {
+	*x = ListBucketsRequest{}
+	mi := &file_services_storage_pb_storage_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListBucketsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListBucketsRequest) ProtoMessage() {}
+
+func (x *ListBucketsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_services_storage_pb_storage_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListBucketsRequest.ProtoReflect.Descriptor instead.
+func (*ListBucketsRequest) Descriptor() ([]byte, []int) {
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{13}
+}
+
+type ListBucketsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Buckets       []string               `protobuf:"bytes,1,rep,name=buckets,proto3" json:"buckets,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListBucketsResponse) Reset() {
+	*x = ListBucketsResponse{}
+	mi := &file_services_storage_pb_storage_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListBucketsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListBucketsResponse) ProtoMessage() {}
+
+func (x *ListBucketsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_services_storage_pb_storage_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListBucketsResponse.ProtoReflect.Descriptor instead.
+func (*ListBucketsResponse) Descriptor() ([]byte, []int) {
+	return file_services_storage_pb_storage_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ListBucketsResponse) GetBuckets() []string {
+	if x != nil {
+		return x.Buckets
+	}
+	return nil
+}
+
+var File_services_storage_pb_storage_proto protoreflect.FileDescriptor
+
+const file_services_storage_pb_storage_proto_rawDesc = "" +
 	"\n" +
-	"\x10pb/storage.proto\x12\x02pb\"S\n" +
+	"!services/storage/pb/storage.proto\x12\x02pb\"S\n" +
 	"\rUploadRequest\x12\x16\n" +
 	"\x06bucket\x18\x01 \x01(\tR\x06bucket\x12\x10\n" +
 	"\x03key\x18\x02 \x01(\tR\x03key\x12\x18\n" +
@@ -693,80 +861,97 @@ const file_pb_storage_proto_rawDesc = "" +
 	"\x03key\x18\x02 \x01(\tR\x03key\x12\x12\n" +
 	"\x04size\x18\x03 \x01(\x03R\x04size\x12#\n" +
 	"\rlast_modified\x18\x04 \x01(\x03R\flastModified\x12\x12\n" +
-	"\x04etag\x18\x05 \x01(\tR\x04etag2\xff\x01\n" +
+	"\x04etag\x18\x05 \x01(\tR\x04etag\"-\n" +
+	"\x13CreateBucketRequest\x12\x16\n" +
+	"\x06bucket\x18\x01 \x01(\tR\x06bucket\".\n" +
+	"\x14CreateBucketResponse\x12\x16\n" +
+	"\x06bucket\x18\x01 \x01(\tR\x06bucket\"\x14\n" +
+	"\x12ListBucketsRequest\"/\n" +
+	"\x13ListBucketsResponse\x12\x18\n" +
+	"\abuckets\x18\x01 \x03(\tR\abuckets2\x82\x03\n" +
 	"\x0eStorageService\x12/\n" +
 	"\x06Upload\x12\x11.pb.UploadRequest\x1a\x12.pb.UploadResponse\x125\n" +
 	"\bDownload\x12\x13.pb.DownloadRequest\x1a\x14.pb.DownloadResponse\x12/\n" +
 	"\x06Delete\x12\x11.pb.DeleteRequest\x1a\x12.pb.DeleteResponse\x12)\n" +
 	"\x04List\x12\x0f.pb.ListRequest\x1a\x10.pb.ListResponse\x12)\n" +
-	"\x04Stat\x12\x0f.pb.StatRequest\x1a\x10.pb.StatResponseB\fZ\n" +
+	"\x04Stat\x12\x0f.pb.StatRequest\x1a\x10.pb.StatResponse\x12A\n" +
+	"\fCreateBucket\x12\x17.pb.CreateBucketRequest\x1a\x18.pb.CreateBucketResponse\x12>\n" +
+	"\vListBuckets\x12\x16.pb.ListBucketsRequest\x1a\x17.pb.ListBucketsResponseB\fZ\n" +
 	"storage/pbb\x06proto3"
 
 var (
-	file_pb_storage_proto_rawDescOnce sync.Once
-	file_pb_storage_proto_rawDescData []byte
+	file_services_storage_pb_storage_proto_rawDescOnce sync.Once
+	file_services_storage_pb_storage_proto_rawDescData []byte
 )
 
-func file_pb_storage_proto_rawDescGZIP() []byte {
-	file_pb_storage_proto_rawDescOnce.Do(func() {
-		file_pb_storage_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_pb_storage_proto_rawDesc), len(file_pb_storage_proto_rawDesc)))
+func file_services_storage_pb_storage_proto_rawDescGZIP() []byte {
+	file_services_storage_pb_storage_proto_rawDescOnce.Do(func() {
+		file_services_storage_pb_storage_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_services_storage_pb_storage_proto_rawDesc), len(file_services_storage_pb_storage_proto_rawDesc)))
 	})
-	return file_pb_storage_proto_rawDescData
+	return file_services_storage_pb_storage_proto_rawDescData
 }
 
-var file_pb_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
-var file_pb_storage_proto_goTypes = []any{
-	(*UploadRequest)(nil),    // 0: pb.UploadRequest
-	(*UploadResponse)(nil),   // 1: pb.UploadResponse
-	(*DownloadRequest)(nil),  // 2: pb.DownloadRequest
-	(*DownloadResponse)(nil), // 3: pb.DownloadResponse
-	(*DeleteRequest)(nil),    // 4: pb.DeleteRequest
-	(*DeleteResponse)(nil),   // 5: pb.DeleteResponse
-	(*ListRequest)(nil),      // 6: pb.ListRequest
-	(*ObjectSummary)(nil),    // 7: pb.ObjectSummary
-	(*ListResponse)(nil),     // 8: pb.ListResponse
-	(*StatRequest)(nil),      // 9: pb.StatRequest
-	(*StatResponse)(nil),     // 10: pb.StatResponse
+var file_services_storage_pb_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_services_storage_pb_storage_proto_goTypes = []any{
+	(*UploadRequest)(nil),        // 0: pb.UploadRequest
+	(*UploadResponse)(nil),       // 1: pb.UploadResponse
+	(*DownloadRequest)(nil),      // 2: pb.DownloadRequest
+	(*DownloadResponse)(nil),     // 3: pb.DownloadResponse
+	(*DeleteRequest)(nil),        // 4: pb.DeleteRequest
+	(*DeleteResponse)(nil),       // 5: pb.DeleteResponse
+	(*ListRequest)(nil),          // 6: pb.ListRequest
+	(*ObjectSummary)(nil),        // 7: pb.ObjectSummary
+	(*ListResponse)(nil),         // 8: pb.ListResponse
+	(*StatRequest)(nil),          // 9: pb.StatRequest
+	(*StatResponse)(nil),         // 10: pb.StatResponse
+	(*CreateBucketRequest)(nil),  // 11: pb.CreateBucketRequest
+	(*CreateBucketResponse)(nil), // 12: pb.CreateBucketResponse
+	(*ListBucketsRequest)(nil),   // 13: pb.ListBucketsRequest
+	(*ListBucketsResponse)(nil),  // 14: pb.ListBucketsResponse
 }
-var file_pb_storage_proto_depIdxs = []int32{
+var file_services_storage_pb_storage_proto_depIdxs = []int32{
 	7,  // 0: pb.ListResponse.objects:type_name -> pb.ObjectSummary
 	0,  // 1: pb.StorageService.Upload:input_type -> pb.UploadRequest
 	2,  // 2: pb.StorageService.Download:input_type -> pb.DownloadRequest
 	4,  // 3: pb.StorageService.Delete:input_type -> pb.DeleteRequest
 	6,  // 4: pb.StorageService.List:input_type -> pb.ListRequest
 	9,  // 5: pb.StorageService.Stat:input_type -> pb.StatRequest
-	1,  // 6: pb.StorageService.Upload:output_type -> pb.UploadResponse
-	3,  // 7: pb.StorageService.Download:output_type -> pb.DownloadResponse
-	5,  // 8: pb.StorageService.Delete:output_type -> pb.DeleteResponse
-	8,  // 9: pb.StorageService.List:output_type -> pb.ListResponse
-	10, // 10: pb.StorageService.Stat:output_type -> pb.StatResponse
-	6,  // [6:11] is the sub-list for method output_type
-	1,  // [1:6] is the sub-list for method input_type
+	11, // 6: pb.StorageService.CreateBucket:input_type -> pb.CreateBucketRequest
+	13, // 7: pb.StorageService.ListBuckets:input_type -> pb.ListBucketsRequest
+	1,  // 8: pb.StorageService.Upload:output_type -> pb.UploadResponse
+	3,  // 9: pb.StorageService.Download:output_type -> pb.DownloadResponse
+	5,  // 10: pb.StorageService.Delete:output_type -> pb.DeleteResponse
+	8,  // 11: pb.StorageService.List:output_type -> pb.ListResponse
+	10, // 12: pb.StorageService.Stat:output_type -> pb.StatResponse
+	12, // 13: pb.StorageService.CreateBucket:output_type -> pb.CreateBucketResponse
+	14, // 14: pb.StorageService.ListBuckets:output_type -> pb.ListBucketsResponse
+	8,  // [8:15] is the sub-list for method output_type
+	1,  // [1:8] is the sub-list for method input_type
 	1,  // [1:1] is the sub-list for extension type_name
 	1,  // [1:1] is the sub-list for extension extendee
 	0,  // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_pb_storage_proto_init() }
-func file_pb_storage_proto_init() {
-	if File_pb_storage_proto != nil {
+func init() { file_services_storage_pb_storage_proto_init() }
+func file_services_storage_pb_storage_proto_init() {
+	if File_services_storage_pb_storage_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pb_storage_proto_rawDesc), len(file_pb_storage_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_services_storage_pb_storage_proto_rawDesc), len(file_services_storage_pb_storage_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_pb_storage_proto_goTypes,
-		DependencyIndexes: file_pb_storage_proto_depIdxs,
-		MessageInfos:      file_pb_storage_proto_msgTypes,
+		GoTypes:           file_services_storage_pb_storage_proto_goTypes,
+		DependencyIndexes: file_services_storage_pb_storage_proto_depIdxs,
+		MessageInfos:      file_services_storage_pb_storage_proto_msgTypes,
 	}.Build()
-	File_pb_storage_proto = out.File
-	file_pb_storage_proto_goTypes = nil
-	file_pb_storage_proto_depIdxs = nil
+	File_services_storage_pb_storage_proto = out.File
+	file_services_storage_pb_storage_proto_goTypes = nil
+	file_services_storage_pb_storage_proto_depIdxs = nil
 }

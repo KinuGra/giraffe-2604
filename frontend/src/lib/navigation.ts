@@ -18,6 +18,7 @@ export const navItems = [
     href: "/dashboard/functions",
     icon: SquareFunction,
   },
+  { label: "Storage", href: "/dashboard/storage", icon: HardDrive },
   { label: "API Docs", href: "/dashboard/api", icon: BookOpen },
   { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
@@ -25,6 +26,5 @@ export const navItems = [
 export const comingSoonItems = [
   { label: "Database", icon: Database },
   { label: "Authentication", icon: Users },
-  { label: "Storage", icon: HardDrive },
   { label: "Logs", icon: Activity },
 ];
