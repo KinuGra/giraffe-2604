@@ -10,21 +10,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { profilesColumns, profilesRows } from "@/lib/mock-data";
+import type { ColumnDef } from "@/lib/database-api";
 import { cn } from "@/lib/utils";
 import {
   ChevronLeft,
   ChevronRight,
   ChevronsUpDown,
-  Filter,
   Key,
-  ListOrdered,
   Search,
 } from "lucide-react";
 import { useMemo } from "react";
 
 interface DataBrowserProps {
+  columns: ColumnDef[];
+  rows: Record<string, unknown>[];
+  totalCount: number;
+  page: number;
+  rowsPerPage: number;
+  onPageChange: (page: number) => void;
+  onRowsPerPageChange: (perPage: number) => void;
   selectedRow: number | null;
   onSelectRow: (idx: number | null) => void;
   filter: string;
@@ -75,15 +79,22 @@ function renderCellValue(value: unknown, colName: string) {
 }
 
 export function DataBrowser({
+  columns,
+  rows: rawRows,
+  totalCount,
+  page,
+  rowsPerPage,
+  onPageChange,
+  onRowsPerPageChange,
   selectedRow,
   onSelectRow,
   filter,
   onFilterChange,
 }: DataBrowserProps) {
   const rows = useMemo(() => {
-    if (!filter) return profilesRows;
+    if (!filter) return rawRows;
     const lower = filter.toLowerCase();
-    return profilesRows.filter((row) =>
+    return rawRows.filter((row) =>
       Object.values(row).some(
         (v) =>
           v !== null &&
@@ -91,7 +102,12 @@ export function DataBrowser({
           String(v).toLowerCase().includes(lower),
       ),
     );
-  }, [filter]);
+  }, [rawRows, filter]);
+
+  const start = page * rowsPerPage + 1;
+  const end = Math.min((page + 1) * rowsPerPage, totalCount);
+  const hasNext = (page + 1) * rowsPerPage < totalCount;
+  const hasPrev = page > 0;
 
   const rowsPerPageOptions = ["25", "50", "100", "500"];
 
@@ -109,27 +125,14 @@ export function DataBrowser({
           />
         </div>
 
-        <Button
-          variant="ghost"
-          size="xs"
-          className="gap-1 text-xs text-muted-foreground"
-        >
-          <Filter className="size-3" />
-          where
-        </Button>
-        <Button
-          variant="ghost"
-          size="xs"
-          className="gap-1 text-xs text-muted-foreground"
-        >
-          <ListOrdered className="size-3" />
-          order
-        </Button>
-
-        <Separator orientation="vertical" className="mx-1 h-4" />
-
         <span className="text-xs text-muted-foreground">Rows per page</span>
-        <Select defaultValue="25">
+        <Select
+          defaultValue={String(rowsPerPage)}
+          onValueChange={(v) => {
+            onRowsPerPageChange(Number(v));
+            onPageChange(0);
+          }}
+        >
           <SelectTrigger size="sm" className="h-6 w-16 text-xs">
             <SelectValue />
           </SelectTrigger>
@@ -144,12 +147,22 @@ export function DataBrowser({
 
         <div className="ml-auto flex items-center gap-1">
           <span className="text-xs tabular-nums text-muted-foreground">
-            1 - {rows.length} of {rows.length}
+            {totalCount > 0 ? `${start} - ${end} of ${totalCount}` : "0 rows"}
           </span>
-          <Button variant="ghost" size="icon-xs" disabled>
+          <Button
+            variant="ghost"
+            size="icon-xs"
+            disabled={!hasPrev}
+            onClick={() => onPageChange(page - 1)}
+          >
             <ChevronLeft className="size-3.5" />
           </Button>
-          <Button variant="ghost" size="icon-xs" disabled>
+          <Button
+            variant="ghost"
+            size="icon-xs"
+            disabled={!hasNext}
+            onClick={() => onPageChange(page + 1)}
+          >
             <ChevronRight className="size-3.5" />
           </Button>
         </div>
@@ -168,7 +181,7 @@ export function DataBrowser({
                   readOnly
                 />
               </th>
-              {profilesColumns.map((col) => (
+              {columns.map((col) => (
                 <th
                   key={col.name}
                   className="whitespace-nowrap px-3 py-2 text-left font-medium text-muted-foreground"
@@ -225,7 +238,7 @@ export function DataBrowser({
                     className="size-3.5 rounded border-input accent-primary"
                   />
                 </td>
-                {profilesColumns.map((col) => (
+                {columns.map((col) => (
                   <td key={col.name} className="px-3 py-1.5">
                     {renderCellValue(row[col.name], col.name)}
                   </td>
@@ -238,15 +251,8 @@ export function DataBrowser({
 
       {/* Footer bar */}
       <div className="flex items-center gap-3 border-t bg-panel-2 px-3 py-1.5 text-[11px] text-muted-foreground">
-        <span>
-          Query ran in <span className="text-brand-400">14ms</span>
-        </span>
-        <Separator orientation="vertical" className="h-3" />
-        <span className="truncate font-mono text-[10px]">
-          SELECT * FROM public.profiles ORDER BY created_at DESC LIMIT 25;
-        </span>
         <span className="ml-auto shrink-0 tabular-nums">
-          {rows.length} rows &middot; {profilesColumns.length} cols
+          {rows.length} rows &middot; {columns.length} cols
         </span>
       </div>
     </div>

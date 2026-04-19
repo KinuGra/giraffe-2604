@@ -14,10 +14,17 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { schemas, tables } from "@/lib/mock-data";
+import type { TableInfo } from "@/lib/database-api";
 import { cn } from "@/lib/utils";
-import { Lock, Plus, Search, Table2 } from "lucide-react";
+import { Lock, Plus, Search, Table2, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
+
+const schemas = [
+  { name: "public" },
+  { name: "auth" },
+  { name: "storage" },
+  { name: "extensions" },
+];
 
 function formatRowCount(count: number): string {
   if (count >= 1000) {
@@ -27,28 +34,42 @@ function formatRowCount(count: number): string {
 }
 
 interface TableListProps {
+  tables: TableInfo[];
   selectedTable: string;
   onSelectTable: (name: string) => void;
+  onSchemaChange: (schema: string) => void;
+  onCreateTable: () => void;
+  onDeleteTable: (name: string) => void;
 }
 
-export function TableList({ selectedTable, onSelectTable }: TableListProps) {
+export function TableList({
+  tables,
+  selectedTable,
+  onSelectTable,
+  onSchemaChange,
+  onCreateTable,
+  onDeleteTable,
+}: TableListProps) {
   const [schema, setSchema] = useState("public");
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(() => {
-    return tables
-      .filter((t) => t.schema === schema)
-      .filter((t) => t.name.toLowerCase().includes(search.toLowerCase()));
-  }, [schema, search]);
+    return tables.filter((t) =>
+      t.name.toLowerCase().includes(search.toLowerCase()),
+    );
+  }, [tables, search]);
 
   return (
-    <div className="flex w-60 shrink-0 flex-col border-r bg-panel">
+    <div className="flex w-60 shrink-0 flex-col overflow-hidden border-r bg-panel">
       {/* Schema selector */}
       <div className="p-2">
         <Select
           value={schema}
           onValueChange={(v) => {
-            if (v) setSchema(v);
+            if (v) {
+              setSchema(v);
+              onSchemaChange(v);
+            }
           }}
         >
           <SelectTrigger className="w-full">
@@ -83,7 +104,7 @@ export function TableList({ selectedTable, onSelectTable }: TableListProps) {
             type="button"
             onClick={() => onSelectTable(table.name)}
             className={cn(
-              "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors hover:bg-muted/60",
+              "group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors hover:bg-muted/60",
               selectedTable === table.name && "bg-primary/10 text-foreground",
             )}
           >
@@ -106,13 +127,34 @@ export function TableList({ selectedTable, onSelectTable }: TableListProps) {
             <span className="shrink-0 text-[10px] tabular-nums text-muted-foreground">
               {formatRowCount(table.rowCount)}
             </span>
+
+            <span
+              className="opacity-0 group-hover:opacity-100 transition-opacity"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDeleteTable(table.name);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.stopPropagation();
+                  onDeleteTable(table.name);
+                }
+              }}
+            >
+              <Trash2 className="size-3 text-muted-foreground hover:text-destructive" />
+            </span>
           </button>
         ))}
       </div>
 
       {/* New table button */}
       <div className="border-t p-2">
-        <Button variant="outline" size="sm" className="w-full gap-1.5">
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full gap-1.5"
+          onClick={onCreateTable}
+        >
           <Plus className="size-3.5" />
           New table
         </Button>

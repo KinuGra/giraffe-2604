@@ -1,11 +1,8 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { project } from "@/lib/mock-data";
-import { GitBranch, Rocket } from "lucide-react";
 
 import { ApiKeysCard } from "@/features/home/api-keys-card";
-import { MetricsGrid } from "@/features/home/metrics-grid";
 import { QuickLinks } from "@/features/home/quick-links";
 import { RecentActivity } from "@/features/home/recent-activity";
 import { SdkSnippets } from "@/features/home/sdk-snippets";
@@ -36,20 +33,7 @@ export default function DashboardHomePage() {
             <span className="font-mono">{project.id}</span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
-            <GitBranch className="size-3.5" />
-            main
-          </Button>
-          <Button size="sm">
-            <Rocket className="size-3.5" />
-            Deploy
-          </Button>
-        </div>
       </div>
-
-      {/* ---- metrics ---- */}
-      <MetricsGrid />
 
       {/* ---- API keys + SDK snippets ---- */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
