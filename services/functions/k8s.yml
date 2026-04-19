@@ -23,10 +23,26 @@ spec:
           env:
           - name: DATABASE_URL
             value: "postgres://baas_admin:98b84eb5384fe82261427774fe27c8c268da47669bfd0615d1fc08029fccf06b@giraffe-dev-baas-db.cp602cumav3u.ap-northeast-1.rds.amazonaws.com:5432/baas_db?sslmode=require"
+          - name: DOCKER_HOST
+            value: "tcp://localhost:2375"
           resources:
             requests:
               cpu: 100m
               memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+        - name: dind
+          image: docker:dind
+          securityContext:
+            privileged: true
+          env:
+          - name: DOCKER_TLS_CERTDIR
+            value: ""
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
             limits:
               cpu: 500m
               memory: 512Mi
